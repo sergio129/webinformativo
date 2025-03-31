@@ -8,6 +8,9 @@ const upload = multer({ dest: 'temp/' }); // Carpeta temporal para subir archivo
 
 const youtubeLinksFile = path.join(__dirname, 'youtube-links.json');
 
+// Middleware para manejar JSON
+app.use(express.json());
+
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname)));
 
@@ -173,6 +176,6 @@ app.delete('/youtube-links/:videoId', (req, res) => {
 });
 
 // Iniciar el servidor
-app.listen(3000, () => {
-    console.log('Servidor iniciado en http://localhost:3000');
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`Servidor iniciado en http://localhost:${process.env.PORT || 3000}`);
 });
