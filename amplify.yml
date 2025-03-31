@@ -3,23 +3,23 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - npm install # Cambiado de npm ci a npm install
     build:
       commands:
-        - npm run build
+        - npm run build # Si no hay un paso de compilación, usa: echo 'No build step required'
   artifacts:
-    baseDirectory: /
+    baseDirectory: / # Directorio de salida del frontend
     files:
-      - '**/*'
+      - '**/*' # Incluye todos los archivos en el directorio de salida
   cache:
     paths:
-      - node_modules/**/*
+      - node_modules/**/* # Cachea las dependencias de Node.js
 backend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - npm install # Cambiado de npm ci a npm install
     build:
       commands:
-        - npm start
+        - npm start # Inicia el servidor del backend
 
