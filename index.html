@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gescop</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Gescop</div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="inicio">
+            <h1>Bienvenidos a Gescop</h1>
+            <p>Tu aliado en soluciones empresariales.</p>
+            <div class="carousel">
+                <button class="carousel-btn prev-btn">&lt;</button>
+                <div class="carousel-images">
+                    <!-- Las imágenes se cargarán dinámicamente aquí -->
+                </div>
+                <button class="carousel-btn next-btn">&gt;</button>
+            </div>
+        </section>
+        <script>
+            // Cargar imágenes desde la carpeta "imagenes" y agregarlas al carrusel
+            fetch('/imagenes')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener las imágenes.');
+                    }
+                    return response.json();
+                })
+                .then(images => {
+                    console.log('Imágenes obtenidas del servidor:', images); // Depuración
+                    const carouselContainer = document.querySelector('.carousel-images');
+                    const prevBtn = document.querySelector('.prev-btn');
+                    const nextBtn = document.querySelector('.next-btn');
+                    if (images.length === 0) {
+                        carouselContainer.innerHTML = '<p>No hay imágenes disponibles en el servidor.</p>';
+                        return;
+                    }
+                    images.forEach(image => {
+                        const img = document.createElement('img');
+                        img.src = `/imagenes/${image}`;
+                        img.alt = `Imagen: ${image}`;
+                        img.style.width = '100%';
+                        img.style.flexShrink = '0';
+                        img.style.objectFit = 'cover';
+                        carouselContainer.appendChild(img);
+                    });
+
+                    // Variables para el carrusel
+                    let currentIndex = 0;
+                    const totalImages = images.length;
+
+                    // Función para actualizar la posición del carrusel
+                    function updateCarousel() {
+                        const offset = -currentIndex * 100;
+                        carouselContainer.style.transform = `translateX(${offset}%)`;
+                    }
+
+                    // Evento para el botón "Siguiente"
+                    nextBtn.addEventListener('click', () => {
+                        currentIndex = (currentIndex + 1) % totalImages;
+                        updateCarousel();
+                    });
+
+                    // Evento para el botón "Anterior"
+                    prevBtn.addEventListener('click', () => {
+                        currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+                        updateCarousel();
+                    });
+
+                    // Carrusel automático
+                    setInterval(() => {
+                        currentIndex = (currentIndex + 1) % totalImages;
+                        updateCarousel();
+                    }, 3000); // Cambia de imagen cada 3 segundos
+                })
+                .catch(error => console.error('Error cargando imágenes:', error));
+        </script>
+        <section id="Testimonios">
+            <h2>Testimonios</h2>
+            <p>En Gescop, nos dedicamos a ofrecer servicios de calidad para optimizar tus procesos empresariales.</p>
+            <div class="video-banner">
+                <div id="video-list" class="video-grid">
+                    <!-- Los videos se cargarán dinámicamente aquí -->
+                </div>
+            </div>
+        </section>
+        <script>
+            // Cargar videos desde la carpeta "videos/testimonios" y enlaces de YouTube
+            fetch('/videos/testimonios')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener los videos.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const videoList = document.getElementById('video-list');
+                    const { localVideos, youtubeLinks } = data;
+
+                    // Mostrar videos locales
+                    if (localVideos.length === 0 && youtubeLinks.length === 0) {
+                        videoList.innerHTML = '<p>No hay videos disponibles en este momento.</p>';
+                        return;
+                    }
+
+                    localVideos.forEach(video => {
+                        const videoElement = document.createElement('video');
+                        videoElement.src = `/videos/testimonios/${video}`;
+                        videoElement.controls = true;
+                        videoElement.classList.add('video-item');
+                        videoList.appendChild(videoElement);
+                    });
+
+                    // Mostrar videos de YouTube
+                    youtubeLinks.forEach(link => {
+                        const iframe = document.createElement('iframe');
+                        iframe.src = `https://www.youtube.com/embed/${link}`;
+                        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                        iframe.allowFullscreen = true;
+                        iframe.classList.add('video-item');
+                        videoList.appendChild(iframe);
+                    });
+                })
+                .catch(error => console.error('Error cargando videos:', error));
+        </script>
+        <div class="block-container">
+            <div class="block1foot">
+                <p class="country-icons">
+                    <img alt="Colombia" width="30" src="https://staticres.r.worldssl.net/public_master/front/img/colombia-1.png" title="Colombia">
+                    <img alt="Perú" width="30" src="https://staticres.r.worldssl.net/public_master/front/img/peru.svg" title="Perú">
+                    <img alt="Argentina" width="30" src="https://staticres.r.worldssl.net/public_master/front/img/argentina.svg" title="Argentina">
+                    <img alt="USA" width="30" src="https://staticres.r.worldssl.net/public_master/front/img/usa.png" title="USA">
+                </p>
+                <div class="links">
+                    <a href="https://g.co/kgs/qDu9aeT" class="lega">Nuestras oficinas</a><br>
+                    <a href="https://solventa.co/nuestro-equipo" class="lega">Nuestro equipo</a><br>
+                    <a href="https://solventa.co/evita-el-fraude-financiero" class="lega">Evita el fraude financiero</a>
+                </div>
+            </div>
+            <div class="block3foot block3foot--desk">
+                <h3 class="help-title">¿Cómo podemos ayudarte?</h3>
+                <div class="block3foot__horarios">
+                    <p><b>Horario de Atención</b></p>
+                    <p>Lunes a Viernes - 8 AM a 6 PM</p>
+                    <p>Sábados - 8 AM a 12 PM</p>
+                </div>
+            </div>
+            <div class="block2foot">
+                <p class="aba-p">
+                    <a href="https://api.whatsapp.com/send?phone=573103904286" target="_blank">
+                        <button class="linkpeticiones btn-ws-footer servicio-cliente-btn">
+                            <img class="icon-ws-footer" src="https://staticres.r.worldssl.net/public_master/front/img/como_pagar/como_pagar_whatsapp_blanco.svg" width="30" height="30" alt="WhatsApp">
+                            <span>Servicio al cliente</span>
+                        </button>
+                    </a>
+                </p>
+            </div>
+            <div class="social-media-section">
+                <h3>Síguenos en nuestras redes sociales</h3>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/SergioLuisAnayaRomero" target="_blank">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="https://bit.ly/solventacoig" target="_blank">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="https://www.linkedin.com" target="_blank">
+                        <i class="fa fa-linkedin"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Gescop. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Imágenes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Prueba de Imágenes</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Imágenes disponibles en el servidor</h2>
+            <div id="test-image-list">
+                <!-- Las imágenes se cargarán dinámicamente aquí -->
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Gescop. Todos los derechos reservados.</p>
+    </footer>
+    <script>
+        // Cargar imágenes desde la carpeta "imagenes"
+        fetch('/imagenes')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al obtener las imágenes.');
+                }
+                return response.json();
+            })
+            .then(images => {
+                console.log('Imágenes obtenidas del servidor:', images); // Depuración
+                const imageList = document.getElementById('test-image-list');
+                if (images.length === 0) {
+                    imageList.innerHTML = '<p>No hay imágenes disponibles en el servidor.</p>';
+                    return;
+                }
+                images.forEach(image => {
+                    const img = document.createElement('img');
+                    img.src = `/imagenes/${image}`;
+                    img.alt = `Imagen: ${image}`;
+                    img.style.maxWidth = '200px';
+                    img.style.margin = '10px';
+                    img.style.border = '1px solid #ccc';
+                    imageList.appendChild(img);
+                });
+            })
+            .catch(error => console.error('Error cargando imágenes:', error));
+    </script>
+</body>
+</html>

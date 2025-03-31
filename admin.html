@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración - Carrusel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header class="admin-header">
+        <h1>Panel de Administración</h1>
+    </header>
+    <main class="admin-container">
+        <section class="admin-section">
+            <h2>Cargar Imágenes para el Carrusel</h2>
+            <form action="/upload" method="POST" enctype="multipart/form-data" class="admin-form">
+                <label for="carousel-upload">Selecciona imágenes:</label>
+                <input type="file" id="carousel-upload" name="images" accept="image/*" multiple>
+                <button type="submit" class="btn-primary">Subir Imágenes</button>
+            </form>
+            <div id="admin-preview" class="preview-container">
+                <!-- Previsualización de imágenes cargadas -->
+            </div>
+        </section>
+        <section class="admin-section">
+            <h2>Imágenes disponibles</h2>
+            <div id="admin-image-list" class="image-list">
+                <!-- Las imágenes cargadas se mostrarán aquí con opciones para eliminarlas -->
+            </div>
+        </section>
+        <section class="admin-section">
+            <h2>Cargar Videos de Testimonios</h2>
+            <form action="/upload-videos" method="POST" enctype="multipart/form-data" class="admin-form">
+                <label for="video-upload">Selecciona videos:</label>
+                <input type="file" id="video-upload" name="videos" accept="video/*" multiple>
+                <button type="submit" class="btn-primary">Subir Videos</button>
+            </form>
+            <div id="admin-video-preview" class="preview-container">
+                <!-- Previsualización de videos cargados -->
+            </div>
+        </section>
+        <section class="admin-section">
+            <h2>Videos disponibles</h2>
+            <div id="admin-video-list" class="video-list">
+                <!-- Los videos cargados se mostrarán aquí con opciones para eliminarlos -->
+            </div>
+        </section>
+        <section class="admin-section">
+            <h2>Agregar Enlaces de YouTube</h2>
+            <form id="youtube-form" class="admin-form">
+                <label for="youtube-link">Enlace de YouTube:</label>
+                <input type="url" id="youtube-link" placeholder="https://www.youtube.com/watch?v=..." required>
+                <button type="submit" class="btn-primary">Agregar Enlace</button>
+            </form>
+            <div id="youtube-links-list" class="youtube-list">
+                <!-- Lista de enlaces de YouTube cargados -->
+            </div>
+        </section>
+    </main>
+    <footer class="admin-footer">
+        <p>&copy; 2023 Gescop. Todos los derechos reservados.</p>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        // Cargar imágenes desde la carpeta "imagenes"
+        fetch('/imagenes')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al obtener las imágenes.');
+                }
+                return response.json();
+            })
+            .then(images => {
+                console.log('Imágenes obtenidas del servidor:', images); // Depuración
+                const imageList = document.getElementById('test-image-list');
+                if (images.length === 0) {
+                    imageList.innerHTML = '<p>No hay imágenes disponibles en el servidor.</p>';
+                    return;
+                }
+                images.forEach(image => {
+                    const img = document.createElement('img');
+                    img.src = `/imagenes/${image}`;
+                    img.alt = `Imagen: ${image}`;
+                    img.style.maxWidth = '200px';
+                    img.style.margin = '10px';
+                    img.style.border = '1px solid #ccc';
+                    imageList.appendChild(img);
+                });
+            })
+            .catch(error => console.error('Error cargando imágenes:', error));
+
+        // Cargar imágenes desde la carpeta "imagenes" y agregar botones de eliminación
+        function loadAdminImages() {
+            const adminImageList = document.getElementById('admin-image-list');
+            adminImageList.innerHTML = ''; // Limpia las imágenes existentes
+
+            fetch('/imagenes')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener las imágenes.');
+                    }
+                    return response.json();
+                })
+                .then(images => {
+                    console.log('Imágenes obtenidas del servidor para administración:', images); // Depuración
+
+                    if (images.length === 0) {
+                        adminImageList.innerHTML = '<p>No hay imágenes cargadas.</p>';
+                        return;
+                    }
+
+                    images.forEach(image => {
+                        const imagePath = `/imagenes/${image}`;
+                        const imageContainer = document.createElement('div');
+                        imageContainer.style.display = 'inline-block';
+                        imageContainer.style.margin = '10px';
+                        imageContainer.style.textAlign = 'center';
+
+                        // Crear la imagen
+                        const img = document.createElement('img');
+                        img.src = imagePath;
+                        img.alt = `Imagen: ${image}`;
+                        img.style.maxWidth = '150px';
+                        img.style.border = '1px solid #ccc';
+                        img.style.borderRadius = '5px';
+                        img.style.marginBottom = '5px';
+
+                        // Crear el botón de eliminación
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Eliminar';
+                        deleteButton.style.display = 'block';
+                        deleteButton.style.marginTop = '5px';
+                        deleteButton.style.backgroundColor = '#ff4d4d';
+                        deleteButton.style.color = '#fff';
+                        deleteButton.style.border = 'none';
+                        deleteButton.style.padding = '5px 10px';
+                        deleteButton.style.cursor = 'pointer';
+                        deleteButton.style.borderRadius = '3px';
+
+                        // Agregar evento para eliminar la imagen
+                        deleteButton.addEventListener('click', () => {
+                            fetch(`/imagenes/${image}`, { method: 'DELETE' })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error al eliminar la imagen.');
+                                    }
+                                    console.log(`Imagen eliminada: ${image}`);
+                                    loadAdminImages(); // Recargar la lista de imágenes
+                                })
+                                .catch(error => console.error('Error eliminando la imagen:', error));
+                        });
+
+                        // Agregar la imagen y el botón al contenedor
+                        imageContainer.appendChild(img);
+                        imageContainer.appendChild(deleteButton);
+
+                        // Agregar el contenedor al listado
+                        adminImageList.appendChild(imageContainer);
+                    });
+                })
+                .catch(error => console.error('Error cargando imágenes para administración:', error));
+        }
+
+        // Llama a esta función al cargar la página de administración
+        loadAdminImages();
+
+        // Previsualizar videos seleccionados antes de subirlos
+        document.getElementById('video-upload').addEventListener('change', function(event) {
+            const previewContainer = document.getElementById('admin-video-preview');
+            previewContainer.innerHTML = ''; // Limpia la previsualización anterior
+
+            Array.from(event.target.files).forEach(file => {
+                if (file.type.startsWith('video/')) {
+                    const video = document.createElement('video');
+                    video.src = URL.createObjectURL(file);
+                    video.controls = true;
+                    video.style.maxWidth = '200px';
+                    video.style.margin = '10px';
+                    previewContainer.appendChild(video);
+                } else {
+                    alert('Solo se permiten archivos de video.');
+                }
+            });
+        });
+
+        // Cargar enlaces de YouTube desde el servidor
+        function loadYoutubeLinks() {
+            fetch('/youtube-links')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener los enlaces de YouTube.');
+                    }
+                    return response.json();
+                })
+                .then(links => {
+                    const linksList = document.getElementById('youtube-links-list');
+                    linksList.innerHTML = ''; // Limpia la lista existente
+
+                    if (links.length === 0) {
+                        linksList.innerHTML = '<p>No hay enlaces de YouTube cargados.</p>';
+                        return;
+                    }
+
+                    links.forEach(link => {
+                        const linkContainer = document.createElement('div');
+                        linkContainer.style.marginBottom = '10px';
+
+                        const iframe = document.createElement('iframe');
+                        iframe.src = `https://www.youtube.com/embed/${link}`;
+                        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                        iframe.allowFullscreen = true;
+                        iframe.style.width = '100%';
+                        iframe.style.height = '150px';
+                        iframe.style.marginBottom = '5px';
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Eliminar';
+                        deleteButton.style.backgroundColor = '#ff4d4d';
+                        deleteButton.style.color = '#fff';
+                        deleteButton.style.border = 'none';
+                        deleteButton.style.padding = '5px 10px';
+                        deleteButton.style.cursor = 'pointer';
+                        deleteButton.style.borderRadius = '3px';
+
+                        deleteButton.addEventListener('click', () => {
+                            fetch(`/youtube-links/${link}`, { method: 'DELETE' })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error al eliminar el enlace.');
+                                    }
+                                    console.log(`Enlace eliminado: ${link}`);
+                                    loadYoutubeLinks(); // Recargar la lista de enlaces
+                                })
+                                .catch(error => console.error('Error eliminando el enlace:', error));
+                        });
+
+                        linkContainer.appendChild(iframe);
+                        linkContainer.appendChild(deleteButton);
+                        linksList.appendChild(linkContainer);
+                    });
+                })
+                .catch(error => console.error('Error cargando enlaces de YouTube:', error));
+        }
+
+        // Manejar el envío del formulario de YouTube
+        document.getElementById('youtube-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const youtubeLinkInput = document.getElementById('youtube-link');
+            const youtubeLink = youtubeLinkInput.value;
+
+            // Extraer el ID del video de YouTube
+            const videoId = youtubeLink.split('v=')[1]?.split('&')[0];
+            if (!videoId) {
+                alert('Por favor, ingresa un enlace válido de YouTube.');
+                return;
+            }
+
+            fetch('/youtube-links', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ videoId })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al guardar el enlace de YouTube.');
+                    }
+                    console.log(`Enlace guardado: ${videoId}`);
+                    youtubeLinkInput.value = ''; // Limpia el campo de entrada
+                    loadYoutubeLinks(); // Recargar la lista de enlaces
+                })
+                .catch(error => console.error('Error guardando el enlace de YouTube:', error));
+        });
+
+        // Cargar enlaces al cargar la página
+        loadYoutubeLinks();
+    </script>
+</body>
+</html>
