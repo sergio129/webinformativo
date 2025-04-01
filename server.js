@@ -133,9 +133,9 @@ app.post('/upload-videos', upload.array('videos'), (req, res) => {
 
     uploadedFiles.forEach(file => {
         const tempPath = file.path;
-        const targetPath = path.join(__dirname, 'videos', 'testimonios', file.filename);
+        const targetPath = path.join(__dirname, 'videos', file.filename);
 
-        // Mueve el archivo a la carpeta "videos/testimonios"
+        // Mueve el archivo a la carpeta "videos"
         fs.rename(tempPath, targetPath, err => {
             if (err) {
                 console.error('Error al mover el archivo:', err);
@@ -148,8 +148,8 @@ app.post('/upload-videos', upload.array('videos'), (req, res) => {
 });
 
 // Ruta para obtener la lista de videos locales y enlaces de YouTube
-app.get('/videos/testimonios', (req, res) => {
-    const videosDir = path.join(__dirname, 'videos', 'testimonios');
+app.get('/videos', (req, res) => {
+    const videosDir = path.join(__dirname, 'videos');
     fs.readdir(videosDir, (err, files) => {
         if (err) {
             console.error('Error leyendo la carpeta de videos:', err);
@@ -173,7 +173,7 @@ app.get('/videos/testimonios', (req, res) => {
 });
 
 // Servir la carpeta de videos
-app.use('/videos/testimonios', express.static(path.join(__dirname, 'videos', 'testimonios')));
+app.use('/videos', express.static(path.join(__dirname, 'videos')));
 
 // Ruta para obtener los enlaces de YouTube
 app.get('/youtube-links', (req, res) => {

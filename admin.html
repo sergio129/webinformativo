@@ -54,9 +54,6 @@
             <div id="admin-video-list" class="video-list">
                 <!-- Los videos cargados se mostrarán aquí con opciones para eliminarlos -->
             </div>
-            <div id="testimonios-video-list" class="video-list">
-                <!-- Los videos guardados en videos/testimonios se mostrarán aquí -->
-            </div>
         </section>
         <section class="admin-section">
             <h2>Agregar Enlaces de YouTube</h2>
@@ -195,6 +192,83 @@
                 }
             });
         });
+
+        // Cargar videos desde la carpeta "videos" y enlaces de YouTube
+        function loadAdminVideos() {
+            const adminVideoList = document.getElementById('admin-video-list');
+            adminVideoList.innerHTML = ''; // Limpia los videos existentes
+
+            fetch('/videos')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener los videos.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const { localVideos, youtubeLinks } = data;
+
+                    // Mostrar videos locales
+                    localVideos.forEach(video => {
+                        const videoPath = `/videos/${video}`;
+                        const videoContainer = document.createElement('div');
+                        videoContainer.classList.add('video-item');
+
+                        const videoElement = document.createElement('video');
+                        videoElement.src = videoPath;
+                        videoElement.controls = true;
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Eliminar';
+                        deleteButton.classList.add('delete-button');
+                        deleteButton.addEventListener('click', () => {
+                            fetch(`/videos/${video}`, { method: 'DELETE' })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error al eliminar el video.');
+                                    }
+                                    loadAdminVideos(); // Recargar la lista de videos
+                                })
+                                .catch(error => console.error('Error eliminando el video:', error));
+                        });
+
+                        videoContainer.appendChild(videoElement);
+                        videoContainer.appendChild(deleteButton);
+                        adminVideoList.appendChild(videoContainer);
+                    });
+
+                    // Mostrar videos de YouTube
+                    youtubeLinks.forEach(link => {
+                        const iframe = document.createElement('iframe');
+                        iframe.src = `https://www.youtube.com/embed/${link}`;
+                        iframe.allowFullscreen = true;
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Eliminar';
+                        deleteButton.classList.add('delete-button');
+                        deleteButton.addEventListener('click', () => {
+                            fetch(`/youtube-links/${link}`, { method: 'DELETE' })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Error al eliminar el enlace de YouTube.');
+                                    }
+                                    loadAdminVideos(); // Recargar la lista de videos
+                                })
+                                .catch(error => console.error('Error eliminando el enlace de YouTube:', error));
+                        });
+
+                        const videoContainer = document.createElement('div');
+                        videoContainer.classList.add('video-item');
+                        videoContainer.appendChild(iframe);
+                        videoContainer.appendChild(deleteButton);
+                        adminVideoList.appendChild(videoContainer);
+                    });
+                })
+                .catch(error => console.error('Error cargando videos:', error));
+        }
+
+        // Llama a esta función al cargar la página de administración
+        loadAdminVideos();
 
         // Cargar enlaces de YouTube desde el servidor
         function loadYoutubeLinks() {

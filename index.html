@@ -100,8 +100,8 @@
             </div>
         </section>
         <script>
-            // Cargar videos desde la carpeta "videos/testimonios" y enlaces de YouTube
-            fetch('/videos/testimonios')
+            // Cargar videos desde la carpeta "videos" y enlaces de YouTube
+            fetch('/videos')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error al obtener los videos.');
@@ -120,7 +120,7 @@
 
                     localVideos.forEach(video => {
                         const videoElement = document.createElement('video');
-                        videoElement.src = `/videos/testimonios/${video}`;
+                        videoElement.src = `/videos/${video}`;
                         videoElement.controls = true;
                         videoElement.classList.add('video-item');
                         videoList.appendChild(videoElement);
