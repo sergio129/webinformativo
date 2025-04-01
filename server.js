@@ -55,6 +55,31 @@ app.use(express.static(path.join(__dirname)));
 // Servir la carpeta de imágenes
 app.use('/imagenes', express.static(path.join(__dirname, 'imagenes')));
 
+// Ruta para manejar el inicio de sesión
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Credenciales almacenadas en el código
+    const validUsername = 'sergio.anaya';
+    const validPassword = 'Sheyo_0129';
+
+    if (username === validUsername && password === validPassword) {
+        res.status(200).send('Inicio de sesión exitoso');
+    } else {
+        res.status(401).send('Usuario o contraseña incorrectos');
+    }
+});
+
+// Middleware para proteger la página de administración
+app.use('/admin.html', (req, res, next) => {
+    const referer = req.get('Referer');
+    if (referer && referer.includes('/login.html')) {
+        next(); // Permite el acceso si proviene del login
+    } else {
+        res.redirect('/login.html'); // Redirige al login si no hay referencia válida
+    }
+});
+
 // Ruta para subir imágenes
 app.post('/upload', upload.array('images'), (req, res) => {
     const uploadedFiles = req.files;
