@@ -3,7 +3,7 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm install # Cambiado de npm ci a npm install
+        - npm install # Instala las dependencias del frontend
     build:
       commands:
         - npm run build # Si no hay un paso de compilación, usa: echo 'No build step required'
@@ -18,7 +18,7 @@ backend:
   phases:
     preBuild:
       commands:
-        - npm install # Cambiado de npm ci a npm install
+        - npm ci # Instala las dependencias del backend
     build:
       commands:
         - npm start # Inicia el servidor del backend

@@ -1,3 +1,4 @@
+const AWS = require('aws-sdk');
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
@@ -7,6 +8,35 @@ const app = express();
 const upload = multer({ dest: 'temp/' }); // Carpeta temporal para subir archivos
 
 const youtubeLinksFile = path.join(__dirname, 'youtube-links.json');
+
+// Configura AWS SSM
+const ssm = new AWS.SSM({ region: 'us-east-2' });
+
+// Función para obtener el parámetro
+async function getParameter(name) {
+    const params = {
+        Name: name,
+        WithDecryption: true // Si el parámetro es de tipo SecureString
+    };
+
+    try {
+        const data = await ssm.getParameter(params).promise();
+        return data.Parameter.Value;
+    } catch (error) {
+        console.error(`Error al obtener el parámetro ${name}:`, error);
+        throw error;
+    }
+}
+
+// Ejemplo de uso
+getParameter('webinformativo')
+    .then(value => {
+        console.log('Valor del parámetro:', value);
+        // Puedes usar el valor en tu aplicación
+    })
+    .catch(error => {
+        console.error('Error al obtener el parámetro:', error);
+    });
 
 // Middleware para manejar JSON
 app.use(express.json());
