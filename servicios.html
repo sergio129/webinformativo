@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios - Gescop</title>
+    <title>Servicios - QualiTest Solutions</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <div class="logo">Gescop</div>
+        <div class="logo">QualiTest Solutions</div>
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
@@ -19,13 +19,58 @@
         </nav>
     </header>
     <main>
-        <section id="servicios">
-            <h2>Servicios</h2>
-            <!-- Contenido pendiente -->
+        <section id="calculadora-roi">
+            <h2>Calculadora de ROI para QA</h2>
+            <p>Ingresa los datos para calcular el ahorro estimado al usar nuestros servicios:</p>
+            <form onsubmit="calcularROI(event)">
+                <label for="errores">Errores evitados:</label>
+                <input type="number" id="errores" placeholder="Cantidad de errores evitados" required>
+                <label for="horas">Horas ahorradas:</label>
+                <input type="number" id="horas" placeholder="Horas de testing ahorradas" required>
+                <button type="submit">Calcular ROI</button>
+            </form>
+            <div id="resultado-roi" class="resultado"></div>
+        </section>
+
+        <section id="demo-testing">
+            <h2>Demo de Herramientas de Testing</h2>
+            <button onclick="simularTesting()">Ejecutar Test Automatizado</button>
+            <div id="consola-testing" class="consola"></div>
+        </section>
+
+        <section id="generador-casos">
+            <h2>Generador Automático de Casos de Prueba</h2>
+            <form onsubmit="generarCasos(event)">
+                <label for="nombre-app">Nombre de la App:</label>
+                <input type="text" id="nombre-app" placeholder="Ejemplo: MiApp de Banco" required>
+                <button type="submit">Generar Casos</button>
+            </form>
+            <ul id="lista-casos" class="lista-casos"></ul>
+        </section>
+
+        <section id="quiz-qa">
+            <h2>Test de Conocimientos QA</h2>
+            <button onclick="abrirQuiz()">Iniciar Quiz</button>
+        </section>
+
+        <section id="ultimos-bugs">
+            <h2>Últimos Bugs Detectados</h2>
+            <div id="bugs-list" class="bugs-list"></div>
         </section>
     </main>
+
+    <!-- Modal para el Quiz -->
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarQuiz()">&times;</span>
+            <h2>Test de Conocimientos QA</h2>
+            <div id="quiz-container" class="quiz-container"></div>
+        </div>
+    </div>
+
     <footer>
-        <p>&copy; 2023 Gescop. Todos los derechos reservados.</p>
+        <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
     </footer>
+    <script src="script.js"></script>
 </body>
 </html>

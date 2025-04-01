@@ -276,7 +276,140 @@ function loadYoutubeLinks() {
         .catch(error => console.error('Error cargando enlaces de YouTube:', error));
 }
 
+// Calculadora de ROI
+function calcularROI(event) {
+    event.preventDefault();
+    const erroresEvitados = document.getElementById('errores').value;
+    const horasAhorradas = document.getElementById('horas').value;
+    const roi = (erroresEvitados * 1000) + (horasAhorradas * 50); // Fórmula ficticia
+    const resultado = document.getElementById('resultado-roi');
+    resultado.innerText = `Ahorro estimado: $${roi} USD/año`;
+    resultado.style.width = `${Math.min(roi / 100, 100)}%`; // Barra animada
+    resultado.classList.add('barra-animada');
+}
+
+// Demo de Herramientas de Testing
+function simularTesting() {
+    const consola = document.getElementById('consola-testing');
+    consola.innerHTML = ''; // Limpia la consola
+    const logs = [
+        'Iniciando test automatizado...',
+        'Cargando módulos...',
+        'Ejecutando pruebas...',
+        '¡Se encontraron 3 bugs críticos!',
+    ];
+    let index = 0;
+    const interval = setInterval(() => {
+        if (index < logs.length) {
+            const log = document.createElement('p');
+            log.innerText = logs[index];
+            consola.appendChild(log);
+            index++;
+        } else {
+            clearInterval(interval);
+        }
+    }, 1000);
+}
+
+// Generador Automático de Casos de Prueba
+function generarCasos(event) {
+    event.preventDefault();
+    const nombreApp = document.getElementById('nombre-app').value;
+    const casos = [
+        `Validar login con credenciales incorrectas en ${nombreApp}`,
+        `Probar carga de datos en ${nombreApp}`,
+        `Verificar seguridad en ${nombreApp}`,
+        `Testear rendimiento en ${nombreApp}`,
+    ];
+    const lista = document.getElementById('lista-casos');
+    lista.innerHTML = ''; // Limpia la lista
+    casos.forEach(caso => {
+        const li = document.createElement('li');
+        li.innerText = caso;
+        lista.appendChild(li);
+    });
+}
+
+// Abrir el modal del quiz
+function abrirQuiz() {
+    document.getElementById('quiz-modal').style.display = 'block';
+    iniciarQuiz();
+}
+
+// Cerrar el modal del quiz
+function cerrarQuiz() {
+    document.getElementById('quiz-modal').style.display = 'none';
+}
+
+// Test de Conocimientos QA
+function iniciarQuiz() {
+    const preguntas = [
+        { pregunta: "¿Qué es Selenium?", respuesta: "Herramienta de automatización" },
+        { pregunta: "¿Qué es un test de regresión?", respuesta: "Prueba para verificar que los cambios no rompan funcionalidades existentes" },
+        { pregunta: "¿Qué significa QA?", respuesta: "Quality Assurance" },
+        { pregunta: "¿Qué es un test unitario?", respuesta: "Prueba de una unidad de código" },
+        { pregunta: "¿Qué es un test de integración?", respuesta: "Prueba de interacción entre módulos" },
+        { pregunta: "¿Qué es un test de carga?", respuesta: "Prueba para medir el rendimiento bajo carga" },
+        { pregunta: "¿Qué es un bug?", respuesta: "Error en el software" },
+        { pregunta: "¿Qué es un test exploratorio?", respuesta: "Prueba sin casos predefinidos" },
+        { pregunta: "¿Qué es un test funcional?", respuesta: "Prueba de funcionalidades del sistema" },
+        { pregunta: "¿Qué es un test de estrés?", respuesta: "Prueba para medir el límite del sistema" },
+        { pregunta: "¿Qué es un test de aceptación?", respuesta: "Prueba para validar requisitos del cliente" },
+        { pregunta: "¿Qué es un test de seguridad?", respuesta: "Prueba para identificar vulnerabilidades" },
+        { pregunta: "¿Qué es un test de usabilidad?", respuesta: "Prueba para evaluar la experiencia del usuario" },
+        { pregunta: "¿Qué es un test automatizado?", respuesta: "Prueba ejecutada por herramientas" },
+        { pregunta: "¿Qué es un caso de prueba?", respuesta: "Conjunto de condiciones para validar un requisito" },
+        { pregunta: "¿Qué es un plan de pruebas?", respuesta: "Documento que define el alcance y enfoque de las pruebas" },
+        { pregunta: "¿Qué es un script de prueba?", respuesta: "Código para ejecutar pruebas automatizadas" },
+        { pregunta: "¿Qué es un entorno de pruebas?", respuesta: "Ambiente configurado para ejecutar pruebas" },
+        { pregunta: "¿Qué es un test de compatibilidad?", respuesta: "Prueba en diferentes dispositivos y navegadores" },
+        { pregunta: "¿Qué es un test de rendimiento?", respuesta: "Prueba para medir la velocidad y estabilidad del sistema" },
+    ];
+
+    const quizContainer = document.getElementById('quiz-container');
+    quizContainer.innerHTML = ''; // Limpia el contenedor
+    let puntaje = 0;
+
+    preguntas.forEach((q, index) => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <p>${index + 1}. ${q.pregunta}</p>
+            <input type="text" id="respuesta-${index}" placeholder="Tu respuesta">
+        `;
+        quizContainer.appendChild(div);
+    });
+
+    const button = document.createElement('button');
+    button.innerText = 'Enviar Respuestas';
+    button.onclick = () => {
+        preguntas.forEach((q, index) => {
+            const respuesta = document.getElementById(`respuesta-${index}`).value;
+            if (respuesta.toLowerCase() === q.respuesta.toLowerCase()) {
+                puntaje++;
+            }
+        });
+        quizContainer.innerHTML = `¡Obtuviste ${puntaje}/${preguntas.length}! 🚀`;
+    };
+    quizContainer.appendChild(button);
+}
+
+// Últimos Bugs Detectados
+function mostrarBugs() {
+    const bugs = [
+        "Error de carga en Safari v15 – Solucionado ✅",
+        "Problema de autenticación en Firefox – En progreso 🔄",
+        "Fallo en la API de pagos – Solucionado ✅",
+    ];
+    const bugsList = document.getElementById('bugs-list');
+    let index = 0;
+    setInterval(() => {
+        bugsList.innerHTML = `<p>${bugs[index]}</p>`;
+        index = (index + 1) % bugs.length;
+    }, 10000);
+}
+
 // Llama a las funciones al cargar la página
 if (document.getElementById('admin-image-list')) loadAdminImages();
 if (document.getElementById('admin-video-list')) loadAdminVideos();
 if (document.getElementById('youtube-links-list')) loadYoutubeLinks();
+mostrarBugs();
