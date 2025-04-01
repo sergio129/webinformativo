@@ -1,3 +1,4 @@
+require('dotenv').config(); // Carga las variables de entorno desde .env
 const AWS = require('aws-sdk');
 const express = require('express');
 const multer = require('multer');
@@ -8,6 +9,13 @@ const app = express();
 const upload = multer({ dest: 'temp/' }); // Carpeta temporal para subir archivos
 
 const youtubeLinksFile = path.join(__dirname, 'youtube-links.json');
+
+// Configura AWS con las credenciales del archivo .env
+AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION
+});
 
 // Configura AWS SSM
 const ssm = new AWS.SSM({ region: 'us-east-2' });
@@ -210,8 +218,5 @@ const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
     console.log(`Servidor iniciado en http://localhost:${PORT}`); console.log(`Servidor iniciado en http://localhost:${PORT}`);
 });;
-
-
-
 
 server.setTimeout(30000); // 30 segundos// Configurar un timeout para evitar bloqueos
