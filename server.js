@@ -213,6 +213,11 @@ app.delete('/youtube-links/:videoId', (req, res) => {
     });
 });
 
+// Ruta para comprobación de estado
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
 // Iniciar el servidor con un timeout
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
