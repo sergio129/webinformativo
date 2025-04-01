@@ -5,13 +5,16 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "echo 'No build step required'"
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "aws-sdk": "^2.1360.0",
     "express": "^5.1.0",
     "multer": "^1.4.5-lts.2",
     "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   },
   "resolutions": {
     "postcss": ">=8.4.31",

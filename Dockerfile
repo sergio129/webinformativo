@@ -11,6 +11,9 @@ RUN npm install
 # Copia el resto del código
 COPY . .
 
+# Instala nodemon globalmente para desarrollo
+RUN npm install -g nodemon
+
 # Expone el puerto en el que corre tu app
 EXPOSE 3000
 

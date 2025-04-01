@@ -187,10 +187,13 @@ function loadAdminVideos() {
             }
             return response.json();
         })
-        .then(data => {
-            const { localVideos, youtubeLinks } = data;
+        .then(videos => {
+            if (videos.length === 0) {
+                adminVideoList.innerHTML = '<p>No hay videos cargados.</p>';
+                return;
+            }
 
-            localVideos.forEach(video => {
+            videos.forEach(video => {
                 const videoPath = `/videos/testimonios/${video}`;
                 const videoContainer = document.createElement('div');
                 videoContainer.classList.add('video-item');
@@ -198,6 +201,8 @@ function loadAdminVideos() {
                 const videoElement = document.createElement('video');
                 videoElement.src = videoPath;
                 videoElement.controls = true;
+                videoElement.style.maxWidth = '200px';
+                videoElement.style.margin = '10px';
 
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Eliminar';
@@ -217,35 +222,12 @@ function loadAdminVideos() {
                 videoContainer.appendChild(deleteButton);
                 adminVideoList.appendChild(videoContainer);
             });
-
-            youtubeLinks.forEach(link => {
-                const iframe = document.createElement('iframe');
-                iframe.src = `https://www.youtube.com/embed/${link}`;
-                iframe.allowFullscreen = true;
-
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Eliminar';
-                deleteButton.classList.add('delete-button');
-                deleteButton.addEventListener('click', () => {
-                    fetch(`/youtube-links/${link}`, { method: 'DELETE' })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Error al eliminar el enlace de YouTube.');
-                            }
-                            loadAdminVideos(); // Recargar la lista de videos
-                        })
-                        .catch(error => console.error('Error eliminando el enlace de YouTube:', error));
-                });
-
-                const videoContainer = document.createElement('div');
-                videoContainer.classList.add('video-item');
-                videoContainer.appendChild(iframe);
-                videoContainer.appendChild(deleteButton);
-                adminVideoList.appendChild(videoContainer);
-            });
         })
         .catch(error => console.error('Error cargando videos:', error));
 }
+
+// Llama a esta función al cargar la página de administración
+if (document.getElementById('admin-video-list')) loadAdminVideos();
 
 // Función para cargar enlaces de YouTube
 function loadYoutubeLinks() {
