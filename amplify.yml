@@ -1,25 +1,27 @@
-version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - npm install # Instala las dependencias del frontend
-    build:
-      commands:
-        - npm run build # Si no hay un paso de compilación, usa: echo 'No build step required'
-  artifacts:
-    baseDirectory: / # Directorio de salida del frontend
-    files:
-      - '**/*' # Incluye todos los archivos en el directorio de salida
-  cache:
-    paths:
-      - node_modules/**/* # Cachea las dependencias de Node.js
+version: 1  # Versión del esquema de configuración
+env:
+  variables:
+    key: value  # Variables de entorno (opcional)
 backend:
   phases:
     preBuild:
       commands:
-        - npm ci # Instala las dependencias del backend
+        - npm install -g @aws-amplify/cli  # Instala la CLI de Amplify
     build:
       commands:
-        - npm start # Inicia el servidor del backend
-
+        - amplifyPush --simple  # Despliega los cambios del backend
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci  # Instala dependencias (modo CI)
+    build:
+      commands:
+        - npm run build  # Compila la aplicación (ej: React, Vue, etc.)
+  artifacts:
+    baseDirectory: build  # Carpeta donde se generan los archivos estáticos (ej: create-react-app usa 'build')
+    files:
+      - '**/*'  # Incluye todos los archivos
+  cache:
+    paths:
+      - node_modules/**/*  # Cachear node_modules para futuros builds
