@@ -5,3 +5,9 @@ services:
       - .:/app # Monta el directorio actual dentro del contenedor
       - /app/node_modules # Evita conflictos con node_modules del host
     command: npx nodemon server.js # Usa nodemon para reiniciar automáticamente
+    deploy:
+      resources:
+        limits:
+          memory: 512M # Limita la memoria a 512 MB
+        reservations:
+          memory: 256M # Reserva 256 MB de memoria

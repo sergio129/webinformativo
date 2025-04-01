@@ -6,7 +6,26 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const upload = multer({ dest: 'temp/' }); // Carpeta temporal para subir archivos
+
+// Configurar multer para manejar archivos grandes
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const tempDir = path.join(__dirname, 'temp');
+        if (!fs.existsSync(tempDir)) {
+            fs.mkdirSync(tempDir); // Crea la carpeta temporal si no existe
+        }
+        cb(null, tempDir);
+    },
+    filename: (req, file, cb) => {
+        const uniqueName = `${Date.now()}-${file.originalname}`;
+        cb(null, uniqueName);
+    }
+});
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 500 * 1024 * 1024 } // Límite de tamaño de archivo: 500 MB
+});
 
 const youtubeLinksFile = path.join(__dirname, 'youtube-links.json');
 
@@ -17,42 +36,12 @@ AWS.config.update({
     region: process.env.AWS_REGION
 });
 
-// Configura AWS SSM
-const ssm = new AWS.SSM({ region: 'us-east-2' });
-
-// Función para obtener el parámetro
-async function getParameter(name) {
-    const params = {
-        Name: name,
-        WithDecryption: true // Si el parámetro es de tipo SecureString
-    };
-
-    try {
-        const data = await ssm.getParameter(params).promise();
-        return data.Parameter.Value;
-    } catch (error) {
-        console.error(`Error al obtener el parámetro ${name}:`, error);
-        throw error;
-    }
-}
-
-// Ejemplo de uso
-getParameter('webinformativo')
-    .then(value => {
-        console.log('Valor del parámetro:', value);
-        // Puedes usar el valor en tu aplicación
-    })
-    .catch(error => {
-        console.error('Error al obtener el parámetro:', error);
-    });
-
-// Middleware para manejar JSON
-app.use(express.json());
+// Middleware para manejar JSON y formularios con límites aumentados
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname)));
-
-// Servir la carpeta de imágenes
 app.use('/imagenes', express.static(path.join(__dirname, 'imagenes')));
 
 // Ruta para manejar el inicio de sesión
@@ -90,10 +79,9 @@ app.post('/upload', upload.array('images'), (req, res) => {
 
     uploadedFiles.forEach(file => {
         const tempPath = file.path;
-        const uniqueName = `${Date.now()}-${file.originalname}`;
-        const targetPath = path.join(__dirname, 'imagenes', uniqueName);
+        const targetPath = path.join(__dirname, 'imagenes', file.filename);
 
-        // Mueve el archivo a la carpeta "imagenes" con un nombre único
+        // Mueve el archivo a la carpeta "imagenes"
         fs.rename(tempPath, targetPath, err => {
             if (err) {
                 console.error('Error al mover el archivo:', err);
@@ -145,10 +133,9 @@ app.post('/upload-videos', upload.array('videos'), (req, res) => {
 
     uploadedFiles.forEach(file => {
         const tempPath = file.path;
-        const uniqueName = `${Date.now()}-${file.originalname}`;
-        const targetPath = path.join(__dirname, 'videos', 'testimonios', uniqueName);
+        const targetPath = path.join(__dirname, 'videos', 'testimonios', file.filename);
 
-        // Mueve el archivo a la carpeta "videos/testimonios" con un nombre único
+        // Mueve el archivo a la carpeta "videos/testimonios"
         fs.rename(tempPath, targetPath, err => {
             if (err) {
                 console.error('Error al mover el archivo:', err);
