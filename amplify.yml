@@ -17,7 +17,7 @@ frontend:
         - npm ci  # Instala dependencias (modo CI)
     build:
       commands:
-        - npm run build  # Compila la aplicación (ej: React, Vue, etc.)
+        - npm start  # Compila la aplicación (ej: React, Vue, etc.)
   artifacts:
     baseDirectory: build  # Carpeta donde se generan los archivos estáticos (ej: create-react-app usa 'build')
     files:
