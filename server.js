@@ -205,7 +205,13 @@ app.delete('/youtube-links/:videoId', (req, res) => {
     });
 });
 
-// Iniciar el servidor
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`Servidor iniciado en http://localhost:${process.env.PORT || 3000}`);
-});
+// Iniciar el servidor con un timeout
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT, () => {
+    console.log(`Servidor iniciado en http://localhost:${PORT}`); console.log(`Servidor iniciado en http://localhost:${PORT}`);
+});;
+
+
+
+
+server.setTimeout(30000); // 30 segundos// Configurar un timeout para evitar bloqueos
