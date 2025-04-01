@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servicios - QualiTest Solutions</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <header>
@@ -19,43 +20,64 @@
         </nav>
     </header>
     <main>
-        <section id="calculadora-roi">
-            <h2>Calculadora de ROI para QA</h2>
-            <p>Ingresa los datos para calcular el ahorro estimado al usar nuestros servicios:</p>
-            <form onsubmit="calcularROI(event)">
-                <label for="errores">Errores evitados:</label>
-                <input type="number" id="errores" placeholder="Cantidad de errores evitados" required>
-                <label for="horas">Horas ahorradas:</label>
-                <input type="number" id="horas" placeholder="Horas de testing ahorradas" required>
-                <button type="submit">Calcular ROI</button>
-            </form>
-            <div id="resultado-roi" class="resultado"></div>
-        </section>
+        <section class="services-container">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-calculator"></i>
+                </div>
+                <h2>Calculadora de ROI para QA</h2>
+                <p>Ingresa los datos para calcular el ahorro estimado al usar nuestros servicios:</p>
+                <form onsubmit="calcularROI(event)">
+                    <label for="errores">Errores evitados:</label>
+                    <input type="number" id="errores" placeholder="Cantidad de errores evitados" required>
+                    <label for="horas">Horas ahorradas:</label>
+                    <input type="number" id="horas" placeholder="Horas de testing ahorradas" required>
+                    <button type="submit">Calcular ROI</button>
+                </form>
+                <div id="resultado-roi" class="resultado"></div>
+            </div>
 
-        <section id="demo-testing">
-            <h2>Demo de Herramientas de Testing</h2>
-            <button onclick="simularTesting()">Ejecutar Test Automatizado</button>
-            <div id="consola-testing" class="consola"></div>
-        </section>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-cogs"></i>
+                </div>
+                <h2>Demo de Herramientas de Testing</h2>
+                <p>Prueba cómo funcionan nuestras herramientas de testing automatizado.</p>
+                <button onclick="simularTesting()">Ejecutar Test Automatizado</button>
+                <div id="consola-testing" class="consola"></div>
+            </div>
 
-        <section id="generador-casos">
-            <h2>Generador Automático de Casos de Prueba</h2>
-            <form onsubmit="generarCasos(event)">
-                <label for="nombre-app">Nombre de la App:</label>
-                <input type="text" id="nombre-app" placeholder="Ejemplo: MiApp de Banco" required>
-                <button type="submit">Generar Casos</button>
-            </form>
-            <ul id="lista-casos" class="lista-casos"></ul>
-        </section>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-list-alt"></i>
+                </div>
+                <h2>Generador Automático de Casos de Prueba</h2>
+                <p>Genera casos de prueba básicos para tu aplicación.</p>
+                <form onsubmit="generarCasos(event)">
+                    <label for="nombre-app">Nombre de la App:</label>
+                    <input type="text" id="nombre-app" placeholder="Ejemplo: MiApp de Banco" required>
+                    <button type="submit">Generar Casos</button>
+                </form>
+                <ul id="lista-casos" class="lista-casos"></ul>
+            </div>
 
-        <section id="quiz-qa">
-            <h2>Test de Conocimientos QA</h2>
-            <button onclick="abrirQuiz()">Iniciar Quiz</button>
-        </section>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+                <h2>Test de Conocimientos QA</h2>
+                <p>Pon a prueba tus conocimientos sobre QA con nuestro quiz interactivo.</p>
+                <button onclick="abrirQuiz()">Iniciar Quiz</button>
+            </div>
 
-        <section id="ultimos-bugs">
-            <h2>Últimos Bugs Detectados</h2>
-            <div id="bugs-list" class="bugs-list"></div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-bug"></i>
+                </div>
+                <h2>Últimos Bugs Detectados</h2>
+                <p>Conoce algunos de los bugs más recientes que hemos detectado y solucionado.</p>
+                <div id="bugs-list" class="bugs-list"></div>
+            </div>
         </section>
     </main>
 
