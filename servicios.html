@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servicios - QualiTest Solutions</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="servicios.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -52,13 +52,14 @@
                     <i class="fa fa-list-alt"></i>
                 </div>
                 <h2>Generador Automático de Casos de Prueba</h2>
-                <p>Genera casos de prueba básicos para tu aplicación.</p>
+                <p>Genera automáticamente casos de prueba personalizados basados en el nombre de tu aplicación y el número de casos que desees.</p>
                 <form onsubmit="generarCasos(event)">
                     <label for="nombre-app">Nombre de la App:</label>
                     <input type="text" id="nombre-app" placeholder="Ejemplo: MiApp de Banco" required>
+                    <label for="numero-casos">Número de Casos de Prueba:</label>
+                    <input type="number" id="numero-casos" placeholder="Ejemplo: 5" required>
                     <button type="submit">Generar Casos</button>
                 </form>
-                <ul id="lista-casos" class="lista-casos"></ul>
             </div>
 
             <div class="service-card">
@@ -87,6 +88,17 @@
             <span class="close" onclick="cerrarQuiz()">&times;</span>
             <h2>Test de Conocimientos QA</h2>
             <div id="quiz-container" class="quiz-container"></div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar los casos de prueba -->
+    <div id="modal-casos" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModalCasos()">&times;</span>
+            <h2>Casos de Prueba Generados</h2>
+            <div id="contenedor-casos" class="contenedor-casos">
+                <!-- Los casos de prueba generados se mostrarán aquí -->
+            </div>
         </div>
     </div>
 

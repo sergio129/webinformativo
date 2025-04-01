@@ -665,11 +665,16 @@ contact-info a:hover {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
-    max-width: 600px;
+    width: 80%; /* Ancho inicial */
+    max-width: 90%; /* Tamaño máximo */
+    min-width: 300px; /* Tamaño mínimo */
+    height: auto; /* Altura inicial */
+    max-height: 90%; /* Altura máxima */
+    overflow: auto; /* Habilita el scroll si el contenido excede */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease-in-out;
+    resize: both; /* Permite redimensionar tanto en ancho como en alto */
 }
 
 .modal-content h2 {
@@ -856,4 +861,42 @@ contact-info a:hover {
     .service-card {
         flex: 1 1 100%; /* Una columna en pantallas pequeñas */
     }
+}
+
+/* Tabla de Casos de Prueba */
+.casos-table {
+    width: 100%; /* La tabla ocupa todo el ancho disponible */
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 1rem;
+    text-align: left;
+    word-wrap: break-word; /* Ajusta el texto largo automáticamente */
+    table-layout: fixed; /* Asegura que las columnas se adapten al tamaño de la tabla */
+}
+
+.casos-table th, .casos-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    overflow: hidden; /* Oculta contenido que exceda el tamaño de la celda */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es demasiado largo */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+.casos-table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
+
+.casos-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.casos-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.casos-table td {
+    vertical-align: top;
 }

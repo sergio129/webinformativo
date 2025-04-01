@@ -1,27 +1,31 @@
-document.getElementById('media-upload').addEventListener('change', function(event) {
-    const previewContainer = document.getElementById('preview');
-    previewContainer.innerHTML = ''; // Limpia la previsualización anterior
+// Asegurarse de que el elemento exista antes de agregar el evento
+const mediaUpload = document.getElementById('media-upload');
+if (mediaUpload) {
+    mediaUpload.addEventListener('change', function(event) {
+        const previewContainer = document.getElementById('preview');
+        previewContainer.innerHTML = ''; // Limpia la previsualización anterior
 
-    Array.from(event.target.files).forEach(file => {
-        const fileType = file.type.split('/')[0];
-        const reader = new FileReader();
+        Array.from(event.target.files).forEach(file => {
+            const fileType = file.type.split('/')[0];
+            const reader = new FileReader();
 
-        reader.onload = function(e) {
-            if (fileType === 'image') {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                previewContainer.appendChild(img);
-            } else if (fileType === 'video') {
-                const video = document.createElement('video');
-                video.src = e.target.result;
-                video.controls = true;
-                previewContainer.appendChild(video);
-            }
-        };
+            reader.onload = function(e) {
+                if (fileType === 'image') {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    previewContainer.appendChild(img);
+                } else if (fileType === 'video') {
+                    const video = document.createElement('video');
+                    video.src = e.target.result;
+                    video.controls = true;
+                    previewContainer.appendChild(video);
+                }
+            };
 
-        reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+        });
     });
-});
+}
 
 document.getElementById('carousel-upload')?.addEventListener('change', function(event) {
     const previewContainer = document.getElementById('admin-preview') || document.querySelector('.carousel-images');
@@ -58,24 +62,20 @@ document.getElementById('carousel-upload')?.addEventListener('change', function(
 
 let currentIndex = 0;
 
-function showNextImage() {
-    const images = document.querySelectorAll('.carousel-images img');
-    const totalImages = images.length;
-
-    if (totalImages > 0) {
-        currentIndex = (currentIndex + 1) % totalImages;
-        const offset = -currentIndex * 100;
-        document.querySelector('.carousel-images').style.transform = `translateX(${offset}%)`;
-    }
-}
-
-setInterval(showNextImage, 3000); // Cambia de imagen cada 3 segundos
-
+// Asegurarse de que el contenedor del carrusel exista antes de usarlo
 function loadCarouselImages() {
     const carouselContainer = document.querySelector('.carousel-images');
+    if (!carouselContainer) {
+        console.error('El contenedor del carrusel no existe.');
+        return;
+    }
+
     const imagePreviewContainer = document.querySelector('#image-preview .image-list');
+    if (imagePreviewContainer) {
+        imagePreviewContainer.innerHTML = ''; // Limpia las imágenes existentes en el contenedor de depuración
+    }
+
     carouselContainer.innerHTML = ''; // Limpia las imágenes existentes en el carrusel
-    imagePreviewContainer.innerHTML = ''; // Limpia las imágenes existentes en el contenedor de depuración
 
     // Cargar imágenes desde la carpeta "imagenes"
     fetch('/imagenes')
@@ -101,19 +101,7 @@ function loadCarouselImages() {
                 const img = document.createElement('img');
                 img.src = imagePath;
                 img.alt = `Imagen del carrusel: ${image}`;
-                img.style.border = '2px solid red'; // Agrega un borde rojo para depuración visual
                 carouselContainer.appendChild(img);
-                console.log('Imagen agregada al carrusel:', img); // Depuración
-
-                // Agregar imagen al contenedor de depuración
-                const previewImg = document.createElement('img');
-                previewImg.src = imagePath;
-                previewImg.alt = `Imagen cargada: ${image}`;
-                previewImg.style.maxWidth = '100px'; // Tamaño pequeño para depuración
-                previewImg.style.margin = '5px';
-                previewImg.style.border = '2px solid blue'; // Agrega un borde azul para depuración visual
-                imagePreviewContainer.appendChild(previewImg);
-                console.log('Imagen agregada al contenedor de depuración:', previewImg); // Depuración
             });
 
             // Reinicia el índice del carrusel
@@ -311,23 +299,98 @@ function simularTesting() {
     }, 1000);
 }
 
+// Inicializar la variable antes de usarla
+let casosGenerados = [];
+
 // Generador Automático de Casos de Prueba
 function generarCasos(event) {
     event.preventDefault();
-    const nombreApp = document.getElementById('nombre-app').value;
-    const casos = [
-        `Validar login con credenciales incorrectas en ${nombreApp}`,
-        `Probar carga de datos en ${nombreApp}`,
-        `Verificar seguridad en ${nombreApp}`,
-        `Testear rendimiento en ${nombreApp}`,
-    ];
-    const lista = document.getElementById('lista-casos');
-    lista.innerHTML = ''; // Limpia la lista
-    casos.forEach(caso => {
-        const li = document.createElement('li');
-        li.innerText = caso;
-        lista.appendChild(li);
-    });
+    const nombreApp = document.getElementById('nombre-app').value.trim();
+    const numeroCasos = parseInt(document.getElementById('numero-casos').value.trim(), 10);
+
+    if (!nombreApp || isNaN(numeroCasos) || numeroCasos <= 0) {
+        alert('Por favor, ingresa un nombre de la aplicación válido y un número de casos mayor a 0.');
+        return;
+    }
+
+    casosGenerados = generarCasosDePrueba(nombreApp, numeroCasos);
+    mostrarCasosEnModal(); // Muestra los casos en la modal automáticamente
+}
+
+// Algoritmo para generar casos de prueba
+function generarCasosDePrueba(nombreApp, numeroCasos) {
+    const casos = [];
+    for (let i = 1; i <= numeroCasos; i++) {
+        casos.push({
+            id: `CP-${i.toString().padStart(3, '0')}`, // ID con formato CP-001, CP-002, etc.
+            nombre: `Caso de Prueba ${i} para ${nombreApp}`,
+            descripcion: `Este caso de prueba valida la funcionalidad ${i} en la aplicación ${nombreApp}.`,
+            resultadoEsperado: `La funcionalidad ${i} debe comportarse según los requisitos establecidos en ${nombreApp}.`
+        });
+    }
+    return casos;
+}
+
+// Mostrar los casos en la modal
+function mostrarCasosEnModal() {
+    const modal = document.getElementById('modal-casos');
+    if (!modal) {
+        console.error('El modal de casos no existe.');
+        return;
+    }
+
+    const contenedorCasos = document.getElementById('contenedor-casos');
+    if (!contenedorCasos) {
+        console.error('El contenedor de casos no existe.');
+        return;
+    }
+
+    contenedorCasos.innerHTML = ''; // Limpia el contenido previo
+
+    if (casosGenerados.length === 0) {
+        contenedorCasos.innerHTML = '<p>No hay casos de prueba generados. Por favor, genera algunos primero.</p>';
+    } else {
+        const table = document.createElement('table');
+        table.classList.add('casos-table');
+
+        // Crear encabezados de la tabla
+        const thead = document.createElement('thead');
+        thead.innerHTML = `
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Resultado Esperado</th>
+            </tr>
+        `;
+        table.appendChild(thead);
+
+        // Crear cuerpo de la tabla
+        const tbody = document.createElement('tbody');
+        casosGenerados.forEach(caso => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${caso.id}</td>
+                <td>${caso.nombre}</td>
+                <td>${caso.descripcion}</td>
+                <td>${caso.resultadoEsperado}</td>
+            `;
+            tbody.appendChild(row);
+        });
+        table.appendChild(tbody);
+
+        contenedorCasos.appendChild(table);
+    }
+
+    modal.style.display = 'block'; // Abre la modal
+}
+
+// Cerrar el modal de casos de prueba
+function cerrarModalCasos() {
+    const modal = document.getElementById('modal-casos');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
 
 // Abrir el modal del quiz
