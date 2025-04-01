@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000" # Mapea el puerto 3000 del contenedor al puerto 3000 del host
+    environment:
+      - PORT=3000
+    volumes:
+      - .:/app
+    command: npm start
