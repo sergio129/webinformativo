@@ -1,24 +1,9 @@
 version: 1  # Versión del esquema de configuración
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - npm install  # Cambiado de npm ci a npm install
-    build:
-      commands:
-        - echo 'No build step required'  # Si no hay un paso de compilación
-  artifacts:
-    baseDirectory: /  # Carpeta raíz donde están los archivos estáticos
-    files:
-      - '**/*'  # Incluye todos los archivos
-  cache:
-    paths:
-      - node_modules/**/*  # Cachear node_modules para futuros builds
 backend:
   phases:
     preBuild:
       commands:
-        - npm install  # Cambiado de npm ci a npm install
+        - yarn install  # Cambiado de npm ci a npm install
     build:
       commands:
         - npm start  # Inicia el servidor del backend
