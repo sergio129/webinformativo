@@ -147,7 +147,7 @@ app.post('/upload-videos', upload.array('videos'), (req, res) => {
     res.status(200).send('Videos subidos y guardados correctamente.');
 });
 
-// Ruta para obtener la lista de videos locales
+// Ruta para obtener la lista de videos locales y enlaces de YouTube
 app.get('/videos/testimonios', (req, res) => {
     const videosDir = path.join(__dirname, 'videos', 'testimonios');
     fs.readdir(videosDir, (err, files) => {
@@ -157,8 +157,18 @@ app.get('/videos/testimonios', (req, res) => {
         }
 
         // Filtra solo archivos de video
-        const videoFiles = files.filter(file => /\.(mp4|webm|ogg)$/i.test(file));
-        res.json(videoFiles);
+        const localVideos = files.filter(file => /\.(mp4|webm|ogg)$/i.test(file));
+
+        // Leer los enlaces de YouTube
+        fs.readFile(youtubeLinksFile, 'utf8', (err, data) => {
+            if (err && err.code !== 'ENOENT') {
+                console.error('Error leyendo los enlaces de YouTube:', err);
+                return res.status(500).send('Error al obtener los enlaces de YouTube.');
+            }
+
+            const youtubeLinks = err ? [] : JSON.parse(data);
+            res.json({ localVideos, youtubeLinks });
+        });
     });
 });
 
