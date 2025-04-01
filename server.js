@@ -218,10 +218,10 @@ app.get('/health', (req, res) => {
     res.status(200).send('OK');
 });
 
-// Iniciar el servidor con un timeout
+// Iniciar el servidor con un timeout extendido
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
-    console.log(`Servidor iniciado en http://localhost:${PORT}`); console.log(`Servidor iniciado en http://localhost:${PORT}`);
-});;
+    console.log(`Servidor iniciado en http://localhost:${PORT}`);
+});
 
-server.setTimeout(30000); // 30 segundos// Configurar un timeout para evitar bloqueos
+server.setTimeout(60000); // Aumenta el timeout a 60 segundos
