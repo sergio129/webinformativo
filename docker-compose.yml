@@ -8,4 +8,6 @@ services:
       - PORT=3000
     volumes:
       - .:/app
+      - ./videos:/app/videos # Monta la carpeta de videos
+      - ./youtube-links.json:/app/youtube-links.json # Monta el archivo de enlaces de YouTube
     command: npm start

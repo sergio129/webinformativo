@@ -172,6 +172,9 @@ app.get('/videos/testimonios', (req, res) => {
     });
 });
 
+// Servir la carpeta de videos
+app.use('/videos/testimonios', express.static(path.join(__dirname, 'videos', 'testimonios')));
+
 // Ruta para obtener los enlaces de YouTube
 app.get('/youtube-links', (req, res) => {
     fs.readFile(youtubeLinksFile, 'utf8', (err, data) => {
