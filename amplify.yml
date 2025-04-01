@@ -1,27 +1,24 @@
 version: 1  # Versión del esquema de configuración
-env:
-  variables:
-    key: value  # Variables de entorno (opcional)
-backend:
-  phases:
-    preBuild:
-      commands:
-        - npm install -g @aws-amplify/cli  # Instala la CLI de Amplify
-    build:
-      commands:
-        - amplifyPush --simple  # Despliega los cambios del backend
 frontend:
   phases:
     preBuild:
       commands:
-        - npm ci  # Instala dependencias (modo CI)
+        - npm ci  # Instala dependencias en modo CI
     build:
       commands:
-        - npm start  # Compila la aplicación (ej: React, Vue, etc.)
+        - echo 'No build step required'  # Si no hay un paso de compilación
   artifacts:
-    baseDirectory: build  # Carpeta donde se generan los archivos estáticos (ej: create-react-app usa 'build')
+    baseDirectory: /  # Carpeta raíz donde están los archivos estáticos
     files:
       - '**/*'  # Incluye todos los archivos
   cache:
     paths:
       - node_modules/**/*  # Cachear node_modules para futuros builds
+backend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci  # Instala dependencias del backend
+    build:
+      commands:
+        - npm start  # Inicia el servidor del backend
