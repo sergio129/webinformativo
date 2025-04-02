@@ -105,6 +105,15 @@ body {
     margin-top: 1rem;
 }
 
+/* Welcome Message */
+.welcome-message {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
 /* Login Footer */
 .login-footer {
     margin-top: 1.5rem;
