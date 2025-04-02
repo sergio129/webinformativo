@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios - QualiTest Solutions</title>
+    <link rel="stylesheet" href="servicios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">QualiTest Solutions</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="services-container">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-calculator"></i>
+                </div>
+                <h2>Calculadora de ROI para QA</h2>
+                <p>Ingresa los datos para calcular el ahorro estimado al usar nuestros servicios:</p>
+                <form onsubmit="calcularROI(event)">
+                    <label for="errores">Errores evitados:</label>
+                    <input type="number" id="errores" placeholder="Cantidad de errores evitados" required>
+                    <label for="horas">Horas ahorradas:</label>
+                    <input type="number" id="horas" placeholder="Horas de testing ahorradas" required>
+                    <button type="submit">Calcular ROI</button>
+                </form>
+                <div id="resultado-roi" class="resultado"></div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-cogs"></i>
+                </div>
+                <h2>Demo de Herramientas de Testing</h2>
+                <p>Prueba cómo funcionan nuestras herramientas de testing automatizado.</p>
+                <button onclick="simularTesting()">Ejecutar Test Automatizado</button>
+                <div id="consola-testing" class="consola"></div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-list-alt"></i>
+                </div>
+                <h2>Generador Automático de Casos de Prueba</h2>
+                <p>Genera automáticamente casos de prueba personalizados basados en el nombre de tu aplicación y el número de casos que desees.</p>
+                <form onsubmit="generarCasos(event)">
+                    <label for="nombre-app">Nombre de la App:</label>
+                    <input type="text" id="nombre-app" placeholder="Ejemplo: MiApp de Banco" required>
+                    <label for="numero-casos">Número de Casos de Prueba:</label>
+                    <input type="number" id="numero-casos" placeholder="Ejemplo: 5" required>
+                    <button type="submit">Generar Casos</button>
+                </form>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+                <h2>Test de Conocimientos QA</h2>
+                <p>Pon a prueba tus conocimientos sobre QA con nuestro quiz interactivo.</p>
+                <button onclick="abrirQuiz()">Iniciar Quiz</button>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-bug"></i>
+                </div>
+                <h2>Últimos Bugs Detectados</h2>
+                <p>Conoce algunos de los bugs más recientes que hemos detectado y solucionado.</p>
+                <div id="bugs-list" class="bugs-list"></div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-file-text"></i>
+                </div>
+                <h2>Generar Recomendaciones</h2>
+                <p>Obtén 10 recomendaciones aleatorias sobre QA y automatización.</p>
+                <button onclick="generarRecomendaciones()" class="btn-primary">Generar Recomendaciones</button>
+                <ul id="recomendaciones-list" class="recomendaciones-list">
+                    <!-- Las recomendaciones se mostrarán aquí -->
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-search"></i>
+                </div>
+                <h2>Buscar Recomendaciones</h2>
+                <p>Encuentra recomendaciones específicas por palabras clave.</p>
+                <input type="text" id="busqueda-recomendaciones" placeholder="Escribe una palabra clave...">
+                <button onclick="buscarRecomendaciones()" class="btn-primary">Buscar</button>
+                <ul id="resultados-busqueda" class="recomendaciones-list">
+                    <!-- Los resultados de la búsqueda se mostrarán aquí -->
+                </ul>
+            </div>
+
+            <!-- Simulador de Pruebas de Carga -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-tachometer"></i>
+                </div>
+                <h2>Simulador de Pruebas de Carga</h2>
+                <p>Simula el comportamiento de tu sistema bajo diferentes niveles de carga.</p>
+                <form onsubmit="simularCarga(event)">
+                    <label for="usuarios">Número de Usuarios Simulados:</label>
+                    <input type="number" id="usuarios" placeholder="Ejemplo: 100" required>
+                    <label for="duracion">Duración de la Prueba (segundos):</label>
+                    <input type="number" id="duracion" placeholder="Ejemplo: 60" required>
+                    <button type="submit">Iniciar Simulación</button>
+                </form>
+                <div id="resultado-carga" class="resultado"></div>
+            </div>
+
+            <!-- Generador de Datos de Prueba -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-database"></i>
+                </div>
+                <h2>Generador de Datos de Prueba</h2>
+                <p>Genera datos de prueba personalizados para tus casos de prueba.</p>
+                <form onsubmit="generarDatosPrueba(event)">
+                    <label for="tipo-dato">Tipo de Dato:</label>
+                    <select id="tipo-dato" required>
+                        <option value="nombre">Nombres</option>
+                        <option value="email">Correos Electrónicos</option>
+                        <option value="telefono">Teléfonos</option>
+                        <option value="direccion">Direcciones</option>
+                    </select>
+                    <label for="cantidad-datos">Cantidad de Datos:</label>
+                    <input type="number" id="cantidad-datos" placeholder="Ejemplo: 10" required>
+                    <button type="submit">Generar Datos</button>
+                </form>
+                <ul id="lista-datos-prueba" class="recomendaciones-list">
+                    <!-- Los datos generados se mostrarán aquí -->
+                </ul>
+            </div>
+
+            <!-- Métricas de Calidad -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-bar-chart"></i>
+                </div>
+                <h2>Métricas de Calidad</h2>
+                <p>Consulta métricas clave para evaluar la calidad de tu software.</p>
+                <button onclick="mostrarMetricas()">Ver Métricas</button>
+                <div id="metricas-calidad" class="resultado">
+                    <!-- Las métricas de calidad se mostrarán aquí -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para el Quiz -->
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarQuiz()">&times;</span>
+            <h2>Test de Conocimientos QA</h2>
+            <div id="quiz-container" class="quiz-container"></div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar los casos de prueba -->
+    <div id="modal-casos" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModalCasos()">&times;</span>
+            <h2>Casos de Prueba Generados</h2>
+            <div id="contenedor-casos" class="contenedor-casos">
+                <!-- Los casos de prueba generados se mostrarán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

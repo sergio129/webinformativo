@@ -19,18 +19,88 @@
         </nav>
     </header>
     <main>
-        <section id="contacto">
-            <h2>Contacto</h2>
-            <p>Contáctanos para más información.</p>
-            <form>
-                <input type="text" placeholder="Nombre" required>
-                <input type="email" placeholder="Correo electrónico" required>
-                <textarea placeholder="Mensaje" required></textarea>
-            </form>
+        <section id="contacto" class="contact-section">
+            <h2 class="section-title">Contáctanos</h2>
+            <p class="section-description">Estamos aquí para ayudarte. Completa el formulario o utiliza los medios de contacto a continuación.</p>
+
+            <div class="contact-container">
+                <!-- Formulario de contacto -->
+                <div class="contact-form-container">
+                    <h3>Envíanos un Mensaje</h3>
+                    <form id="contact-form" class="contact-form">
+                        <label for="nombre"><i class="fa fa-user"></i> Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                        
+                        <label for="email"><i class="fa fa-envelope"></i> Correo Electrónico:</label>
+                        <input type="email" id="email" name="email" placeholder="Tu correo electrónico" required>
+                        
+                        <label for="telefono"><i class="fa fa-phone"></i> Teléfono:</label>
+                        <input type="tel" id="telefono" name="telefono" placeholder="Tu número de teléfono">
+                        
+                        <label for="asunto"><i class="fa fa-tag"></i> Asunto:</label>
+                        <input type="text" id="asunto" name="asunto" placeholder="Asunto del mensaje" required>
+                        
+                        <label for="mensaje"><i class="fa fa-comment"></i> Mensaje:</label>
+                        <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                        
+                        <button type="submit" class="btn-primary"><i class="fa fa-paper-plane"></i> Enviar Mensaje</button>
+                    </form>
+                </div>
+
+                <!-- Información de contacto -->
+                <div class="contact-info-container">
+                    <h3>Información de Contacto</h3>
+                    <ul class="contact-info-list">
+                        <li><i class="fa fa-map-marker"></i> <strong>Dirección:</strong> Monteria Carrera 11W #18-27</li>
+                        <li><i class="fa fa-phone"></i> <strong>Teléfono:</strong> +57 3103904286</li>
+                        <li><i class="fa fa-envelope"></i> <strong>Correo Electrónico:</strong> <a href="mailto:info@qualitestsolutions.com">info@qualitestsolutions.com</a></li>
+                        <li><i class="fa fa-clock-o"></i> <strong>Horario de Atención:</strong> Lunes a Viernes, 9:00 AM - 6:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Mapa interactivo -->
+            <div class="map-container">
+                <h3>Encuéntranos</h3>
+                <iframe 
+                    src="https://www.google.com/maps/place//@8.755964,-75.9001159,16z/data=!4m9!1m8!3m7!1s0x8e3f9aa944b6de79:0x74a36f8416cb6023!2zQ2wuIDEyMywgVXNhcXXDqW4sIEJvZ290w6E!3b1!8m2!3d4.7002662!4d-74.0344453!16s%2Fg%2F1tdpsq6z!5m1!1e4?hl=es&entry=ttu&g_ep=EgoyMDI1MDQwMS4wIKXMDSoASAFQAw%3D%3D" 
+                    width="100%" 
+                    height="300" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+            <!-- Redes sociales -->
+            <div class="social-media">
+                <h3>Síguenos en Redes Sociales</h3>
+                <div class="social-icons">
+                    <a href="https://facebook.com/qualitestsolutions" target="_blank" class="social-icon facebook">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" class="social-logo">
+                    </a>
+                    <a href="https://twitter.com/qualitestsolutions" target="_blank" class="social-icon twitter">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Twitter_Logo_as_of_2021.svg" alt="Twitter" class="social-logo">
+                    </a>
+                    <a href="https://linkedin.com/company/qualitestsolutions" target="_blank" class="social-icon linkedin">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" class="social-logo">
+                    </a>
+                    <a href="https://instagram.com/qualitestsolutions" target="_blank" class="social-icon instagram">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="social-logo">
+                    </a>
+                </div>
+            </div>
         </section>
     </main>
     <footer>
         <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
     </footer>
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Gracias por contactarnos. Nos pondremos en contacto contigo pronto.');
+        });
+    </script>
 </body>
 </html>
