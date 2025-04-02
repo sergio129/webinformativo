@@ -92,9 +92,10 @@ header nav ul li a:hover {
 /* Grid Container */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ajusta el número de columnas automáticamente */
+    gap: 20px; /* Espaciado entre las herramientas */
+    justify-content: center; /* Centra las herramientas horizontalmente */
+    padding: 2rem; /* Espaciado interno */
 }
 
 /* Service Card */
@@ -103,7 +104,9 @@ header nav ul li a:hover {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
-    text-align: center;
+    text-align: center; /* Centra el contenido dentro de cada tarjeta */
+    margin: 0 auto; /* Centra las tarjetas dentro del contenedor */
+    max-width: 100%; /* Asegura que las tarjetas ocupen el espacio disponible */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -190,6 +193,39 @@ form button:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-size: 1rem;
     color: #333;
+}
+
+/* Consola */
+.consola {
+    background-color: #000; /* Fondo negro */
+    color: #0f0; /* Texto verde por defecto */
+    font-family: monospace;
+    padding: 1rem;
+    border-radius: 5px;
+    height: 200px;
+    overflow-y: auto; /* Habilita scroll si el contenido excede */
+    margin-top: 1rem;
+    white-space: pre-wrap; /* Mantiene los saltos de línea */
+}
+
+.consola .line {
+    margin-bottom: 0.5rem;
+}
+
+.consola .success {
+    color: #0f0; /* Verde para mensajes exitosos */
+}
+
+.consola .error {
+    color: #f00; /* Rojo para errores */
+}
+
+.consola .info {
+    color: #00f; /* Azul para información */
+}
+
+.consola .warning {
+    color: #ff0; /* Amarillo para advertencias */
 }
 
 /* Footer */

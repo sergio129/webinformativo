@@ -302,40 +302,36 @@ document.getElementById('roi-form')?.addEventListener('submit', event => {
 // Demo de Herramientas de Testing
 document.getElementById('test-automation-btn')?.addEventListener('click', () => {
     const consola = document.getElementById('consola-testing');
-    consola.textContent = ''; // Limpia la consola antes de iniciar la simulación
+    consola.innerHTML = ''; // Limpia la consola antes de iniciar
 
-    const pasos = [
-        'Inicializando entorno de pruebas...',
-        'Cargando casos de prueba...',
-        'Ejecutando pruebas funcionales...',
-        'Ejecutando pruebas de rendimiento...',
-        'Ejecutando pruebas de seguridad...',
-        'Generando reporte de resultados...'
+    const mensajes = [
+        { text: 'Ejecutando pruebas automatizadas...', class: 'info' },
+        { text: 'Inicializando entorno de pruebas...', class: 'info' },
+        { text: 'Cargando casos de prueba...', class: 'info' },
+        { text: 'Ejecutando pruebas funcionales...', class: 'info' },
+        { text: 'Ejecutando pruebas de rendimiento...', class: 'info' },
+        { text: 'Ejecutando pruebas de seguridad...', class: 'info' },
+        { text: 'Generando reporte de resultados...', class: 'info' },
+        { text: 'Pruebas completadas exitosamente.', class: 'success' },
+        { text: 'Resumen:', class: 'info' },
+        { text: '- Casos de prueba ejecutados: 106', class: 'info' },
+        { text: '- Casos exitosos: 60', class: 'success' },
+        { text: '- Casos fallidos: 46', class: 'error' },
+        { text: '- Tiempo total: 25 segundos', class: 'info' }
     ];
 
-    let pasoActual = 0;
+    let delay = 0;
 
-    const intervalo = setInterval(() => {
-        if (pasoActual < pasos.length) {
-            consola.textContent += `${pasos[pasoActual]}\n`;
-            pasoActual++;
-        } else {
-            clearInterval(intervalo);
-
-            // Generar datos aleatorios para el resumen
-            const totalCasos = Math.floor(Math.random() * 100) + 50; // Entre 50 y 150
-            const casosExitosos = Math.floor(Math.random() * totalCasos * 0.9); // Hasta el 90% exitosos
-            const casosFallidos = totalCasos - casosExitosos;
-            const tiempoTotal = Math.floor(Math.random() * 30) + 10; // Entre 10 y 40 segundos
-
-            consola.textContent += '\nPruebas completadas exitosamente.\n';
-            consola.textContent += 'Resumen:\n';
-            consola.textContent += `- Casos de prueba ejecutados: ${totalCasos}\n`;
-            consola.textContent += `- Casos exitosos: ${casosExitosos}\n`;
-            consola.textContent += `- Casos fallidos: ${casosFallidos}\n`;
-            consola.textContent += `- Tiempo total: ${tiempoTotal} segundos\n`;
-        }
-    }, 2000); // Simula un retraso de 2 segundos entre cada paso
+    mensajes.forEach((mensaje) => {
+        setTimeout(() => {
+            const line = document.createElement('div');
+            line.className = `line ${mensaje.class}`;
+            line.textContent = mensaje.text;
+            consola.appendChild(line);
+            consola.scrollTop = consola.scrollHeight; // Desplaza hacia abajo automáticamente
+        }, delay);
+        delay += 1000; // Incrementa el retraso para cada mensaje
+    });
 });
 
 // Inicializar la variable antes de usarla
