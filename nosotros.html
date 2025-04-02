@@ -4,19 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nosotros - QualiTest Solutions</title>
+    <link rel="stylesheet" href="nosotros.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
 </head>
 <body>
-    <header>
-        <div class="logo">QualiTest Solutions</div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="herramientas.html">Herramientas</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-            </ul>
-        </nav>
+    <header class="mui-appbar">
+        <div class="mui-container">
+            <div class="logo">QualiTest Solutions</div>
+            <nav>
+                <ul class="mui-nav">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="herramientas.html">Herramientas</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
     <main>
         <section id="nosotros" class="about-section">
@@ -28,48 +33,74 @@
             <!-- Sección interactiva -->
             <div class="interactive-container">
                 <!-- Experiencia y Profesionalismo -->
-                <div class="interactive-card">
-                    <div class="interactive-icon">
-                        <i class="fa fa-briefcase"></i>
-                    </div>
+                <div class="interactive-card mui-card">
+                    <div class="interactive-icon material-icons">work</div>
                     <h3>Experiencia y Profesionalismo</h3>
                     <p>Especialistas en testing manual y automatizado con años de experiencia en diversas industrias.</p>
+                    <button class="mui-button">Leer Más</button>
                 </div>
 
                 <!-- Enfoque Personalizado -->
-                <div class="interactive-card">
-                    <div class="interactive-icon">
-                        <i class="fa fa-user-circle"></i>
-                    </div>
+                <div class="interactive-card mui-card">
+                    <div class="interactive-icon material-icons">person</div>
                     <h3>Enfoque Personalizado</h3>
                     <p>Adaptamos nuestras estrategias de testing a las necesidades específicas de tu proyecto.</p>
+                    <button class="mui-button">Leer Más</button>
                 </div>
 
                 <!-- Tecnología de Vanguardia -->
-                <div class="interactive-card">
-                    <div class="interactive-icon">
-                        <i class="fa fa-cogs"></i>
-                    </div>
+                <div class="interactive-card mui-card">
+                    <div class="interactive-icon material-icons">settings</div>
                     <h3>Tecnología de Vanguardia</h3>
                     <p>Utilizamos herramientas avanzadas para pruebas funcionales, de rendimiento, seguridad y UX.</p>
+                    <button class="mui-button">Leer Más</button>
                 </div>
 
                 <!-- Compromiso con la Excelencia -->
-                <div class="interactive-card">
-                    <div class="interactive-icon">
-                        <i class="fa fa-star"></i>
-                    </div>
+                <div class="interactive-card mui-card">
+                    <div class="interactive-icon material-icons">star</div>
                     <h3>Compromiso con la Excelencia</h3>
                     <p>No solo buscamos errores, ayudamos a prevenirlos, asegurando una experiencia de usuario impecable.</p>
+                    <button class="mui-button">Leer Más</button>
                 </div>
             </div>
 
+            <!-- Nueva sección de citas -->
+            <blockquote class="about-quote mui-paper">
+                "La calidad no es un acto, es un hábito." - Aristóteles
+            </blockquote>
+
+            <!-- Nueva sección de equipo -->
+            <section class="team-section">
+                <h3 class="team-title">Conoce a Nuestro Equipo</h3>
+                <div class="team-container">
+                    <div class="team-card mui-card">
+                        <img src="https://ui-avatars.com/api/?name=Juan+Pérez&background=3f51b5&color=fff&size=150" alt="Avatar de Juan Pérez" class="team-photo">
+                        <h4>Sergio Anaya</h4>
+                        <p>Gerente de Calidad</p>
+                        <button class="mui-button">Ver Perfil</button>
+                    </div>
+                    <div class="team-card mui-card">
+                        <img src="https://ui-avatars.com/api/?name=María+López&background=3f51b5&color=fff&size=150" alt="Avatar de María López" class="team-photo">
+                        <h4>Sandy Gonzalez</h4>
+                        <p>Gerente Comercial</p>
+                        <button class="mui-button">Ver Perfil</button>
+                    </div>
+                    <div class="team-card mui-card">
+                        <img src="https://ui-avatars.com/api/?name=Carlos+Gómez&background=3f51b5&color=fff&size=150" alt="Avatar de Carlos Gómez" class="team-photo">
+                        <h4>Carlos Gómez</h4>
+                        <p>Ingeniero de Pruebas</p>
+                        <button class="mui-button">Ver Perfil</button>
+                    </div>
+                </div>
+            </section>
+
             <p class="about-conclusion">
-                En QualiTest Solutions, no somos solo testers, somos garantes de calidad. ¿Listo para llevar tu software al siguiente nivel? <a href="contacto.html" class="btn-primary">¡Contáctanos hoy mismo!</a>
+                En QualiTest Solutions, no somos solo testers, somos garantes de calidad. ¿Listo para llevar tu software al siguiente nivel? <a href="contacto.html" class="btn-primary mui-button">¡Contáctanos hoy mismo!</a>
             </p>
         </section>
     </main>
-    <footer>
+    <footer class="mui-footer">
         <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
     </footer>
 </body>

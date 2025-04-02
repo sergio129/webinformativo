@@ -28,15 +28,18 @@ header .logo {
     letter-spacing: 1px;
 }
 
+/* Estilos para el menú de navegación */
 header nav ul {
     list-style: none;
     padding: 0;
-    margin-top: 10px;
+    margin: 0;
+    display: flex; /* Cambia a diseño en línea */
+    justify-content: center; /* Centra las opciones */
+    gap: 20px; /* Espaciado entre las opciones */
 }
 
 header nav ul li {
-    display: inline;
-    margin: 0 15px;
+    display: inline; /* Asegura que los elementos sean en línea */
 }
 
 header nav ul li a {

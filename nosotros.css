@@ -1,0 +1,301 @@
+/* Sección Nosotros */
+.about-section {
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    max-width: 1200px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: #3f51b5;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.section-description {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 2rem;
+    line-height: 1.8;
+}
+
+/* Estilo para la sección de citas */
+.about-quote {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: #555;
+    border-left: 4px solid #3f51b5;
+    padding-left: 1rem;
+    text-align: left;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Contenedor interactivo */
+.interactive-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Animación para las tarjetas interactivas */
+.interactive-card {
+    flex: 1 1 calc(25% - 20px); /* Cuatro columnas */
+    max-width: calc(25% - 20px);
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.interactive-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    background-color: #f0f4ff;
+}
+
+.interactive-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(63, 81, 181, 0.1), rgba(63, 81, 181, 0.2));
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.interactive-card:hover::before {
+    opacity: 1;
+}
+
+/* Estilo para los íconos */
+.interactive-icon {
+    font-size: 4rem;
+    color: #3f51b5;
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+}
+
+.interactive-card:hover .interactive-icon {
+    color: #303f9f;
+}
+
+/* Estilo para los títulos de las tarjetas */
+.interactive-card h3 {
+    font-size: 1.8rem;
+    color: #3f51b5;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    z-index: 1;
+    position: relative;
+}
+
+/* Estilo para los párrafos de las tarjetas */
+.interactive-card p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    z-index: 1;
+    position: relative;
+}
+
+.interactive-card .mui-button {
+    margin-top: 1rem;
+    background-color: #3f51b5;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 1;
+    position: relative;
+}
+
+.interactive-card .mui-button:hover {
+    background-color: #303f9f;
+    transform: scale(1.05);
+}
+
+/* Botón de contacto */
+.btn-primary {
+    display: inline-block;
+    background-color: #3f51b5;
+    color: #fff;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #303f9f;
+    transform: scale(1.05);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .interactive-card {
+        flex: 1 1 calc(50% - 20px); /* Dos columnas en pantallas medianas */
+    }
+}
+
+@media (max-width: 480px) {
+    .interactive-card {
+        flex: 1 1 100%; /* Una columna en pantallas pequeñas */
+    }
+}
+
+/* Estilo para el AppBar */
+.mui-appbar {
+    background-color: #3f51b5;
+    color: #fff;
+    padding: 1rem 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mui-appbar .mui-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.mui-nav {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.mui-nav li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.mui-nav li a:hover {
+    color: #ffcc00;
+}
+
+/* Estilo para las tarjetas del equipo */
+.team-section {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.team-title {
+    font-size: 2rem;
+    color: #3f51b5;
+    margin-bottom: 2rem;
+}
+
+.team-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.team-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 300px; /* Ajusta el ancho máximo */
+    flex: 1 1 calc(33.333% - 20px); /* Tres columnas */
+    position: relative;
+    overflow: hidden;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.team-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    object-fit: cover; /* Asegura que la imagen no se distorsione */
+    max-width: 150px; /* Tamaño máximo de la imagen */
+    max-height: 150px;
+}
+
+.team-card h4 {
+    font-size: 1.5rem;
+    color: #3f51b5;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.team-card p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.team-card .mui-button {
+    margin-top: 1rem;
+    background-color: #3f51b5;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.team-card .mui-button:hover {
+    background-color: #303f9f;
+    transform: scale(1.05);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .team-card {
+        flex: 1 1 calc(50% - 20px); /* Dos columnas en pantallas medianas */
+    }
+}
+
+@media (max-width: 480px) {
+    .team-card {
+        flex: 1 1 100%; /* Una columna en pantallas pequeñas */
+    }
+}
+
+/* Estilo para el footer */
+.mui-footer {
+    background-color: #3f51b5;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+}
