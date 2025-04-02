@@ -900,6 +900,46 @@ function compararArchivos(event) {
         });
 }
 
+// Navegación entre pestañas
+document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetTab = button.getAttribute('data-tab');
+
+            // Desactivar todas las pestañas y botones
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Activar la pestaña seleccionada
+            button.classList.add('active');
+            document.getElementById(targetTab).classList.add('active');
+        });
+    });
+});
+
+// Generador de Recomendaciones QA
+document.getElementById('qa-recommendations-btn')?.addEventListener('click', async () => {
+    const recommendationsList = document.getElementById('qa-recommendations-list');
+    recommendationsList.innerHTML = '<li class="loading">Cargando recomendaciones...</li>';
+
+    try {
+        const response = await fetch('/recomendaciones', { method: 'GET' });
+
+        if (!response.ok) {
+            throw new Error('Error al obtener las recomendaciones.');
+        }
+
+        const recommendations = await response.json();
+        recommendationsList.innerHTML = recommendations.map(rec => `<li>${rec}</li>`).join('');
+    } catch (error) {
+        console.error('Error al cargar recomendaciones:', error);
+        recommendationsList.innerHTML = '<li class="error">Error al cargar recomendaciones. Intenta nuevamente.</li>';
+    }
+});
+
 // Inicializar pestañas al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
     const defaultTab = document.querySelector('.tab-button.active');
