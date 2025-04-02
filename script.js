@@ -695,6 +695,129 @@ function mostrarMetricas() {
 }
 
 // Analizador de Logs
+document.getElementById('log-analyzer-form')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const logFile = document.getElementById('log-file').files[0];
+    const resultDiv = document.getElementById('log-analysis-result');
+    resultDiv.innerHTML = '<p class="loading">Analizando logs...</p>';
+
+    const formData = new FormData();
+    formData.append('logFile', logFile);
+
+    try {
+        const response = await fetch('/api/analyze-logs', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al analizar los logs.');
+        }
+
+        const analysisResult = await response.json();
+        resultDiv.innerHTML = `<pre>${JSON.stringify(analysisResult, null, 2)}</pre>`;
+    } catch (error) {
+        console.error('Error al analizar logs:', error);
+        resultDiv.innerHTML = '<p class="error">Error al analizar los logs. Intenta nuevamente.</p>';
+    }
+});
+
+// Simulador de Errores HTTP
+document.getElementById('http-error-simulator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const errorCode = parseInt(document.getElementById('http-error-code').value, 10);
+    const resultDiv = document.getElementById('http-error-result');
+
+    // Validar que el código sea un error HTTP válido (4xx o 5xx)
+    if (errorCode < 400 || errorCode > 599) {
+        resultDiv.innerHTML = '<p class="error">Por favor, ingresa un código de error HTTP válido (4xx o 5xx).</p>';
+        return;
+    }
+
+    resultDiv.innerHTML = `<p class="error">Simulando error HTTP ${errorCode}: ${getHttpErrorMessage(errorCode)}</p>`;
+});
+
+function getHttpErrorMessage(code) {
+    const errors = {
+        400: 'Solicitud incorrecta',
+        401: 'No autorizado',
+        403: 'Prohibido',
+        404: 'No encontrado',
+        500: 'Error interno del servidor',
+        502: 'Bad Gateway',
+        503: 'Servicio no disponible'
+    };
+    return errors[code] || 'Error HTTP genérico';
+}
+
+// Simulador de Respuestas HTTP
+document.getElementById('http-response-simulator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const responseCode = parseInt(document.getElementById('http-response-code').value, 10);
+    const resultDiv = document.getElementById('http-response-result');
+
+    const responseTypes = {
+        informational: 'Respuesta Informativa (1xx)',
+        success: 'Éxito (2xx)',
+        redirection: 'Redirección (3xx)',
+        clientError: 'Error del Cliente (4xx)',
+        serverError: 'Error del Servidor (5xx)',
+    };
+
+    let responseType;
+
+    if (responseCode >= 100 && responseCode < 200) {
+        responseType = responseTypes.informational;
+    } else if (responseCode >= 200 && responseCode < 300) {
+        responseType = responseTypes.success;
+    } else if (responseCode >= 300 && responseCode < 400) {
+        responseType = responseTypes.redirection;
+    } else if (responseCode >= 400 && responseCode < 500) {
+        responseType = responseTypes.clientError;
+    } else if (responseCode >= 500 && responseCode < 600) {
+        responseType = responseTypes.serverError;
+    } else {
+        responseType = 'Código no válido. Por favor, ingresa un código HTTP entre 100 y 599.';
+    }
+
+    resultDiv.innerHTML = `<p><strong>Código:</strong> ${responseCode}</p><p><strong>Tipo:</strong> ${responseType}</p>`;
+});
+
+// Generador de Contraseñas
+document.getElementById('password-generator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const length = parseInt(document.getElementById('password-length').value, 10);
+    const includeSymbols = document.getElementById('include-symbols').checked;
+    const includeNumbers = document.getElementById('include-numbers').checked;
+    const includeUppercase = document.getElementById('include-uppercase').checked;
+
+    const resultDiv = document.getElementById('password-result');
+    resultDiv.innerHTML = `<p>Contraseña Generada: <strong>${generatePassword(length, includeSymbols, includeNumbers, includeUppercase)}</strong></p>`;
+});
+
+function generatePassword(length, includeSymbols, includeNumbers, includeUppercase) {
+    const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+    const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers = '0123456789';
+    const symbols = '!@#$%^&*()_+[]{}|;:,.<>?';
+
+    let characters = lowercase;
+    if (includeSymbols) characters += symbols;
+    if (includeNumbers) characters += numbers;
+    if (includeUppercase) characters += uppercase;
+
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        password += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return password;
+}
+
+// Analizador de Logs
 function analizarLogs(event) {
     event.preventDefault();
     const logFile = document.getElementById('log-file').files[0];
