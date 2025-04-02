@@ -71,6 +71,12 @@ header nav ul li a:hover {
     align-items: center;
 }
 
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+}
+
 .mui-nav {
     list-style: none;
     display: flex;
@@ -78,15 +84,45 @@ header nav ul li a:hover {
 }
 
 .mui-nav li a {
-    color: #fff;
     text-decoration: none;
     font-size: 1rem;
     font-weight: bold;
-    transition: color 0.3s ease;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
 }
 
 .mui-nav li a:hover {
-    color: #ffcc00;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.mui-btn--flat {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.mui-btn--raised {
+    background-color: #ffcc00;
+    color: #3f51b5;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.mui-btn--raised:hover {
+    background-color: #ffd633;
+    transform: scale(1.05);
+}
+
+.mui-btn--primary {
+    background-color: #ffcc00;
+    color: #3f51b5;
+    font-weight: bold;
 }
 
 /* Main Content */
