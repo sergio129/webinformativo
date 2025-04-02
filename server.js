@@ -40,6 +40,18 @@ AWS.config.update({
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
+// Middleware para manejar JSON y formularios
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Importar y configurar la ruta para probar APIs
+const probarApi = require('./api/probar-api');
+app.post('/api/probar-api', probarApi);
+
+// Importar y configurar la ruta para validar accesibilidad
+const validarAccesibilidad = require('./api/accesibilidad');
+app.get('/api/accesibilidad', validarAccesibilidad);
+
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname)));
 app.use('/imagenes', express.static(path.join(__dirname, 'imagenes')));

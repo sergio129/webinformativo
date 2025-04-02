@@ -1003,3 +1003,13 @@ contact-info a:hover {
 .resultado ul li strong {
     color: #007bff;
 }
+
+/* Estilos para el simulador de API */
+.resultado pre {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: monospace;
+    font-size: 0.9rem;
+}

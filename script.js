@@ -655,6 +655,133 @@ function mostrarMetricas() {
     }, 1000);
 }
 
+// Analizador de Logs
+function analizarLogs(event) {
+    event.preventDefault();
+    const logFile = document.getElementById('log-file').files[0];
+    const resultado = document.getElementById('resultado-logs');
+
+    if (!logFile) {
+        resultado.innerHTML = '<p>Por favor, selecciona un archivo de log.</p>';
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const logs = e.target.result.split('\n');
+        const errores = logs.filter(line => line.toLowerCase().includes('error'));
+        resultado.innerHTML = `
+            <p>Archivo analizado:</p>
+            <ul>
+                <li><strong>Total de líneas:</strong> ${logs.length}</li>
+                <li><strong>Errores encontrados:</strong> ${errores.length}</li>
+            </ul>
+            <p>Primeros 5 errores:</p>
+            <ul>${errores.slice(0, 5).map(error => `<li>${error}</li>`).join('')}</ul>
+        `;
+    };
+    reader.readAsText(logFile);
+}
+
+// Generador de Datos de Carga
+function generarDatosCarga(event) {
+    event.preventDefault();
+    const tipoDato = document.getElementById('tipo-dato-carga').value;
+    const cantidad = parseInt(document.getElementById('cantidad-datos-carga').value, 10);
+    const lista = document.getElementById('lista-datos-carga');
+
+    lista.innerHTML = '<li>Generando datos...</li>';
+
+    setTimeout(() => {
+        lista.innerHTML = '';
+        for (let i = 0; i < cantidad; i++) {
+            const li = document.createElement('li');
+            li.textContent = generarDatoCarga(tipoDato, i + 1);
+            lista.appendChild(li);
+        }
+    }, 1000);
+}
+
+function generarDatoCarga(tipo, index) {
+    switch (tipo) {
+        case 'usuarios':
+            return `Usuario${index}: usuario${index}@ejemplo.com`;
+        case 'transacciones':
+            return `Transacción${index}: $${(Math.random() * 1000).toFixed(2)}`;
+        case 'productos':
+            return `Producto${index}: Producto-${Math.random().toString(36).substring(7)}`;
+        default:
+            return 'Dato desconocido';
+    }
+}
+
+// Validador de Accesibilidad
+async function validarAccesibilidad(event) {
+    event.preventDefault();
+    const url = document.getElementById('url-accesibilidad').value;
+    const resultado = document.getElementById('resultado-accesibilidad');
+
+    resultado.innerHTML = '<p>Validando accesibilidad...</p>';
+
+    try {
+        const response = await fetch(`/api/accesibilidad?url=${encodeURIComponent(url)}`);
+        if (!response.ok) {
+            throw new Error('Error al validar la accesibilidad.');
+        }
+        const data = await response.json();
+        resultado.innerHTML = `
+            <p>Resultados de la validación para <strong>${url}</strong>:</p>
+            <ul>
+                <li><strong>Contraste de colores:</strong> ${data.contraste}</li>
+                <li><strong>Etiquetas ARIA:</strong> ${data.etiquetasARIA}</li>
+                <li><strong>Texto alternativo en imágenes:</strong> ${data.textoAlt}</li>
+                <li><strong>Navegación por teclado:</strong> ${data.navegacionTeclado}</li>
+            </ul>
+        `;
+    } catch (error) {
+        resultado.innerHTML = `<p>Error: ${error.message}</p>`;
+    }
+}
+
+// Simulador de Pruebas de API
+async function simularPruebasAPI(event) {
+    event.preventDefault();
+    const url = document.getElementById('url-api').value;
+    const metodo = document.getElementById('metodo-api').value;
+    const body = document.getElementById('body-api').value;
+    const resultado = document.getElementById('resultado-api');
+
+    resultado.innerHTML = '<p>Ejecutando prueba de API...</p>';
+
+    try {
+        const response = await fetch('/api/probar-api', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                url,
+                metodo,
+                body: metodo !== 'GET' && metodo !== 'DELETE' ? JSON.parse(body || '{}') : null
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(JSON.stringify(errorData, null, 2));
+        }
+
+        const data = await response.json();
+        resultado.innerHTML = `
+            <p>Respuesta del servidor:</p>
+            <pre>${JSON.stringify(data, null, 2)}</pre>
+        `;
+    } catch (error) {
+        resultado.innerHTML = `
+            <p>Error al probar la API:</p>
+            <pre>${error.message}</pre>
+        `;
+    }
+}
+
 // Llama a las funciones al cargar la página
 if (document.getElementById('admin-image-list')) loadAdminImages();
 if (document.getElementById('admin-video-list')) loadAdminVideos();

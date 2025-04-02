@@ -158,6 +158,83 @@
                     <!-- Las métricas de calidad se mostrarán aquí -->
                 </div>
             </div>
+
+            <!-- Analizador de Logs -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-file-code-o"></i>
+                </div>
+                <h2>Analizador de Logs</h2>
+                <p>Sube tus archivos de logs para analizar errores y patrones de comportamiento.</p>
+                <form onsubmit="analizarLogs(event)">
+                    <label for="log-file">Selecciona un archivo de log:</label>
+                    <input type="file" id="log-file" accept=".log" required>
+                    <button type="submit">Analizar Logs</button>
+                </form>
+                <div id="resultado-logs" class="resultado"></div>
+            </div>
+
+            <!-- Generador de Datos de Carga -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-database"></i>
+                </div>
+                <h2>Generador de Datos de Carga</h2>
+                <p>Genera grandes volúmenes de datos para pruebas de rendimiento.</p>
+                <form onsubmit="generarDatosCarga(event)">
+                    <label for="tipo-dato-carga">Tipo de Dato:</label>
+                    <select id="tipo-dato-carga" required>
+                        <option value="usuarios">Usuarios</option>
+                        <option value="transacciones">Transacciones</option>
+                        <option value="productos">Productos</option>
+                    </select>
+                    <label for="cantidad-datos-carga">Cantidad de Datos:</label>
+                    <input type="number" id="cantidad-datos-carga" placeholder="Ejemplo: 1000" required>
+                    <button type="submit">Generar Datos</button>
+                </form>
+                <ul id="lista-datos-carga" class="recomendaciones-list">
+                    <!-- Los datos generados se mostrarán aquí -->
+                </ul>
+            </div>
+
+            <!-- Validador de Accesibilidad -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-universal-access"></i>
+                </div>
+                <h2>Validador de Accesibilidad</h2>
+                <p>Valida que tu sitio web cumpla con los estándares de accesibilidad (WCAG).</p>
+                <form onsubmit="validarAccesibilidad(event)">
+                    <label for="url-accesibilidad">URL del sitio web:</label>
+                    <input type="url" id="url-accesibilidad" placeholder="https://ejemplo.com" required>
+                    <button type="submit">Validar Accesibilidad</button>
+                </form>
+                <div id="resultado-accesibilidad" class="resultado"></div>
+            </div>
+
+            <!-- Simulador de Pruebas de API -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fa fa-plug"></i>
+                </div>
+                <h2>Simulador de Pruebas de API</h2>
+                <p>Prueba tus endpoints de API con diferentes métodos y datos.</p>
+                <form onsubmit="simularPruebasAPI(event)">
+                    <label for="url-api">URL del Endpoint:</label>
+                    <input type="url" id="url-api" placeholder="https://api.ejemplo.com/endpoint" required>
+                    <label for="metodo-api">Método:</label>
+                    <select id="metodo-api" required>
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="DELETE">DELETE</option>
+                    </select>
+                    <label for="body-api">Cuerpo de la Solicitud (JSON):</label>
+                    <textarea id="body-api" placeholder='{"key": "value"}'></textarea>
+                    <button type="submit">Probar API</button>
+                </form>
+                <div id="resultado-api" class="resultado"></div>
+            </div>
         </section>
     </main>
 

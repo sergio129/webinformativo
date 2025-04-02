@@ -24,6 +24,14 @@
       "dest": "/api/$1"
     },
     {
+      "src": "/api/accesibilidad",
+      "dest": "/api/accesibilidad.js"
+    },
+    {
+      "src": "/api/probar-api",
+      "dest": "/api/probar-api.js"
+    },
+    {
       "src": "/herramientas.html",
       "dest": "/herramientas.html"
     }
