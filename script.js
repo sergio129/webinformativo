@@ -900,6 +900,53 @@ function compararArchivos(event) {
         });
 }
 
+// Validador de Esquemas JSON
+document.getElementById('json-schema-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const jsonInput = document.getElementById('json-input').value;
+    const jsonSchema = document.getElementById('json-schema').value;
+    const resultDiv = document.getElementById('json-schema-result');
+
+    try {
+        const parsedJson = JSON.parse(jsonInput);
+        const parsedSchema = JSON.parse(jsonSchema);
+
+        // Validar JSON contra el esquema
+        const ajv = new Ajv(); // Asegúrate de incluir la librería Ajv en tu proyecto
+        const validate = ajv.compile(parsedSchema);
+        const valid = validate(parsedJson);
+
+        if (valid) {
+            resultDiv.innerHTML = '<p class="success">El JSON es válido según el esquema proporcionado.</p>';
+        } else {
+            resultDiv.innerHTML = `<p class="error">Errores de validación:</p><ul>${validate.errors.map(err => `<li>${err.message}</li>`).join('')}</ul>`;
+        }
+    } catch (error) {
+        resultDiv.innerHTML = `<p class="error">Error al procesar el JSON o el esquema: ${error.message}</p>`;
+    }
+});
+
+// Generador de Códigos de Respuesta
+document.getElementById('mock-response-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const status = document.getElementById('mock-status').value;
+    const body = document.getElementById('mock-body').value;
+    const resultDiv = document.getElementById('mock-response-result');
+
+    try {
+        const parsedBody = JSON.parse(body);
+
+        resultDiv.innerHTML = `
+            <p><strong>Código de Estado:</strong> ${status}</p>
+            <pre>${JSON.stringify(parsedBody, null, 2)}</pre>
+        `;
+    } catch (error) {
+        resultDiv.innerHTML = `<p class="error">Error al procesar el cuerpo de la respuesta: ${error.message}</p>`;
+    }
+});
+
 // Navegación entre pestañas
 document.addEventListener('DOMContentLoaded', () => {
     const tabButtons = document.querySelectorAll('.tab-button');

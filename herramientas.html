@@ -169,6 +169,40 @@
                             <pre id="api-response" class="api-response"></pre>
                         </div>
                     </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-code"></i>
+                        </div>
+                        <h2>Validador de Esquemas JSON</h2>
+                        <p>Valida si un JSON cumple con un esquema definido.</p>
+                        <form id="json-schema-form" class="api-form">
+                            <label for="json-input">JSON:</label>
+                            <textarea id="json-input" placeholder='{"key": "value"}' required></textarea>
+                            <label for="json-schema">Esquema JSON:</label>
+                            <textarea id="json-schema" placeholder='{"type": "object", "properties": {"key": {"type": "string"}}}' required></textarea>
+                            <button type="submit" class="btn-primary">Validar JSON</button>
+                        </form>
+                        <div id="json-schema-result" class="resultado">
+                            <!-- El resultado de la validación se mostrará aquí -->
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-random"></i>
+                        </div>
+                        <h2>Generador de Códigos de Respuesta</h2>
+                        <p>Genera respuestas simuladas para endpoints de API.</p>
+                        <form id="mock-response-form" class="api-form">
+                            <label for="mock-status">Código de Estado:</label>
+                            <input type="number" id="mock-status" placeholder="Ejemplo: 200" required>
+                            <label for="mock-body">Cuerpo de la Respuesta (JSON):</label>
+                            <textarea id="mock-body" placeholder='{"message": "Éxito"}' required></textarea>
+                            <button type="submit" class="btn-primary">Generar Respuesta</button>
+                        </form>
+                        <div id="mock-response-result" class="resultado">
+                            <!-- La respuesta simulada se mostrará aquí -->
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="misc-tools" class="tab-content">
