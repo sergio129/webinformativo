@@ -474,7 +474,7 @@ function mostrarBugs() {
 // Función para generar recomendaciones aleatorias
 function generarRecomendaciones() {
     const lista = document.getElementById('recomendaciones-list');
-    lista.innerHTML = '<li>Cargando recomendaciones...</li>'; // Mensaje de carga
+    lista.innerHTML = '<li class="loading">Cargando recomendaciones...</li>'; // Mensaje de carga
 
     fetch('/recomendaciones')
         .then(response => {
@@ -485,15 +485,85 @@ function generarRecomendaciones() {
         })
         .then(recomendaciones => {
             lista.innerHTML = ''; // Limpia las recomendaciones previas
-            recomendaciones.forEach(recomendacion => {
+            recomendaciones.forEach((recomendacion, index) => {
                 const li = document.createElement('li');
-                li.textContent = recomendacion;
+                li.classList.add('recomendacion-item'); // Clase para estilos
+                li.innerHTML = `
+                    <div class="recomendacion-index">${index + 1}</div>
+                    <div class="recomendacion-text">${recomendacion}</div>
+                `;
                 lista.appendChild(li);
             });
         })
         .catch(error => {
             console.error('Error generando recomendaciones:', error);
+            lista.innerHTML = '<li class="error">Error al obtener las recomendaciones.</li>';
+        });
+}
+
+// Función para generar recomendaciones con paginación
+function generarRecomendacionesPaginadas(pagina = 1) {
+    const lista = document.getElementById('recomendaciones-list');
+    lista.innerHTML = '<li>Cargando recomendaciones...</li>'; // Mensaje de carga
+
+    fetch(`/recomendaciones?pagina=${pagina}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener las recomendaciones.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const { recomendaciones, totalPaginas } = data;
+            lista.innerHTML = ''; // Limpia las recomendaciones previas
+            recomendaciones.forEach(recomendacion => {
+                const li = document.createElement('li');
+                li.textContent = recomendacion;
+                lista.appendChild(li);
+            });
+
+            // Actualizar controles de paginación
+            const paginacion = document.getElementById('paginacion');
+            paginacion.innerHTML = `
+                <button ${pagina === 1 ? 'disabled' : ''} onclick="generarRecomendacionesPaginadas(${pagina - 1})">Anterior</button>
+                <span>Página ${pagina} de ${totalPaginas}</span>
+                <button ${pagina === totalPaginas ? 'disabled' : ''} onclick="generarRecomendacionesPaginadas(${pagina + 1})">Siguiente</button>
+            `;
+        })
+        .catch(error => {
+            console.error('Error generando recomendaciones:', error);
             lista.innerHTML = '<li>Error al obtener las recomendaciones.</li>';
+        });
+}
+
+// Función para buscar recomendaciones
+function buscarRecomendaciones() {
+    const query = document.getElementById('busqueda-recomendaciones').value.trim();
+    const lista = document.getElementById('recomendaciones-list');
+    lista.innerHTML = '<li>Cargando resultados...</li>'; // Mensaje de carga
+
+    fetch(`/recomendaciones?query=${encodeURIComponent(query)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al buscar recomendaciones.');
+            }
+            return response.json();
+        })
+        .then(recomendaciones => {
+            lista.innerHTML = ''; // Limpia las recomendaciones previas
+            if (recomendaciones.length === 0) {
+                lista.innerHTML = '<li>No se encontraron resultados.</li>';
+            } else {
+                recomendaciones.forEach(recomendacion => {
+                    const li = document.createElement('li');
+                    li.textContent = recomendacion;
+                    lista.appendChild(li);
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error buscando recomendaciones:', error);
+            lista.innerHTML = '<li>Error al buscar recomendaciones.</li>';
         });
 }
 

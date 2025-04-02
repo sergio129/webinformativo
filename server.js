@@ -232,7 +232,7 @@ app.delete('/youtube-links/:videoId', (req, res) => {
     });
 });
 
-// Ruta para obtener 10 recomendaciones aleatorias
+// Ruta para obtener recomendaciones aleatorias
 app.get('/recomendaciones', (req, res) => {
     const filePath = path.join(__dirname, 'recomendaciones.txt');
 
@@ -245,6 +245,7 @@ app.get('/recomendaciones', (req, res) => {
         const recomendaciones = data.split('\n').filter(line => line.trim() !== '');
         const randomRecomendaciones = [];
 
+        // Seleccionar 10 recomendaciones aleatorias
         while (randomRecomendaciones.length < 10 && recomendaciones.length > 0) {
             const randomIndex = Math.floor(Math.random() * recomendaciones.length);
             randomRecomendaciones.push(recomendaciones.splice(randomIndex, 1)[0]);
