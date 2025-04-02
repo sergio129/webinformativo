@@ -541,7 +541,7 @@ social-media-section h3 {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin: 2rem auto;
-    max-width: 800px;
+    max-width: 1200px;
     text-align: center;
 }
 
@@ -612,6 +612,97 @@ contact-info a:hover {
     border-left: 4px solid #007bff;
     padding-left: 1rem;
     text-align: left;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: #0056b3;
+    margin-bottom: 1rem;
+}
+
+.section-description {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 2rem;
+    line-height: 1.8;
+}
+
+/* Contenedor interactivo */
+.interactive-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Estilos para los íconos en la sección interactiva */
+.interactive-icon {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ajustes para las tarjetas interactivas */
+.interactive-card {
+    flex: 1 1 calc(25% - 20px); /* Cuatro columnas */
+    max-width: calc(25% - 20px);
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.interactive-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .interactive-card {
+        flex: 1 1 calc(50% - 20px); /* Dos columnas en pantallas medianas */
+    }
+}
+
+@media (max-width: 480px) {
+    .interactive-card {
+        flex: 1 1 100%; /* Una columna en pantallas pequeñas */
+    }
+}
+
+/* Botón de contacto */
+.btn-primary {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .interactive-card {
+        flex: 1 1 calc(50% - 20px); /* Dos columnas en pantallas medianas */
+    }
+}
+
+@media (max-width: 480px) {
+    .interactive-card {
+        flex: 1 1 100%; /* Una columna en pantallas pequeñas */
+    }
 }
 
 /* Calculadora de ROI */
