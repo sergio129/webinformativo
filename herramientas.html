@@ -292,6 +292,182 @@
                             <!-- La contraseña generada se mostrará aquí -->
                         </div>
                     </div>
+                    <!-- Nueva herramienta: Conversor de Monedas -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-money"></i>
+                        </div>
+                        <h2>Conversor de Monedas</h2>
+                        <p>Convierte entre diferentes monedas en tiempo real.</p>
+                        <form id="currency-converter-form">
+                            <label for="amount">Cantidad:</label>
+                            <input type="number" id="amount" placeholder="Ejemplo: 100" required>
+                            <label for="from-currency">De:</label>
+                            <input type="text" id="from-currency" placeholder="Ejemplo: USD" required>
+                            <label for="to-currency">A:</label>
+                            <input type="text" id="to-currency" placeholder="Ejemplo: EUR" required>
+                            <button type="submit" class="btn-primary">Convertir</button>
+                        </form>
+                        <div id="currency-converter-result" class="resultado">
+                            <!-- El resultado de la conversión se mostrará aquí -->
+                        </div>
+                    </div>
+                    <!-- Nueva herramienta: Generador de QR -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-qrcode"></i>
+                        </div>
+                        <h2>Generador de Códigos QR</h2>
+                        <p>Genera un código QR para cualquier texto o enlace.</p>
+                        <form id="qr-generator-form">
+                            <label for="qr-text">Texto o URL:</label>
+                            <input type="text" id="qr-text" placeholder="Ejemplo: https://example.com" required>
+                            <button type="submit" class="btn-primary">Generar QR</button>
+                        </form>
+                        <div id="qr-code-result" class="resultado">
+                            <!-- El código QR generado se mostrará aquí -->
+                        </div>
+                    </div>
+                    <!-- Nueva herramienta: Calculadora de IMC -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-heartbeat"></i>
+                        </div>
+                        <h2>Calculadora de IMC</h2>
+                        <p>Calcula tu Índice de Masa Corporal (IMC).</p>
+                        <form id="bmi-calculator-form">
+                            <label for="weight">Peso (kg):</label>
+                            <input type="number" id="weight" placeholder="Ejemplo: 70" required>
+                            <label for="height">Altura (m):</label>
+                            <input type="number" step="0.01" id="height" placeholder="Ejemplo: 1.75" required>
+                            <button type="submit" class="btn-primary">Calcular IMC</button>
+                        </form>
+                        <div id="bmi-result" class="resultado">
+                            <!-- El resultado del IMC se mostrará aquí -->
+                        </div>
+                    </div>
+                    <!-- Nueva herramienta: Generador de Lorem Ipsum -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-file-text"></i>
+                        </div>
+                        <h2>Generador de Lorem Ipsum</h2>
+                        <p>Genera texto de relleno para tus proyectos.</p>
+                        <form id="lorem-ipsum-form">
+                            <label for="paragraphs">Número de Párrafos:</label>
+                            <input type="number" id="paragraphs" placeholder="Ejemplo: 3" required>
+                            <button type="submit" class="btn-primary">Generar Texto</button>
+                        </form>
+                        <div id="lorem-ipsum-result" class="resultado">
+                            <!-- El texto generado se mostrará aquí -->
+                        </div>
+                    </div>
+                    <!-- Nueva herramienta: Calculadora de Edad -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <h2>Calculadora de Edad</h2>
+                        <p>Calcula tu edad exacta a partir de tu fecha de nacimiento.</p>
+                        <form id="age-calculator-form">
+                            <label for="birthdate">Fecha de Nacimiento:</label>
+                            <input type="date" id="birthdate" required>
+                            <button type="submit" class="btn-primary">Calcular Edad</button>
+                        </form>
+                        <div id="age-result" class="resultado">
+                            <!-- El resultado de la edad se mostrará aquí -->
+                        </div>
+                    </div>
+                    <!-- Nueva herramienta: Generador de Palabras Aleatorias -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-random"></i>
+                        </div>
+                        <h2>Generador de Palabras Aleatorias</h2>
+                        <p>Genera palabras aleatorias para tus proyectos o juegos.</p>
+                        <form id="random-word-generator-form">
+                            <label for="word-count">Número de Palabras:</label>
+                            <input type="number" id="word-count" placeholder="Ejemplo: 5" required>
+                            <button type="submit" class="btn-primary">Generar Palabras</button>
+                        </form>
+                        <ul id="random-word-result" class="recomendaciones-list">
+                            <!-- Las palabras generadas se mostrarán aquí -->
+                        </ul>
+                    </div>
+                    <!-- Nueva herramienta: Calculadora de Interés Compuesto -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-percent"></i>
+                        </div>
+                        <h2>Calculadora de Interés Compuesto</h2>
+                        <p>Calcula el interés compuesto basado en tus datos.</p>
+                        <form id="compound-interest-form">
+                            <label for="principal">Monto Principal (COP):</label>
+                            <input type="number" id="principal" placeholder="Ejemplo: 100000" required>
+                            <label for="rate">Tasa de Interés (%):</label>
+                            <input type="number" id="rate" placeholder="Ejemplo: 5" required>
+                            <label for="time">Tiempo (años):</label>
+                            <input type="number" id="time" placeholder="Ejemplo: 2" required>
+                            <label for="frequency">Frecuencia de Composición:</label>
+                            <select id="frequency" required>
+                                <option value="1">Anual</option>
+                                <option value="4">Trimestral</option>
+                                <option value="12">Mensual</option>
+                            </select>
+                            <button type="submit" class="btn-primary">Calcular</button>
+                        </form>
+                        <div id="compound-interest-result" class="resultado">
+                            <!-- El resultado del cálculo se mostrará aquí -->
+                        </div>
+                    </div>
+                    <!-- Nueva herramienta: Generador de Números Aleatorios -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-sort-numeric-asc"></i>
+                        </div>
+                        <h2>Generador de Números Aleatorios</h2>
+                        <p>Genera números aleatorios dentro de un rango.</p>
+                        <form id="random-number-generator-form">
+                            <label for="min-number">Mínimo:</label>
+                            <input type="number" id="min-number" placeholder="Ejemplo: 1" required>
+                            <label for="max-number">Máximo:</label>
+                            <input type="number" id="max-number" placeholder="Ejemplo: 100" required>
+                            <button type="submit" class="btn-primary">Generar Número</button>
+                        </form>
+                        <div id="random-number-result" class="resultado">
+                            <!-- El número generado se mostrará aquí -->
+                        </div>
+                    </div>
+                    <!-- Nueva herramienta: Cronómetro -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-clock-o"></i>
+                        </div>
+                        <h2>Cronómetro</h2>
+                        <p>Inicia, pausa y reinicia un cronómetro.</p>
+                        <div id="stopwatch">
+                            <p id="stopwatch-display">00:00:00</p>
+                            <button id="start-stopwatch" class="btn-primary">Iniciar</button>
+                            <button id="pause-stopwatch" class="btn-primary">Pausar</button>
+                            <button id="reset-stopwatch" class="btn-primary">Reiniciar</button>
+                        </div>
+                    </div>
+                    <!-- Nueva herramienta: Temporizador -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-hourglass-half"></i>
+                        </div>
+                        <h2>Temporizador</h2>
+                        <p>Configura un temporizador para tus actividades.</p>
+                        <form id="timer-form">
+                            <label for="timer-minutes">Minutos:</label>
+                            <input type="number" id="timer-minutes" placeholder="Ejemplo: 5" required>
+                            <button type="submit" class="btn-primary">Iniciar Temporizador</button>
+                        </form>
+                        <div id="timer-display" class="resultado">
+                            <!-- El temporizador se mostrará aquí -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

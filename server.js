@@ -279,6 +279,39 @@ app.get('/recomendaciones', (req, res) => {
     });
 });
 
+// Ruta para analizar logs
+app.post('/api/analyze-logs', upload.single('logFile'), (req, res) => {
+    const logFile = req.file;
+
+    if (!logFile) {
+        return res.status(400).send('No se subió ningún archivo de logs.');
+    }
+
+    const logFilePath = logFile.path;
+
+    try {
+        const logContent = fs.readFileSync(logFilePath, 'utf8');
+        const logLines = logContent.split('\n').filter(line => line.trim() !== '');
+
+        const errors = logLines.filter(line => line.toLowerCase().includes('error'));
+        const warnings = logLines.filter(line => line.toLowerCase().includes('warning'));
+
+        res.json({
+            totalLines: logLines.length,
+            totalErrors: errors.length,
+            totalWarnings: warnings.length,
+            errors,
+            warnings
+        });
+    } catch (error) {
+        console.error('Error al analizar el archivo de logs:', error);
+        res.status(500).send('Error al analizar el archivo de logs.');
+    } finally {
+        // Eliminar el archivo temporal después de procesarlo
+        fs.unlink(logFilePath, () => {});
+    }
+});
+
 // Ruta para comprobación de estado
 app.get('/health', (req, res) => {
     res.status(200).send('OK');

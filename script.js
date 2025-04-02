@@ -1118,6 +1118,188 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Conversor de Monedas
+document.getElementById('currency-converter-form')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const amount = document.getElementById('amount').value;
+    const fromCurrency = document.getElementById('from-currency').value.toUpperCase();
+    const toCurrency = document.getElementById('to-currency').value.toUpperCase();
+    const resultDiv = document.getElementById('currency-converter-result');
+
+    try {
+        const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`);
+        if (!response.ok) throw new Error('Error al obtener las tasas de cambio.');
+
+        const data = await response.json();
+        const rate = data.rates[toCurrency];
+        if (!rate) throw new Error('Moneda no válida.');
+
+        const convertedAmount = (amount * rate).toFixed(2);
+        resultDiv.innerHTML = `<p>${amount} ${fromCurrency} = ${convertedAmount} ${toCurrency}</p>`;
+    } catch (error) {
+        resultDiv.innerHTML = `<p class="error">${error.message}</p>`;
+    }
+});
+
+// Generador de QR
+document.getElementById('qr-generator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const text = document.getElementById('qr-text').value;
+    const resultDiv = document.getElementById('qr-code-result');
+    resultDiv.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}&size=150x150" alt="QR Code">`;
+});
+
+// Calculadora de IMC
+document.getElementById('bmi-calculator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const weight = parseFloat(document.getElementById('weight').value);
+    const height = parseFloat(document.getElementById('height').value);
+    const resultDiv = document.getElementById('bmi-result');
+
+    if (weight > 0 && height > 0) {
+        const bmi = (weight / (height * height)).toFixed(2);
+        resultDiv.innerHTML = `<p>Tu IMC es: ${bmi}</p>`;
+    } else {
+        resultDiv.innerHTML = '<p class="error">Por favor, ingresa valores válidos.</p>';
+    }
+});
+
+// Generador de Lorem Ipsum
+document.getElementById('lorem-ipsum-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const paragraphs = parseInt(document.getElementById('paragraphs').value, 10);
+    const resultDiv = document.getElementById('lorem-ipsum-result');
+    const loremText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.';
+
+    resultDiv.innerHTML = Array(paragraphs).fill(`<p>${loremText}</p>`).join('');
+});
+
+// Calculadora de Edad
+document.getElementById('age-calculator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const birthdate = new Date(document.getElementById('birthdate').value);
+    const today = new Date();
+    const resultDiv = document.getElementById('age-result');
+
+    if (birthdate > today) {
+        resultDiv.innerHTML = '<p class="error">La fecha de nacimiento no puede ser en el futuro.</p>';
+        return;
+    }
+
+    const age = today.getFullYear() - birthdate.getFullYear();
+    const monthDiff = today.getMonth() - birthdate.getMonth();
+    const dayDiff = today.getDate() - birthdate.getDate();
+
+    const exactAge = monthDiff < 0 || (monthDiff === 0 && dayDiff < 0) ? age - 1 : age;
+    resultDiv.innerHTML = `<p>Tu edad es: ${exactAge} años</p>`;
+});
+
+// Generador de Palabras Aleatorias
+document.getElementById('random-word-generator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const wordCount = parseInt(document.getElementById('word-count').value, 10);
+    const resultList = document.getElementById('random-word-result');
+    const words = ['código', 'prueba', 'software', 'automatización', 'calidad', 'desarrollo', 'sistema', 'usuario', 'interfaz', 'rendimiento'];
+
+    resultList.innerHTML = '';
+    for (let i = 0; i < wordCount; i++) {
+        const randomWord = words[Math.floor(Math.random() * words.length)];
+        const listItem = document.createElement('li');
+        listItem.textContent = randomWord;
+        resultList.appendChild(listItem);
+    }
+});
+
+// Calculadora de Interés Compuesto
+document.getElementById('compound-interest-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const principal = parseFloat(document.getElementById('principal').value);
+    const rate = parseFloat(document.getElementById('rate').value) / 100;
+    const time = parseFloat(document.getElementById('time').value);
+    const frequency = parseInt(document.getElementById('frequency').value, 10);
+    const resultDiv = document.getElementById('compound-interest-result');
+
+    const amount = principal * Math.pow(1 + rate / frequency, frequency * time);
+    resultDiv.innerHTML = `<p>Monto Total: ${amount.toFixed(2)} COP</p>`;
+});
+
+// Generador de Números Aleatorios
+document.getElementById('random-number-generator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const min = parseInt(document.getElementById('min-number').value, 10);
+    const max = parseInt(document.getElementById('max-number').value, 10);
+    const resultDiv = document.getElementById('random-number-result');
+
+    if (min > max) {
+        resultDiv.innerHTML = '<p class="error">El valor mínimo no puede ser mayor que el máximo.</p>';
+        return;
+    }
+
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    resultDiv.innerHTML = `<p>Número Generado: ${randomNumber}</p>`;
+});
+
+// Cronómetro
+let stopwatchInterval;
+let stopwatchTime = 0;
+
+document.getElementById('start-stopwatch')?.addEventListener('click', () => {
+    if (!stopwatchInterval) {
+        stopwatchInterval = setInterval(() => {
+            stopwatchTime++;
+            const hours = String(Math.floor(stopwatchTime / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((stopwatchTime % 3600) / 60)).padStart(2, '0');
+            const seconds = String(stopwatchTime % 60).padStart(2, '0');
+            document.getElementById('stopwatch-display').textContent = `${hours}:${minutes}:${seconds}`;
+        }, 1000);
+    }
+});
+
+document.getElementById('pause-stopwatch')?.addEventListener('click', () => {
+    clearInterval(stopwatchInterval);
+    stopwatchInterval = null;
+});
+
+document.getElementById('reset-stopwatch')?.addEventListener('click', () => {
+    clearInterval(stopwatchInterval);
+    stopwatchInterval = null;
+    stopwatchTime = 0;
+    document.getElementById('stopwatch-display').textContent = '00:00:00';
+});
+
+// Temporizador
+let timerInterval;
+
+document.getElementById('timer-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const minutes = parseInt(document.getElementById('timer-minutes').value, 10);
+    const resultDiv = document.getElementById('timer-display');
+    let remainingTime = minutes * 60;
+
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        if (remainingTime <= 0) {
+            clearInterval(timerInterval);
+            resultDiv.innerHTML = '<p>¡Tiempo terminado!</p>';
+            return;
+        }
+
+        const mins = String(Math.floor(remainingTime / 60)).padStart(2, '0');
+        const secs = String(remainingTime % 60).padStart(2, '0');
+        resultDiv.innerHTML = `<p>${mins}:${secs}</p>`;
+        remainingTime--;
+    }, 1000);
+});
+
 // Llama a las funciones al cargar la página
 if (document.getElementById('admin-image-list')) loadAdminImages();
 if (document.getElementById('admin-video-list')) loadAdminVideos();
