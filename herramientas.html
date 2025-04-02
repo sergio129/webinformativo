@@ -34,15 +34,19 @@
                             <i class="fa fa-calculator"></i>
                         </div>
                         <h2>Calculadora de ROI para QA</h2>
-                        <p>Ingresa los datos para calcular el ahorro estimado al usar nuestros servicios:</p>
+                        <p>Ingresa los datos para calcular el ahorro estimado al usar nuestros servicios en pesos colombianos (COP):</p>
                         <form id="roi-form">
                             <label for="errores">Errores evitados:</label>
                             <input type="number" id="errores" placeholder="Cantidad de errores evitados" required>
                             <label for="horas">Horas ahorradas:</label>
                             <input type="number" id="horas" placeholder="Horas de testing ahorradas" required>
+                            <label for="costo-hora">Costo por hora (COP):</label>
+                            <input type="number" id="costo-hora" placeholder="Ejemplo: 50000" required>
                             <button type="submit">Calcular ROI</button>
                         </form>
-                        <div id="resultado-roi" class="resultado"></div>
+                        <div id="resultado-roi" class="resultado">
+                            <!-- El resultado del cálculo se mostrará aquí -->
+                        </div>
                     </div>
                     <div class="service-card">
                         <div class="service-icon">

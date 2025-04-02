@@ -265,16 +265,39 @@ function loadYoutubeLinks() {
 }
 
 // Calculadora de ROI
-function calcularROI(event) {
+document.getElementById('roi-form')?.addEventListener('submit', event => {
     event.preventDefault();
-    const erroresEvitados = document.getElementById('errores').value;
-    const horasAhorradas = document.getElementById('horas').value;
-    const roi = (erroresEvitados * 1000) + (horasAhorradas * 50); // Fórmula ficticia
-    const resultado = document.getElementById('resultado-roi');
-    resultado.innerText = `Ahorro estimado: $${roi} USD/año`;
-    resultado.style.width = `${Math.min(roi / 100, 100)}%`; // Barra animada
-    resultado.classList.add('barra-animada');
-}
+
+    const errores = parseInt(document.getElementById('errores').value, 10);
+    const horas = parseInt(document.getElementById('horas').value, 10);
+    const costoHora = parseInt(document.getElementById('costo-hora').value, 10);
+
+    if (isNaN(errores) || isNaN(horas) || isNaN(costoHora)) {
+        alert('Por favor, ingresa valores válidos en todos los campos.');
+        return;
+    }
+
+    // Fórmula mejorada para calcular el ROI
+    const ahorroPorErrores = errores * 100000; // Cada error evitado ahorra 100,000 COP
+    const ahorroPorHoras = horas * costoHora; // Ahorro basado en el costo por hora
+    const roiTotal = ahorroPorErrores + ahorroPorHoras;
+
+    // Formatear el resultado en pesos colombianos
+    const formatoCOP = new Intl.NumberFormat('es-CO', {
+        style: 'currency',
+        currency: 'COP'
+    });
+
+    const resultadoDiv = document.getElementById('resultado-roi');
+    resultadoDiv.innerHTML = `
+        <p><strong>Resultados del ROI:</strong></p>
+        <ul>
+            <li>Ahorro por errores evitados: ${formatoCOP.format(ahorroPorErrores)}</li>
+            <li>Ahorro por horas ahorradas: ${formatoCOP.format(ahorroPorHoras)}</li>
+            <li><strong>ROI Total Estimado: ${formatoCOP.format(roiTotal)}</strong></li>
+        </ul>
+    `;
+});
 
 // Demo de Herramientas de Testing
 document.getElementById('test-automation-btn')?.addEventListener('click', () => {

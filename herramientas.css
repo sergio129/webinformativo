@@ -965,6 +965,23 @@ contact-info a:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-size: 1rem;
     color: #333;
+    line-height: 1.5;
+}
+
+.resultado ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.resultado ul li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #333;
+}
+
+.resultado ul li strong {
+    color: #007bff;
 }
 
 /* Estilos para la lista de datos de prueba */
