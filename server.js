@@ -52,6 +52,18 @@ app.post('/api/probar-api', probarApi);
 const validarAccesibilidad = require('./api/accesibilidad');
 app.get('/api/accesibilidad', validarAccesibilidad);
 
+// Importar y configurar la ruta para generar reportes
+const generarReporte = require('./api/generar-reporte');
+app.get('/api/generar-reporte', generarReporte);
+
+// Importar y configurar la ruta para comparar archivos
+const compararArchivos = require('./api/comparar-archivos');
+const uploadMiddleware = multer(); // Middleware para manejar archivos en la solicitud
+app.post('/api/comparar-archivos', uploadMiddleware.fields([
+    { name: 'archivo1', maxCount: 1 },
+    { name: 'archivo2', maxCount: 1 }
+]), compararArchivos);
+
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname)));
 app.use('/imagenes', express.static(path.join(__dirname, 'imagenes')));

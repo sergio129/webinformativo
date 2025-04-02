@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Servicios - QualiTest Solutions</title>
+    <title>Herramientas - QualiTest Solutions</title>
     <link rel="stylesheet" href="herramientas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -20,250 +20,174 @@
         </nav>
     </header>
     <main>
-        <section class="services-container">
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-calculator"></i>
-                </div>
-                <h2>Calculadora de ROI para QA</h2>
-                <p>Ingresa los datos para calcular el ahorro estimado al usar nuestros servicios:</p>
-                <form onsubmit="calcularROI(event)">
-                    <label for="errores">Errores evitados:</label>
-                    <input type="number" id="errores" placeholder="Cantidad de errores evitados" required>
-                    <label for="horas">Horas ahorradas:</label>
-                    <input type="number" id="horas" placeholder="Horas de testing ahorradas" required>
-                    <button type="submit">Calcular ROI</button>
-                </form>
-                <div id="resultado-roi" class="resultado"></div>
+        <section class="tabs-container">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="qa-tools">Herramientas de QA</button>
+                <button class="tab-button" data-tab="data-tools">Generadores de Datos</button>
+                <button class="tab-button" data-tab="api-tools">Pruebas de API</button>
+                <button class="tab-button" data-tab="misc-tools">Otras Herramientas</button>
             </div>
-
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-cogs"></i>
-                </div>
-                <h2>Demo de Herramientas de Testing</h2>
-                <p>Prueba cómo funcionan nuestras herramientas de testing automatizado.</p>
-                <button onclick="simularTesting()">Ejecutar Test Automatizado</button>
-                <div id="consola-testing" class="consola"></div>
-            </div>
-
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-list-alt"></i>
-                </div>
-                <h2>Generador Automático de Casos de Prueba</h2>
-                <p>Genera automáticamente casos de prueba personalizados basados en el nombre de tu aplicación y el número de casos que desees.</p>
-                <form onsubmit="generarCasos(event)">
-                    <label for="nombre-app">Nombre de la App:</label>
-                    <input type="text" id="nombre-app" placeholder="Ejemplo: MiApp de Banco" required>
-                    <label for="numero-casos">Número de Casos de Prueba:</label>
-                    <input type="number" id="numero-casos" placeholder="Ejemplo: 5" required>
-                    <button type="submit">Generar Casos</button>
-                </form>
-            </div>
-
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-question-circle"></i>
-                </div>
-                <h2>Test de Conocimientos QA</h2>
-                <p>Pon a prueba tus conocimientos sobre QA con nuestro quiz interactivo.</p>
-                <button onclick="abrirQuiz()">Iniciar Quiz</button>
-            </div>
-
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-bug"></i>
-                </div>
-                <h2>Últimos Bugs Detectados</h2>
-                <p>Conoce algunos de los bugs más recientes que hemos detectado y solucionado.</p>
-                <div id="bugs-list" class="bugs-list"></div>
-            </div>
-
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-file-text"></i>
-                </div>
-                <h2>Generar Recomendaciones</h2>
-                <p>Obtén 10 recomendaciones aleatorias sobre QA y automatización.</p>
-                <button onclick="generarRecomendaciones()" class="btn-primary">Generar Recomendaciones</button>
-                <ul id="recomendaciones-list" class="recomendaciones-list">
-                    <!-- Las recomendaciones se mostrarán aquí -->
-                </ul>
-            </div>
-
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-search"></i>
-                </div>
-                <h2>Buscar Recomendaciones</h2>
-                <p>Encuentra recomendaciones específicas por palabras clave.</p>
-                <input type="text" id="busqueda-recomendaciones" placeholder="Escribe una palabra clave...">
-                <button onclick="buscarRecomendaciones()" class="btn-primary">Buscar</button>
-                <ul id="resultados-busqueda" class="recomendaciones-list">
-                    <!-- Los resultados de la búsqueda se mostrarán aquí -->
-                </ul>
-            </div>
-
-            <!-- Simulador de Pruebas de Carga -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-tachometer"></i>
-                </div>
-                <h2>Simulador de Pruebas de Carga</h2>
-                <p>Simula el comportamiento de tu sistema bajo diferentes niveles de carga.</p>
-                <form onsubmit="simularCarga(event)">
-                    <label for="usuarios">Número de Usuarios Simulados:</label>
-                    <input type="number" id="usuarios" placeholder="Ejemplo: 100" required>
-                    <label for="duracion">Duración de la Prueba (segundos):</label>
-                    <input type="number" id="duracion" placeholder="Ejemplo: 60" required>
-                    <button type="submit">Iniciar Simulación</button>
-                </form>
-                <div id="resultado-carga" class="resultado"></div>
-            </div>
-
-            <!-- Generador de Datos de Prueba -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-database"></i>
-                </div>
-                <h2>Generador de Datos de Prueba</h2>
-                <p>Genera datos de prueba personalizados para tus casos de prueba.</p>
-                <form onsubmit="generarDatosPrueba(event)">
-                    <label for="tipo-dato">Tipo de Dato:</label>
-                    <select id="tipo-dato" required>
-                        <option value="nombre">Nombres</option>
-                        <option value="email">Correos Electrónicos</option>
-                        <option value="telefono">Teléfonos</option>
-                        <option value="direccion">Direcciones</option>
-                    </select>
-                    <label for="cantidad-datos">Cantidad de Datos:</label>
-                    <input type="number" id="cantidad-datos" placeholder="Ejemplo: 10" required>
-                    <button type="submit">Generar Datos</button>
-                </form>
-                <ul id="lista-datos-prueba" class="recomendaciones-list">
-                    <!-- Los datos generados se mostrarán aquí -->
-                </ul>
-            </div>
-
-            <!-- Métricas de Calidad -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-bar-chart"></i>
-                </div>
-                <h2>Métricas de Calidad</h2>
-                <p>Consulta métricas clave para evaluar la calidad de tu software.</p>
-                <button onclick="mostrarMetricas()">Ver Métricas</button>
-                <div id="metricas-calidad" class="resultado">
-                    <!-- Las métricas de calidad se mostrarán aquí -->
+            <div id="qa-tools" class="tab-content active">
+                <div class="grid-container">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-calculator"></i>
+                        </div>
+                        <h2>Calculadora de ROI para QA</h2>
+                        <p>Ingresa los datos para calcular el ahorro estimado al usar nuestros servicios:</p>
+                        <form id="roi-form">
+                            <label for="errores">Errores evitados:</label>
+                            <input type="number" id="errores" placeholder="Cantidad de errores evitados" required>
+                            <label for="horas">Horas ahorradas:</label>
+                            <input type="number" id="horas" placeholder="Horas de testing ahorradas" required>
+                            <button type="submit">Calcular ROI</button>
+                        </form>
+                        <div id="resultado-roi" class="resultado"></div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-cogs"></i>
+                        </div>
+                        <h2>Demo de Herramientas de Testing</h2>
+                        <p>Prueba cómo funcionan nuestras herramientas de testing automatizado.</p>
+                        <button id="test-automation-btn">Ejecutar Test Automatizado</button>
+                        <div id="consola-testing" class="consola"></div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-list-alt"></i>
+                        </div>
+                        <h2>Generador Automático de Casos de Prueba</h2>
+                        <p>Genera automáticamente casos de prueba personalizados basados en el nombre de tu aplicación y el número de casos que desees.</p>
+                        <form id="test-case-form">
+                            <label for="nombre-app">Nombre de la App:</label>
+                            <input type="text" id="nombre-app" placeholder="Ejemplo: MiApp de Banco" required>
+                            <label for="numero-casos">Número de Casos de Prueba:</label>
+                            <input type="number" id="numero-casos" placeholder="Ejemplo: 5" required>
+                            <button type="submit">Generar Casos</button>
+                        </form>
+                        <div id="modal-casos" class="modal">
+                            <div class="modal-content">
+                                <span class="close" onclick="cerrarModalCasos()">&times;</span>
+                                <h2>Casos de Prueba Generados</h2>
+                                <div id="contenedor-casos" class="contenedor-casos">
+                                    <!-- Los casos de prueba generados se mostrarán aquí -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Analizador de Logs -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-file-code-o"></i>
+            <div id="data-tools" class="tab-content">
+                <div class="grid-container">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-database"></i>
+                        </div>
+                        <h2>Generador de Datos de Prueba</h2>
+                        <p>Genera datos de prueba personalizados para tus casos de prueba.</p>
+                        <form onsubmit="generarDatosPrueba(event)">
+                            <label for="tipo-dato">Tipo de Dato:</label>
+                            <select id="tipo-dato" required>
+                                <option value="nombre">Nombres</option>
+                                <option value="email">Correos Electrónicos</option>
+                                <option value="telefono">Teléfonos</option>
+                                <option value="direccion">Direcciones</option>
+                            </select>
+                            <label for="cantidad-datos">Cantidad de Datos:</label>
+                            <input type="number" id="cantidad-datos" placeholder="Ejemplo: 10" required>
+                            <button type="submit">Generar Datos</button>
+                        </form>
+                        <ul id="lista-datos-prueba" class="recomendaciones-list">
+                            <!-- Los datos generados se mostrarán aquí -->
+                        </ul>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-database"></i>
+                        </div>
+                        <h2>Generador de Datos de Carga</h2>
+                        <p>Genera grandes volúmenes de datos para pruebas de rendimiento.</p>
+                        <form onsubmit="generarDatosCarga(event)">
+                            <label for="tipo-dato-carga">Tipo de Dato:</label>
+                            <select id="tipo-dato-carga" required>
+                                <option value="usuarios">Usuarios</option>
+                                <option value="transacciones">Transacciones</option>
+                                <option value="productos">Productos</option>
+                            </select>
+                            <label for="cantidad-datos-carga">Cantidad de Datos:</label>
+                            <input type="number" id="cantidad-datos-carga" placeholder="Ejemplo: 1000" required>
+                            <button type="submit">Generar Datos</button>
+                        </form>
+                        <ul id="lista-datos-carga" class="recomendaciones-list">
+                            <!-- Los datos generados se mostrarán aquí -->
+                        </ul>
+                    </div>
                 </div>
-                <h2>Analizador de Logs</h2>
-                <p>Sube tus archivos de logs para analizar errores y patrones de comportamiento.</p>
-                <form onsubmit="analizarLogs(event)">
-                    <label for="log-file">Selecciona un archivo de log:</label>
-                    <input type="file" id="log-file" accept=".log" required>
-                    <button type="submit">Analizar Logs</button>
-                </form>
-                <div id="resultado-logs" class="resultado"></div>
             </div>
-
-            <!-- Generador de Datos de Carga -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-database"></i>
+            <div id="api-tools" class="tab-content">
+                <div class="grid-container">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-plug"></i>
+                        </div>
+                        <h2>Simulador de Pruebas de API</h2>
+                        <p>Prueba tus endpoints de API con diferentes métodos y datos.</p>
+                        <form onsubmit="simularPruebasAPI(event)" class="api-form">
+                            <label for="url-api">URL del Endpoint:</label>
+                            <input type="url" id="url-api" placeholder="https://api.ejemplo.com/endpoint" required>
+                            <label for="metodo-api">Método:</label>
+                            <select id="metodo-api" required>
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                            </select>
+                            <label for="body-api">Cuerpo de la Solicitud (JSON):</label>
+                            <textarea id="body-api" placeholder='{"key": "value"}'></textarea>
+                            <button type="submit" class="btn-primary">Probar API</button>
+                        </form>
+                        <div id="resultado-api" class="resultado-api">
+                            <h3>Resultado de la Prueba</h3>
+                            <pre id="api-response" class="api-response"></pre>
+                        </div>
+                    </div>
                 </div>
-                <h2>Generador de Datos de Carga</h2>
-                <p>Genera grandes volúmenes de datos para pruebas de rendimiento.</p>
-                <form onsubmit="generarDatosCarga(event)">
-                    <label for="tipo-dato-carga">Tipo de Dato:</label>
-                    <select id="tipo-dato-carga" required>
-                        <option value="usuarios">Usuarios</option>
-                        <option value="transacciones">Transacciones</option>
-                        <option value="productos">Productos</option>
-                    </select>
-                    <label for="cantidad-datos-carga">Cantidad de Datos:</label>
-                    <input type="number" id="cantidad-datos-carga" placeholder="Ejemplo: 1000" required>
-                    <button type="submit">Generar Datos</button>
-                </form>
-                <ul id="lista-datos-carga" class="recomendaciones-list">
-                    <!-- Los datos generados se mostrarán aquí -->
-                </ul>
             </div>
-
-            <!-- Validador de Accesibilidad -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-universal-access"></i>
-                </div>
-                <h2>Validador de Accesibilidad</h2>
-                <p>Valida que tu sitio web cumpla con los estándares de accesibilidad (WCAG).</p>
-                <form onsubmit="validarAccesibilidad(event)">
-                    <label for="url-accesibilidad">URL del sitio web:</label>
-                    <input type="url" id="url-accesibilidad" placeholder="https://ejemplo.com" required>
-                    <button type="submit">Validar Accesibilidad</button>
-                </form>
-                <div id="resultado-accesibilidad" class="resultado"></div>
-            </div>
-
-            <!-- Simulador de Pruebas de API -->
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fa fa-plug"></i>
-                </div>
-                <h2>Simulador de Pruebas de API</h2>
-                <p>Prueba tus endpoints de API con diferentes métodos y datos.</p>
-                <form onsubmit="simularPruebasAPI(event)" class="api-form">
-                    <label for="url-api">URL del Endpoint:</label>
-                    <input type="url" id="url-api" placeholder="https://api.ejemplo.com/endpoint" required>
-                    
-                    <label for="metodo-api">Método:</label>
-                    <select id="metodo-api" required>
-                        <option value="GET">GET</option>
-                        <option value="POST">POST</option>
-                        <option value="PUT">PUT</option>
-                        <option value="DELETE">DELETE</option>
-                    </select>
-                    
-                    <label for="body-api">Cuerpo de la Solicitud (JSON):</label>
-                    <textarea id="body-api" placeholder='{"key": "value"}'></textarea>
-                    
-                    <button type="submit" class="btn-primary">Probar API</button>
-                </form>
-                <div id="resultado-api" class="resultado-api">
-                    <h3>Resultado de la Prueba</h3>
-                    <pre id="api-response" class="api-response"></pre>
+            <div id="misc-tools" class="tab-content">
+                <div class="grid-container">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-file-pdf-o"></i>
+                        </div>
+                        <h2>Generador de Reportes</h2>
+                        <p>Genera reportes detallados en formato PDF sobre métricas de calidad y resultados de pruebas.</p>
+                        <button onclick="generarReporte()" class="btn-primary">Generar Reporte</button>
+                        <div id="reporte-descarga" class="resultado">
+                            <!-- El enlace de descarga del reporte se mostrará aquí -->
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-files-o"></i>
+                        </div>
+                        <h2>Comparador de Archivos</h2>
+                        <p>Compara dos archivos para identificar diferencias en su contenido.</p>
+                        <form onsubmit="compararArchivos(event)" class="api-form">
+                            <label for="archivo1">Archivo 1:</label>
+                            <input type="file" id="archivo1" required>
+                            <label for="archivo2">Archivo 2:</label>
+                            <input type="file" id="archivo2" required>
+                            <button type="submit" class="btn-primary">Comparar Archivos</button>
+                        </form>
+                        <div id="resultado-comparacion" class="resultado">
+                            <!-- El resultado de la comparación se mostrará aquí -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
-
-    <!-- Modal para el Quiz -->
-    <div id="quiz-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="cerrarQuiz()">&times;</span>
-            <h2>Test de Conocimientos QA</h2>
-            <div id="quiz-container" class="quiz-container"></div>
-        </div>
-    </div>
-
-    <!-- Modal para mostrar los casos de prueba -->
-    <div id="modal-casos" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="cerrarModalCasos()">&times;</span>
-            <h2>Casos de Prueba Generados</h2>
-            <div id="contenedor-casos" class="contenedor-casos">
-                <!-- Los casos de prueba generados se mostrarán aquí -->
-            </div>
-        </div>
-    </div>
-
     <footer>
         <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
     </footer>

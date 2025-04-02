@@ -796,6 +796,79 @@ async function simularPruebasAPI(event) {
     }
 }
 
+// Generador de Reportes
+function generarReporte() {
+    const resultado = document.getElementById('reporte-descarga');
+    resultado.innerHTML = '<p>Generando reporte...</p>';
+
+    fetch('/api/generar-reporte', { method: 'GET' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al generar el reporte.');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const enlace = document.createElement('a');
+            enlace.href = url;
+            enlace.download = 'reporte.pdf';
+            enlace.textContent = 'Descargar Reporte';
+            resultado.innerHTML = '';
+            resultado.appendChild(enlace);
+        })
+        .catch(error => {
+            resultado.innerHTML = `<p>Error: ${error.message}</p>`;
+        });
+}
+
+// Comparador de Archivos
+function compararArchivos(event) {
+    event.preventDefault();
+    const archivo1 = document.getElementById('archivo1').files[0];
+    const archivo2 = document.getElementById('archivo2').files[0];
+    const resultado = document.getElementById('resultado-comparacion');
+
+    if (!archivo1 || !archivo2) {
+        resultado.innerHTML = '<p>Por favor, selecciona ambos archivos.</p>';
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('archivo1', archivo1);
+    formData.append('archivo2', archivo2);
+
+    resultado.innerHTML = '<p>Comparando archivos...</p>';
+
+    fetch('/api/comparar-archivos', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al comparar los archivos.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            resultado.innerHTML = `
+                <h4>Resultado de la Comparación:</h4>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            `;
+        })
+        .catch(error => {
+            resultado.innerHTML = `<p>Error: ${error.message}</p>`;
+        });
+}
+
+// Inicializar pestañas al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    const defaultTab = document.querySelector('.tab-button.active');
+    if (defaultTab) {
+        defaultTab.click();
+    }
+});
+
 // Llama a las funciones al cargar la página
 if (document.getElementById('admin-image-list')) loadAdminImages();
 if (document.getElementById('admin-video-list')) loadAdminVideos();
@@ -804,4 +877,56 @@ mostrarBugs();
 
 document.getElementById('herramientas-list')?.addEventListener('change', function(event) {
     // Reemplaza referencias a 'services-list'
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Cambiar entre pestañas
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const tabId = button.getAttribute('data-tab');
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            button.classList.add('active');
+        });
+    });
+
+    // Calculadora de ROI
+    document.getElementById('roi-form')?.addEventListener('submit', event => {
+        event.preventDefault();
+        const errores = parseInt(document.getElementById('errores').value, 10);
+        const horas = parseInt(document.getElementById('horas').value, 10);
+        const roi = errores * horas * 10; // Fórmula de ejemplo
+        document.getElementById('resultado-roi').textContent = `ROI estimado: $${roi}`;
+    });
+
+    // Demo de Herramientas de Testing
+    document.getElementById('test-automation-btn')?.addEventListener('click', () => {
+        const consola = document.getElementById('consola-testing');
+        consola.textContent = 'Ejecutando pruebas automatizadas...\n';
+        setTimeout(() => {
+            consola.textContent += 'Pruebas completadas exitosamente.';
+        }, 2000);
+    });
+
+    // Generador Automático de Casos de Prueba
+    document.getElementById('test-case-form')?.addEventListener('submit', event => {
+        event.preventDefault();
+        const nombreApp = document.getElementById('nombre-app').value;
+        const numeroCasos = parseInt(document.getElementById('numero-casos').value, 10);
+        const contenedorCasos = document.getElementById('contenedor-casos');
+        contenedorCasos.innerHTML = '';
+        for (let i = 1; i <= numeroCasos; i++) {
+            const caso = document.createElement('div');
+            caso.className = 'caso-prueba';
+            caso.textContent = `Caso ${i}: Prueba funcionalidad de ${nombreApp}`;
+            contenedorCasos.appendChild(caso);
+        }
+        document.getElementById('modal-casos').style.display = 'block';
+    });
+
+    // Cerrar modal de casos de prueba
+    window.cerrarModalCasos = () => {
+        document.getElementById('modal-casos').style.display = 'none';
+    };
 });
