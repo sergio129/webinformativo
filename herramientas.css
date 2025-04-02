@@ -594,9 +594,11 @@ contact-info a:hover {
     font-family: monospace;
     padding: 1rem;
     border-radius: 5px;
-    height: 150px;
-    overflow-y: auto;
+    height: 200px; /* Incrementa la altura para más contenido */
+    overflow-y: auto; /* Permite desplazamiento si el contenido excede la altura */
     margin-top: 1rem;
+    white-space: pre-wrap; /* Mantiene el formato de texto */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Lista de Casos de Prueba */

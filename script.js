@@ -277,27 +277,43 @@ function calcularROI(event) {
 }
 
 // Demo de Herramientas de Testing
-function simularTesting() {
+document.getElementById('test-automation-btn')?.addEventListener('click', () => {
     const consola = document.getElementById('consola-testing');
-    consola.innerHTML = ''; // Limpia la consola
-    const logs = [
-        'Iniciando test automatizado...',
-        'Cargando módulos...',
-        'Ejecutando pruebas...',
-        '¡Se encontraron 3 bugs críticos!',
+    consola.textContent = ''; // Limpia la consola antes de iniciar la simulación
+
+    const pasos = [
+        'Inicializando entorno de pruebas...',
+        'Cargando casos de prueba...',
+        'Ejecutando pruebas funcionales...',
+        'Ejecutando pruebas de rendimiento...',
+        'Ejecutando pruebas de seguridad...',
+        'Generando reporte de resultados...'
     ];
-    let index = 0;
-    const interval = setInterval(() => {
-        if (index < logs.length) {
-            const log = document.createElement('p');
-            log.innerText = logs[index];
-            consola.appendChild(log);
-            index++;
+
+    let pasoActual = 0;
+
+    const intervalo = setInterval(() => {
+        if (pasoActual < pasos.length) {
+            consola.textContent += `${pasos[pasoActual]}\n`;
+            pasoActual++;
         } else {
-            clearInterval(interval);
+            clearInterval(intervalo);
+
+            // Generar datos aleatorios para el resumen
+            const totalCasos = Math.floor(Math.random() * 100) + 50; // Entre 50 y 150
+            const casosExitosos = Math.floor(Math.random() * totalCasos * 0.9); // Hasta el 90% exitosos
+            const casosFallidos = totalCasos - casosExitosos;
+            const tiempoTotal = Math.floor(Math.random() * 30) + 10; // Entre 10 y 40 segundos
+
+            consola.textContent += '\nPruebas completadas exitosamente.\n';
+            consola.textContent += 'Resumen:\n';
+            consola.textContent += `- Casos de prueba ejecutados: ${totalCasos}\n`;
+            consola.textContent += `- Casos exitosos: ${casosExitosos}\n`;
+            consola.textContent += `- Casos fallidos: ${casosFallidos}\n`;
+            consola.textContent += `- Tiempo total: ${tiempoTotal} segundos\n`;
         }
-    }, 1000);
-}
+    }, 2000); // Simula un retraso de 2 segundos entre cada paso
+});
 
 // Inicializar la variable antes de usarla
 let casosGenerados = [];
