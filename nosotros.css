@@ -172,13 +172,13 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.mui-appbar .mui-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.mui-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .mui-nav {
@@ -197,6 +197,46 @@
 
 .mui-nav li a:hover {
     color: #ffcc00;
+}
+
+.mui-btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.mui-btn--raised {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mui-btn--primary {
+    background-color: #3f51b5;
+    color: #fff;
+}
+
+.mui-btn--primary:hover {
+    background-color: #303f9f;
+    transform: scale(1.05);
+}
+
+.mui-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mui-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* Estilo para las tarjetas del equipo */

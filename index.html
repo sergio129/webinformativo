@@ -3,92 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QualiTest Solutions</title>
+    <title>Inicio - QualiTest Solutions</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <header>
-        <div class="logo">QualiTest Solutions</div>
-        <nav>
-            <ul>
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="herramientas.html">Herramientas</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-                <li><a href="login.html">Administración</a></li>
-            </ul>
-        </nav>
+    <header class="mui-appbar">
+        <div class="mui-container">
+            <div class="logo">QualiTest Solutions</div>
+            <nav>
+                <ul class="mui-nav">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="nosotros.html">Nosotros</a></li>
+                    <li><a href="herramientas.html">Herramientas</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                    <li><a href="login.html">Administración</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
     <main>
-        <section id="inicio">
-            <h1>Bienvenidos a QualiTest Solutions</h1>
-            <p>Tu aliado en soluciones empresariales.</p>
-            <div class="carousel">
-                <button class="carousel-btn prev-btn">&lt;</button>
-                <div class="carousel-images">
+        <section class="hero-section">
+            <h1 class="hero-title">Bienvenidos a QualiTest Solutions</h1>
+            <p class="hero-description">Tu aliado en soluciones empresariales.</p>
+        </section>
+        <section class="features-section">
+            <h2 class="section-title">¿Cómo te podemos ayudar?</h2>
+            <div class="features-container">
+                <div class="feature-card mui-card">
+                    <span class="material-icons feature-icon">support_agent</span>
+                    <h3>Servicio al Cliente</h3>
+                    <p>Estamos aquí para resolver tus dudas y brindarte soporte.</p>
+                    <a href="contacto.html" class="mui-btn mui-btn--raised mui-btn--primary">Contáctanos</a>
+                </div>
+                <div class="feature-card mui-card">
+                    <span class="material-icons feature-icon">build</span>
+                    <h3>Soluciones Personalizadas</h3>
+                    <p>Adaptamos nuestras herramientas a las necesidades de tu negocio.</p>
+                </div>
+                <div class="feature-card mui-card">
+                    <span class="material-icons feature-icon">trending_up</span>
+                    <h3>Optimización Empresarial</h3>
+                    <p>Mejora la eficiencia de tus procesos con nuestras soluciones.</p>
+                </div>
+            </div>
+        </section>
+        <section class="image-banner-section">
+            <h2 class="section-title">Imágenes Destacadas</h2>
+            <div class="mui-carousel">
+                <div id="image-carousel" class="carousel-container">
                     <!-- Las imágenes se cargarán dinámicamente aquí -->
                 </div>
-                <button class="carousel-btn next-btn">&gt;</button>
+                <button class="carousel-btn prev-btn" onclick="moveCarousel(-1)">&#10094;</button>
+                <button class="carousel-btn next-btn" onclick="moveCarousel(1)">&#10095;</button>
             </div>
         </section>
         <script>
-            // Cargar imágenes desde la carpeta "imagenes" y agregarlas al carrusel
+            let currentSlide = 0;
+
+            // Cargar imágenes desde la carpeta "imagenes"
             fetch('/imagenes')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error al obtener las imágenes.');
-                    }
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(images => {
-                    console.log('Imágenes obtenidas del servidor:', images); // Depuración
-                    const carouselContainer = document.querySelector('.carousel-images');
-                    const prevBtn = document.querySelector('.prev-btn');
-                    const nextBtn = document.querySelector('.next-btn');
-                    if (images.length === 0) {
-                        carouselContainer.innerHTML = '<p>No hay imágenes disponibles en el servidor.</p>';
-                        return;
-                    }
-                    images.forEach(image => {
-                        const img = document.createElement('img');
-                        img.src = `/imagenes/${image}`;
-                        img.alt = `Imagen: ${image}`;
-                        img.style.width = '100%';
-                        img.style.flexShrink = '0';
-                        img.style.objectFit = 'cover';
-                        carouselContainer.appendChild(img);
+                    const carousel = document.getElementById('image-carousel');
+                    images.forEach((image, index) => {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = `/imagenes/${image}`;
+                        imgElement.alt = `Imagen ${index + 1}`;
+                        imgElement.classList.add('carousel-image');
+                        if (index === 0) imgElement.classList.add('active'); // Mostrar la primera imagen
+                        carousel.appendChild(imgElement);
                     });
-
-                    // Variables para el carrusel
-                    let currentIndex = 0;
-                    const totalImages = images.length;
-
-                    // Función para actualizar la posición del carrusel
-                    function updateCarousel() {
-                        const offset = -currentIndex * 100;
-                        carouselContainer.style.transform = `translateX(${offset}%)`;
-                    }
-
-                    // Evento para el botón "Siguiente"
-                    nextBtn.addEventListener('click', () => {
-                        currentIndex = (currentIndex + 1) % totalImages;
-                        updateCarousel();
-                    });
-
-                    // Evento para el botón "Anterior"
-                    prevBtn.addEventListener('click', () => {
-                        currentIndex = (currentIndex - 1 + totalImages) % totalImages;
-                        updateCarousel();
-                    });
-
-                    // Carrusel automático
-                    setInterval(() => {
-                        currentIndex = (currentIndex + 1) % totalImages;
-                        updateCarousel();
-                    }, 3000); // Cambia de imagen cada 3 segundos
                 })
-                .catch(error => console.error('Error cargando imágenes:', error));
+                .catch(error => console.error('Error al cargar las imágenes:', error));
+
+            function moveCarousel(direction) {
+                const images = document.querySelectorAll('.carousel-image');
+                images[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + direction + images.length) % images.length;
+                images[currentSlide].classList.add('active');
+            }
         </script>
         <section id="Testimonios">
             <h2>Testimonios</h2>
@@ -138,6 +135,11 @@
                 })
                 .catch(error => console.error('Error cargando videos:', error));
         </script>
+        <section class="cta-section">
+            <h2 class="cta-title">¿Listo para comenzar?</h2>
+            <p class="cta-description">Contáctanos hoy mismo y descubre cómo podemos ayudarte a mejorar la calidad de tu software.</p>
+            <a href="contacto.html" class="mui-btn mui-btn--raised mui-btn--primary">Contáctanos</a>
+        </section>
         <div class="block-container">
             <div class="block1foot">
                 <p class="country-icons">
@@ -189,7 +191,7 @@
             </div>
         </div>
     </main>
-    <footer>
+    <footer class="mui-footer">
         <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
     </footer>
 </body>
