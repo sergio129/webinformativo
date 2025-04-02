@@ -471,6 +471,32 @@ function mostrarBugs() {
     }, 10000);
 }
 
+// Función para generar recomendaciones aleatorias
+function generarRecomendaciones() {
+    const lista = document.getElementById('recomendaciones-list');
+    lista.innerHTML = '<li>Cargando recomendaciones...</li>'; // Mensaje de carga
+
+    fetch('/recomendaciones')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener las recomendaciones.');
+            }
+            return response.json();
+        })
+        .then(recomendaciones => {
+            lista.innerHTML = ''; // Limpia las recomendaciones previas
+            recomendaciones.forEach(recomendacion => {
+                const li = document.createElement('li');
+                li.textContent = recomendacion;
+                lista.appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error('Error generando recomendaciones:', error);
+            lista.innerHTML = '<li>Error al obtener las recomendaciones.</li>';
+        });
+}
+
 // Llama a las funciones al cargar la página
 if (document.getElementById('admin-image-list')) loadAdminImages();
 if (document.getElementById('admin-video-list')) loadAdminVideos();

@@ -232,6 +232,28 @@ app.delete('/youtube-links/:videoId', (req, res) => {
     });
 });
 
+// Ruta para obtener 10 recomendaciones aleatorias
+app.get('/recomendaciones', (req, res) => {
+    const filePath = path.join(__dirname, 'recomendaciones.txt');
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error leyendo el archivo de recomendaciones:', err);
+            return res.status(500).send('Error al obtener las recomendaciones.');
+        }
+
+        const recomendaciones = data.split('\n').filter(line => line.trim() !== '');
+        const randomRecomendaciones = [];
+
+        while (randomRecomendaciones.length < 10 && recomendaciones.length > 0) {
+            const randomIndex = Math.floor(Math.random() * recomendaciones.length);
+            randomRecomendaciones.push(recomendaciones.splice(randomIndex, 1)[0]);
+        }
+
+        res.json(randomRecomendaciones);
+    });
+});
+
 // Ruta para comprobación de estado
 app.get('/health', (req, res) => {
     res.status(200).send('OK');
