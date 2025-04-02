@@ -1300,6 +1300,80 @@ document.getElementById('timer-form')?.addEventListener('submit', (event) => {
     }, 1000);
 });
 
+// Generador de Números Telefónicos
+document.getElementById('phone-number-generator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const count = parseInt(document.getElementById('phone-count').value, 10);
+    const resultList = document.getElementById('phone-number-result');
+    resultList.innerHTML = '';
+
+    for (let i = 0; i < count; i++) {
+        const phoneNumber = `+57 ${Math.floor(300000000 + Math.random() * 700000000)}`;
+        const listItem = document.createElement('li');
+        listItem.textContent = phoneNumber;
+        resultList.appendChild(listItem);
+    }
+});
+
+// Generador de Correos Electrónicos
+document.getElementById('email-generator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const count = parseInt(document.getElementById('email-count').value, 10);
+    const resultList = document.getElementById('email-result');
+    const domains = ['example.com', 'test.com', 'demo.com'];
+    resultList.innerHTML = '';
+
+    for (let i = 0; i < count; i++) {
+        const email = `user${Math.floor(Math.random() * 10000)}@${domains[Math.floor(Math.random() * domains.length)]}`;
+        const listItem = document.createElement('li');
+        listItem.textContent = email;
+        resultList.appendChild(listItem);
+    }
+});
+
+// Generador de Direcciones
+document.getElementById('address-generator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const count = parseInt(document.getElementById('address-count').value, 10);
+    const resultList = document.getElementById('address-result');
+    const streets = ['Calle 1', 'Avenida 2', 'Carrera 3', 'Diagonal 4', 'Transversal 5'];
+    const cities = ['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena'];
+    resultList.innerHTML = '';
+
+    for (let i = 0; i < count; i++) {
+        const address = `${streets[Math.floor(Math.random() * streets.length)]} #${Math.floor(Math.random() * 100)}-${Math.floor(Math.random() * 50)}, ${cities[Math.floor(Math.random() * cities.length)]}`;
+        const listItem = document.createElement('li');
+        listItem.textContent = address;
+        resultList.appendChild(listItem);
+    }
+});
+
+// Generador de Fechas Aleatorias
+document.getElementById('date-generator-form')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const startDate = new Date(document.getElementById('start-date').value);
+    const endDate = new Date(document.getElementById('end-date').value);
+    const count = parseInt(document.getElementById('date-count').value, 10);
+    const resultList = document.getElementById('date-result');
+    resultList.innerHTML = '';
+
+    if (startDate >= endDate) {
+        resultList.innerHTML = '<p class="error">La fecha de inicio debe ser anterior a la fecha de fin.</p>';
+        return;
+    }
+
+    for (let i = 0; i < count; i++) {
+        const randomDate = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
+        const listItem = document.createElement('li');
+        listItem.textContent = randomDate.toISOString().split('T')[0];
+        resultList.appendChild(listItem);
+    }
+});
+
 // Llama a las funciones al cargar la página
 if (document.getElementById('admin-image-list')) loadAdminImages();
 if (document.getElementById('admin-video-list')) loadAdminVideos();
