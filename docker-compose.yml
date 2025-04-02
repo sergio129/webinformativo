@@ -10,4 +10,5 @@ services:
       - .:/app
       - ./videos:/app/videos # Monta la carpeta de videos
       - ./youtube-links.json:/app/youtube-links.json # Monta el archivo de enlaces de YouTube
+      - ./herramientas.html:/app/herramientas.html
     command: npm start

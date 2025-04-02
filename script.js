@@ -567,8 +567,100 @@ function buscarRecomendaciones() {
         });
 }
 
+// Simulador de Pruebas de Carga
+function simularCarga(event) {
+    event.preventDefault();
+    const usuarios = parseInt(document.getElementById('usuarios').value, 10);
+    const duracion = parseInt(document.getElementById('duracion').value, 10);
+    const resultado = document.getElementById('resultado-carga');
+
+    resultado.innerHTML = '<p>Simulando carga...</p>';
+
+    setTimeout(() => {
+        resultado.innerHTML = `
+            <p>Simulación completada:</p>
+            <ul>
+                <li><strong>Usuarios Simulados:</strong> ${usuarios}</li>
+                <li><strong>Duración:</strong> ${duracion} segundos</li>
+                <li><strong>Tiempo de Respuesta Promedio:</strong> ${Math.random().toFixed(2)} segundos</li>
+                <li><strong>Errores Detectados:</strong> ${Math.floor(Math.random() * 10)}</li>
+            </ul>
+        `;
+    }, duracion * 1000);
+}
+
+// Generador de Datos de Prueba
+function generarDatosPrueba(event) {
+    event.preventDefault();
+    const tipoDato = document.getElementById('tipo-dato').value;
+    const cantidad = parseInt(document.getElementById('cantidad-datos').value, 10);
+    const lista = document.getElementById('lista-datos-prueba');
+
+    lista.innerHTML = '<li>Generando datos...</li>';
+
+    setTimeout(() => {
+        lista.innerHTML = '';
+        for (let i = 0; i < cantidad; i++) {
+            const li = document.createElement('li');
+            li.textContent = generarDato(tipoDato);
+            lista.appendChild(li);
+        }
+    }, 1000);
+}
+
+function generarDato(tipo) {
+    const nombres = ['Juan', 'María', 'Carlos', 'Ana', 'Luis', 'Sofía', 'Pedro', 'Lucía'];
+    const apellidos = ['Gómez', 'Pérez', 'Rodríguez', 'López', 'Martínez', 'Hernández', 'García', 'Fernández'];
+    const dominios = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com'];
+    const calles = ['Av. Principal', 'Calle Secundaria', 'Paseo del Sol', 'Camino Real', 'Boulevard Central'];
+    const ciudades = ['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena'];
+
+    switch (tipo) {
+        case 'nombre':
+            const nombre = nombres[Math.floor(Math.random() * nombres.length)];
+            const apellido = apellidos[Math.floor(Math.random() * apellidos.length)];
+            return `${nombre} ${apellido}`;
+        case 'email':
+            const usuario = nombres[Math.floor(Math.random() * nombres.length)].toLowerCase();
+            const dominio = dominios[Math.floor(Math.random() * dominios.length)];
+            return `${usuario}${Math.floor(Math.random() * 1000)}@${dominio}`;
+        case 'telefono':
+            const prefijo = '+57';
+            const numero = Math.floor(Math.random() * 900000000) + 100000000; // Genera un número de 9 dígitos
+            return `${prefijo} ${numero}`;
+        case 'direccion':
+            const calle = calles[Math.floor(Math.random() * calles.length)];
+            const numeroCalle = Math.floor(Math.random() * 100) + 1;
+            const ciudad = ciudades[Math.floor(Math.random() * ciudades.length)];
+            return `${calle} #${numeroCalle}, ${ciudad}`;
+        default:
+            return 'Dato desconocido';
+    }
+}
+
+// Mostrar Métricas de Calidad
+function mostrarMetricas() {
+    const metricas = [
+        { nombre: 'Cobertura de Pruebas', valor: `${Math.floor(Math.random() * 16) + 80}%` }, // 80% - 95%
+        { nombre: 'Defectos por Módulo', valor: `${Math.floor(Math.random() * 5) + 1}` }, // 1 - 5
+        { nombre: 'Tiempo Promedio de Resolución', valor: `${Math.floor(Math.random() * 3) + 1} días` }, // 1 - 3 días
+        { nombre: 'Tasa de Éxito de Automatización', valor: `${Math.floor(Math.random() * 6) + 90}%` } // 90% - 95%
+    ];
+
+    const contenedor = document.getElementById('metricas-calidad');
+    contenedor.innerHTML = '<p>Cargando métricas...</p>';
+
+    setTimeout(() => {
+        contenedor.innerHTML = '<ul>' + metricas.map(m => `<li><strong>${m.nombre}:</strong> ${m.valor}</li>`).join('') + '</ul>';
+    }, 1000);
+}
+
 // Llama a las funciones al cargar la página
 if (document.getElementById('admin-image-list')) loadAdminImages();
 if (document.getElementById('admin-video-list')) loadAdminVideos();
 if (document.getElementById('youtube-links-list')) loadYoutubeLinks();
 mostrarBugs();
+
+document.getElementById('herramientas-list')?.addEventListener('change', function(event) {
+    // Reemplaza referencias a 'services-list'
+});

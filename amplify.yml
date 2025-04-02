@@ -10,6 +10,7 @@ frontend:
   artifacts:
     baseDirectory: /  # Carpeta raíz donde están los archivos estáticos
     files:
+      - herramientas.html
       - '**/*'  # Incluye todos los archivos
   cache:
     paths:

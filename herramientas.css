@@ -954,3 +954,52 @@ contact-info a:hover {
     font-size: 1rem;
     color: red;
 }
+
+/* Estilos para el simulador de carga */
+.resultado {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Estilos para la lista de datos de prueba */
+.recomendaciones-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.recomendaciones-list li {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Estilos para métricas de calidad */
+.resultado ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.resultado ul li {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #333;
+}
+
+.resultado ul li strong {
+    color: #007bff;
+}
