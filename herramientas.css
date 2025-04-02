@@ -1013,3 +1013,77 @@ contact-info a:hover {
     font-family: monospace;
     font-size: 0.9rem;
 }
+
+/* Estilos para el simulador de pruebas de API */
+.api-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.api-form label {
+    font-weight: bold;
+    color: #333;
+}
+
+.api-form input,
+.api-form select,
+.api-form textarea {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.api-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.resultado-api {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.resultado-api h3 {
+    font-size: 1.5rem;
+    color: #0056b3;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.api-response {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #333;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Botón de enviar */
+.btn-primary {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}

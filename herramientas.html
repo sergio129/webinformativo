@@ -219,9 +219,10 @@
                 </div>
                 <h2>Simulador de Pruebas de API</h2>
                 <p>Prueba tus endpoints de API con diferentes métodos y datos.</p>
-                <form onsubmit="simularPruebasAPI(event)">
+                <form onsubmit="simularPruebasAPI(event)" class="api-form">
                     <label for="url-api">URL del Endpoint:</label>
                     <input type="url" id="url-api" placeholder="https://api.ejemplo.com/endpoint" required>
+                    
                     <label for="metodo-api">Método:</label>
                     <select id="metodo-api" required>
                         <option value="GET">GET</option>
@@ -229,11 +230,16 @@
                         <option value="PUT">PUT</option>
                         <option value="DELETE">DELETE</option>
                     </select>
+                    
                     <label for="body-api">Cuerpo de la Solicitud (JSON):</label>
                     <textarea id="body-api" placeholder='{"key": "value"}'></textarea>
-                    <button type="submit">Probar API</button>
+                    
+                    <button type="submit" class="btn-primary">Probar API</button>
                 </form>
-                <div id="resultado-api" class="resultado"></div>
+                <div id="resultado-api" class="resultado-api">
+                    <h3>Resultado de la Prueba</h3>
+                    <pre id="api-response" class="api-response"></pre>
+                </div>
             </div>
         </section>
     </main>

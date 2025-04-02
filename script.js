@@ -748,20 +748,31 @@ async function simularPruebasAPI(event) {
     event.preventDefault();
     const url = document.getElementById('url-api').value;
     const metodo = document.getElementById('metodo-api').value;
-    const body = document.getElementById('body-api').value;
-    const resultado = document.getElementById('resultado-api');
+    const bodyInput = document.getElementById('body-api').value;
+    const resultado = document.getElementById('api-response');
 
     resultado.innerHTML = '<p>Ejecutando prueba de API...</p>';
+
+    let body = null;
+
+    // Validar y parsear el JSON del cuerpo de la solicitud
+    if (bodyInput.trim() && metodo !== 'GET' && metodo !== 'DELETE') {
+        try {
+            body = JSON.parse(bodyInput);
+        } catch (error) {
+            resultado.innerHTML = `
+                <h4>Error al probar la API:</h4>
+                <pre>El cuerpo de la solicitud no es un JSON válido. Verifica el formato.</pre>
+            `;
+            return;
+        }
+    }
 
     try {
         const response = await fetch('/api/probar-api', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                url,
-                metodo,
-                body: metodo !== 'GET' && metodo !== 'DELETE' ? JSON.parse(body || '{}') : null
-            })
+            body: JSON.stringify({ url, metodo, body })
         });
 
         if (!response.ok) {
@@ -771,12 +782,15 @@ async function simularPruebasAPI(event) {
 
         const data = await response.json();
         resultado.innerHTML = `
-            <p>Respuesta del servidor:</p>
-            <pre>${JSON.stringify(data, null, 2)}</pre>
+            <h4>Estado: ${data.status}</h4>
+            <h4>Encabezados:</h4>
+            <pre>${JSON.stringify(data.headers, null, 2)}</pre>
+            <h4>Datos:</h4>
+            <pre>${JSON.stringify(data.data, null, 2)}</pre>
         `;
     } catch (error) {
         resultado.innerHTML = `
-            <p>Error al probar la API:</p>
+            <h4>Error al probar la API:</h4>
             <pre>${error.message}</pre>
         `;
     }
