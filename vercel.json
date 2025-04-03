@@ -24,6 +24,14 @@
     {
       "src": "api/imagenes-casos-exito.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/testimonial-videos.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/upload-testimonial-videos.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -58,6 +66,14 @@
     {
       "src": "/api/imagenes-casos-exito",
       "dest": "/api/imagenes-casos-exito.js"
+    },
+    {
+      "src": "/api/testimonial-videos",
+      "dest": "/api/testimonial-videos.js"
+    },
+    {
+      "src": "/api/upload-testimonial-videos",
+      "dest": "/api/upload-testimonial-videos.js"
     }
   ]
 }

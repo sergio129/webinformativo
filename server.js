@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const uploadCasosExito = require('./api/upload-casos-exito');
 const imagenesCasosExito = require('./api/imagenes-casos-exito');
+const uploadTestimonialVideos = require('./api/upload-testimonial-videos');
 
 const app = express();
 
@@ -46,6 +47,11 @@ app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Servir archivos estáticos
+app.use(express.static(path.join(__dirname)));
+app.use('/imagenes', express.static(path.join(__dirname, 'imagenes')));
+app.use('/videos/testimonios', express.static(path.join(__dirname, 'videos', 'testimonios'))); // Sirve la carpeta de videos de testimonios
+
 // Importar y configurar la ruta para probar APIs
 const probarApi = require('./api/probar-api');
 app.post('/api/probar-api', probarApi);
@@ -65,10 +71,6 @@ app.post('/api/comparar-archivos', uploadMiddleware.fields([
     { name: 'archivo1', maxCount: 1 },
     { name: 'archivo2', maxCount: 1 }
 ]), compararArchivos);
-
-// Servir archivos estáticos
-app.use(express.static(path.join(__dirname)));
-app.use('/imagenes', express.static(path.join(__dirname, 'imagenes')));
 
 // Ruta para manejar el inicio de sesión
 app.post('/login', (req, res) => {
@@ -324,6 +326,9 @@ app.post('/api/upload-casos-exito', uploadCasosExito);
 
 // Endpoint para obtener imágenes de casos de éxito
 app.get('/api/imagenes-casos-exito', imagenesCasosExito);
+
+// Endpoint para subir videos de testimonios
+app.post('/api/upload-testimonial-videos', uploadTestimonialVideos);
 
 // Manejo de rutas no encontradas
 app.use((req, res) => {

@@ -58,14 +58,25 @@
             </div>
         </section>
         <section class="admin-section">
-            <h2 class="section-title">Agregar Enlaces de YouTube</h2>
-            <form id="youtube-form" class="admin-form">
-                <label for="youtube-link">Enlace de YouTube:</label>
-                <input type="url" id="youtube-link" placeholder="https://www.youtube.com/watch?v=..." required>
-                <button type="submit" class="btn-primary">Agregar Enlace</button>
+            <h2 class="section-title">Cargar Videos de Testimonios</h2>
+            <form id="upload-testimonial-videos-form" class="admin-form" enctype="multipart/form-data">
+                <label for="testimonial-videos-file">Selecciona videos:</label>
+                <input type="file" id="testimonial-videos-file" name="testimonialVideos" accept="video/*" multiple required>
+                <button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Cargar Videos</button>
             </form>
-            <div id="youtube-links-list" class="youtube-list">
-                <!-- Lista de enlaces de YouTube cargados -->
+            <div id="testimonial-videos-list" class="video-list">
+                <!-- Los videos subidos se mostrarán aquí -->
+            </div>
+        </section>
+        <section class="admin-section">
+            <h2 class="section-title">Agregar Enlaces de YouTube</h2>
+            <form id="youtube-links-form" class="admin-form">
+                <label for="youtube-link">Enlace de YouTube:</label>
+                <input type="url" id="youtube-link" name="youtubeLink" placeholder="https://www.youtube.com/watch?v=..." required>
+                <button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Agregar Enlace</button>
+            </form>
+            <div id="youtube-links-list" class="video-list">
+                <!-- Los enlaces de YouTube existentes se cargarán aquí -->
             </div>
         </section>
         <section class="admin-section">
@@ -158,8 +169,158 @@
             }
         }
 
+        async function cargarEnlacesYouTube() {
+            try {
+                const response = await fetch('/api/youtube-links');
+                if (!response.ok) throw new Error('Error al cargar los enlaces de YouTube.');
+                const links = await response.json();
+                const listContainer = document.getElementById('youtube-links-list');
+                listContainer.innerHTML = ''; // Limpia la lista antes de cargar los enlaces
+                links.forEach(link => {
+                    const linkWrapper = document.createElement('div');
+                    linkWrapper.className = 'video-item';
+
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://www.youtube.com/embed/${link}`;
+                    iframe.allowFullscreen = true;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Eliminar';
+                    deleteButton.className = 'mui-btn mui-btn--danger';
+                    deleteButton.onclick = () => eliminarEnlaceYouTube(link);
+
+                    linkWrapper.appendChild(iframe);
+                    linkWrapper.appendChild(deleteButton);
+                    listContainer.appendChild(linkWrapper);
+                });
+            } catch (error) {
+                console.error('Error al cargar los enlaces de YouTube:', error);
+            }
+        }
+
+        async function eliminarEnlaceYouTube(videoId) {
+            try {
+                const response = await fetch(`/api/youtube-links?videoId=${encodeURIComponent(videoId)}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    showToast('Enlace eliminado correctamente.', 'success');
+                    cargarEnlacesYouTube();
+                } else {
+                    showToast('Error al eliminar el enlace.', 'error');
+                }
+            } catch (error) {
+                console.error('Error al eliminar el enlace:', error);
+                showToast('Error al eliminar el enlace.', 'error');
+            }
+        }
+
+        document.getElementById('youtube-links-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const youtubeLink = document.getElementById('youtube-link').value;
+            const videoId = youtubeLink.split('v=')[1]?.split('&')[0]; // Extrae el ID del video
+
+            if (!videoId) {
+                showToast('Enlace de YouTube no válido.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/youtube-links', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ videoId })
+                });
+
+                if (response.ok) {
+                    showToast('Enlace agregado correctamente.', 'success');
+                    cargarEnlacesYouTube(); // Recarga la lista de enlaces
+                } else {
+                    showToast('Error al agregar el enlace.', 'error');
+                }
+            } catch (error) {
+                console.error('Error al agregar el enlace:', error);
+                showToast('Error al agregar el enlace.', 'error');
+            }
+        });
+
+        async function cargarVideosTestimonios() {
+            try {
+                const response = await fetch('/api/testimonial-videos');
+                if (!response.ok) throw new Error('Error al cargar los videos.');
+                const videos = await response.json();
+                const listContainer = document.getElementById('testimonial-videos-list');
+                listContainer.innerHTML = ''; // Limpia la lista antes de cargar los videos
+                videos.forEach(video => {
+                    const videoWrapper = document.createElement('div');
+                    videoWrapper.className = 'video-item';
+
+                    const videoElement = document.createElement('video');
+                    videoElement.src = `videos/testimonios/${video}`;
+                    videoElement.controls = true;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Eliminar';
+                    deleteButton.className = 'mui-btn mui-btn--danger';
+                    deleteButton.onclick = () => eliminarVideoTestimonio(video);
+
+                    videoWrapper.appendChild(videoElement);
+                    videoWrapper.appendChild(deleteButton);
+                    listContainer.appendChild(videoWrapper);
+                });
+            } catch (error) {
+                console.error('Error al cargar los videos de testimonios:', error);
+            }
+        }
+
+        async function eliminarVideoTestimonio(videoName) {
+            try {
+                const response = await fetch(`/api/testimonial-videos?videoName=${encodeURIComponent(videoName)}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    showToast('Video eliminado correctamente.', 'success');
+                    cargarVideosTestimonios();
+                } else {
+                    showToast('Error al eliminar el video.', 'error');
+                }
+            } catch (error) {
+                console.error('Error al eliminar el video:', error);
+                showToast('Error al eliminar el video.', 'error');
+            }
+        }
+
+        document.getElementById('upload-testimonial-videos-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            const files = document.getElementById('testimonial-videos-file').files;
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append('testimonialVideos', files[i]);
+            }
+
+            try {
+                const response = await fetch('/api/upload-testimonial-videos', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    showToast('Videos subidos correctamente.', 'success');
+                    cargarVideosTestimonios(); // Recarga la lista de videos
+                } else {
+                    showToast('Error al subir los videos.', 'error');
+                }
+            } catch (error) {
+                console.error('Error al subir los videos:', error);
+                showToast('Error al subir los videos.', 'error');
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             cargarImagenesCasosExito(); // Cargar las imágenes al cargar la página
+            cargarVideosTestimonios(); // Cargar los videos al cargar la página
+            cargarEnlacesYouTube(); // Cargar los enlaces al cargar la página
         });
 
         document.getElementById('upload-casos-exito-form').addEventListener('submit', async function(event) {
