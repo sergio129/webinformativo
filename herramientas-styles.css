@@ -709,6 +709,111 @@ form select:focus {
     animation-delay: 0.8s;
 }
 
+/* Estilos para herramientas de tiempo */
+.time-display {
+    font-family: 'Courier New', monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    background-color: #f5f7ff;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem 0;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color);
+}
+
+.time-input {
+    margin-bottom: 1.5rem;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.button-group .tool-btn {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+    justify-content: center;
+}
+
+/* Estilos para Pomodoro Timer */
+.pomodoro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pomodoro-status {
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.pomodoro-cycles {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    text-align: center;
+}
+
+/* Animación para Pomodoro en modo trabajo */
+.pomodoro-work {
+    animation: pomodoro-pulse 2s infinite;
+}
+
+.pomodoro-break {
+    color: var(--success-color);
+}
+
+@keyframes pomodoro-pulse {
+    0% {
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        box-shadow: inset 0 0 15px rgba(63, 81, 181, 0.3);
+    }
+    100% {
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Estilos para Notas Rápidas */
+#quick-note {
+    resize: vertical;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #ffffd8;
+    border: 1px solid #e6e6b8;
+    transition: height 0.3s ease;
+}
+
+#quick-note:focus {
+    background-color: #fffff0;
+    border-color: #e6e6b8;
+    box-shadow: 0 0 0 3px rgba(230, 230, 184, 0.25);
+}
+
+#note-status {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    margin-top: 1rem;
+}
+
+#note-status.saved {
+    color: var(--success-color);
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+#note-status.cleared {
+    color: var(--info-color);
+    background-color: rgba(33, 150, 243, 0.1);
+}
+
 /* Responsive */
 @media (max-width: 992px) {
     .tools-hero-section h1 {
