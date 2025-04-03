@@ -29,31 +29,34 @@ if (mediaUpload) {
 
 // Función para mostrar notificaciones toast en lugar de alertas
 function mostrarToast(mensaje, tipo = 'info') {
+    // Si existe la función showNotification en admin-scripts.js, usarla
+    if (typeof showNotification === 'function') {
+        showNotification(mensaje, tipo);
+        return;
+    }
+    
+    // Si no, implementar una versión básica
     const toast = document.createElement('div');
     toast.className = `toast ${tipo}`;
     toast.innerHTML = `
         <div class="toast-content">
-            <i class="fa ${tipo === 'success' ? 'fa-check-circle' : tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
             <div class="toast-message">${mensaje}</div>
         </div>
-        <i class="fa fa-times toast-close"></i>
+        <button class="toast-close">&times;</button>
     `;
-
+    
     document.body.appendChild(toast);
-
+    
     setTimeout(() => {
         toast.classList.add('show');
     }, 10);
-
-    const autoClose = setTimeout(() => {
+    
+    const cerrarBtn = toast.querySelector('.toast-close');
+    cerrarBtn.addEventListener('click', () => cerrarToast(toast));
+    
+    setTimeout(() => {
         cerrarToast(toast);
     }, 5000);
-
-    const closeButton = toast.querySelector('.toast-close');
-    closeButton.addEventListener('click', () => {
-        clearTimeout(autoClose);
-        cerrarToast(toast);
-    });
 }
 
 function cerrarToast(toast) {
@@ -93,6 +96,45 @@ document.getElementById('carousel-upload')?.addEventListener('change', function(
     if (previewContainer.classList.contains('carousel-images')) {
         currentIndex = 0;
     }
+});
+
+document.getElementById('upload-carousel-form')?.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const fileInput = document.getElementById('carousel-upload');
+    if (!fileInput.files.length) {
+        mostrarToast('Por favor selecciona al menos una imagen', 'warning');
+        return;
+    }
+    
+    mostrarToast('Subiendo imágenes...', 'info');
+    
+    const formData = new FormData();
+    for (let i = 0; i < fileInput.files.length; i++) {
+        formData.append('imagenes', fileInput.files[i]);
+    }
+    
+    fetch('/api/upload-images', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al subir las imágenes');
+        }
+        return response.json();
+    })
+    .then(data => {
+        mostrarToast('Imágenes subidas correctamente', 'success');
+        fileInput.value = '';
+        if (typeof loadAdminImages === 'function') {
+            loadAdminImages();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        mostrarToast('Error al subir las imágenes: ' + error.message, 'error');
+    });
 });
 
 let currentIndex = 0;

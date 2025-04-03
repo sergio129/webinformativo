@@ -3,324 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administración - Carrusel</title>
-    <link rel="stylesheet" href="admin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Panel de Administración - QualiTest Solutions</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Estilos específicos para admin -->
+    <link rel="stylesheet" href="admin-styles.css">
 </head>
 <body>
-    <header class="mui-appbar">
-        <div class="mui-container">
-        <div class="logo">QualiTest Solutions</div>
-<nav>
-            <ul class="mui-nav">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="nosotros.html">Nosotros</a></li>
-                <li><a href="herramientas.html">Herramientas</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
-                <li><a href="admin.html">Administración</a></li>
-            </ul>
-        </nav>
-</div>
-    </header>
-    <main class="admin-container">
-        <section class="admin-section">
-            <h2 class="section-title">Cargar Imágenes para el Carrusel</h2>
-            <form action="/upload" method="POST" enctype="multipart/form-data" class="admin-form">
-                <label for="carousel-upload">Selecciona imágenes:</label>
-                <input type="file" id="carousel-upload" name="images" accept="image/*" multiple>
-                <button type="submit" class="btn-primary">Subir Imágenes</button>
-            </form>
-            <div id="admin-preview" class="preview-container">
-                <!-- Previsualización de imágenes cargadas -->
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-logo">
+                <a href="index.html">
+                    <i class="fas fa-bug"></i>
+                    <span>QualiTest</span>
+                </a>
             </div>
-        </section>
-        <section class="admin-section">
-            <h2 class="section-title">Imágenes disponibles</h2>
-            <div id="admin-image-list" class="image-list">
-                                              <!-- Las imágenes cargadas se mostrarán aquí con opciones para eliminarlas -->
-</div>
-</section>
-<section class="admin-section">
-<h2 class="section-title">Cargar Videos de Testimonios</h2>
-<form id="upload-testimonial-videos-form" class="admin-form" enctype="multipart/form-data">
-<label for="testimonial-videos-file">Selecciona videos:</label>
-<input type="file" id="testimonial-videos-file" name="testimonialVideos" accept="video/*" multiple required>
-<button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Cargar Videos</button>
-</form>
-<div id="admin-video-list" class="video-list">
-                <!-- Los videos subidos se mostrarán aquí -->
+
+            <nav class="admin-nav">
+                <ul>
+                    <li class="admin-nav-item active" data-section="dashboard">
+                        <a href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                    <li class="admin-nav-item" data-section="images">
+                        <a href="#images"><i class="fas fa-images"></i> Imágenes</a>
+                    </li>
+                    <li class="admin-nav-item" data-section="videos">
+                        <a href="#videos"><i class="fas fa-video"></i> Videos</a>
+                    </li>
+                    <li class="admin-nav-item" data-section="youtube">
+                        <a href="#youtube"><i class="fab fa-youtube"></i> YouTube</a>
+                    </li>
+                    <li class="admin-nav-divider"></li>
+                    <li class="admin-nav-item">
+                        <a href="index.html"><i class="fas fa-home"></i> Volver al sitio</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="admin-sidebar-footer">
+                <p>QualiTest Solutions</p>
+                <small>© 2025 Todos los derechos reservados</small>
             </div>
-        </section>
-<section class="admin-section">
-<h2 class="section-title">Agregar Enlaces de YouTube</h2>
-<form id="youtube-links-form" class="admin-form">
-<label for="youtube-link">Enlace de YouTube:</label>
-<input type="url" id="youtube-link" name="youtubeLink" placeholder="https://www.youtube.com/watch?v=..." required>
-<button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Agregar Enlace</button>
-</form>
-<div id="youtube-links-list" class="video-list">
-<!-- Los enlaces de YouTube existentes se cargarán aquí -->
-</div>
-</section>
-<section class="admin-section">
-<h2 class="section-title">Gestión de Casos de Éxito</h2>
-<p class="section-description">Sube imágenes para los casos de éxito que se mostrarán en la galería.</p>
-<form id="upload-casos-exito-form" class="admin-form" enctype="multipart/form-data">
-<label for="casos-exito-file">Selecciona imágenes:</label>
-<input type="file" id="casos-exito-file" name="casosExito" accept="image/*" multiple required>
-<button type="submit" class="btn-primary">Subir Imágenes</button>
-</form>
-<div id="casos-exito-preview" class="preview-container">
-<!-- Las imágenes subidas se mostrarán aquí -->
-</div>
-</section>
+        </aside>
 
-<section class="admin-section">
-             <h2 class="section-title">Imágenes de Casos de Éxito</h2>
-<div id="casos-exito-list" class="image-list">
-<!-- Las imágenes existentes se cargarán aquí -->
-</div>
-</section>
+        <!-- Contenido principal -->
+        <main class="admin-content">
+            <header class="admin-header">
+                <div class="admin-header-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar...">
+                </div>
+                <div class="admin-header-actions">
+                    <div class="admin-notification">
+                        <i class="far fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="admin-user-profile">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Admin">
+                        <span>Administrador</span>
+                    </div>
+                </div>
+            </header>
 
-<!-- Contenedor para los toasts -->
-<div id="toast-container" class="toast-container"></div>
-</main>
-<footer class="mui-footer">
-<p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
-</footer>
-<script src="script.js"></script>
-<script>
-        async function cargarImagenesCasosExito() {
-try {
-const response = await fetch('/api/imagenes-casos-exito');
-if (!response.ok) {
-throw new Error('Error al cargar las imágenes.');
-                }
-const imagenes = await response.json();
-const listContainer = document.getElementById('casos-exito-list');
-listContainer.innerHTML = ''; // Limpia la lista antes de cargar las imágenes
-imagenes.forEach(imagen => {
-const imageWrapper = document.createElement('div');
-imageWrapper.className = 'image-item';
+            <!-- Dashboard -->
+            <section id="dashboard" class="admin-section active">
+                <div class="admin-section-header">
+                    <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+                    <p>Panel de control y resumen del sitio</p>
+                </div>
 
-const imgElement = document.createElement('img');
-imgElement.src = `imagenes/Casos_Exito/${imagen}`;
-imgElement.alt = 'Caso de Éxito';
-imgElement.className = 'gallery-image';
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-images"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="image-count">0</h3>
+                            <p>Imágenes</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="video-count">0</h3>
+                            <p>Videos</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="youtube-count">0</h3>
+                            <p>Videos de YouTube</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>1</h3>
+                            <p>Usuarios</p>
+                        </div>
+                    </div>
+                </div>
 
-const deleteButton = document.createElement('button');
-deleteButton.textContent = 'Eliminar';
-deleteButton.className = 'delete-button';
-deleteButton.onclick = () => eliminarImagen(imagen);
+                <div class="dashboard-charts">
+                    <div class="chart-container">
+                        <h3>Actividad Reciente</h3>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-upload"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <p>Se subió una nueva imagen al carrusel</p>
+                                    <small>Hace 2 horas</small>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-trash-alt"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <p>Se eliminó un video de testimonios</p>
+                                    <small>Hace 1 día</small>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-link"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <p>Se agregó un nuevo enlace de YouTube</p>
+                                    <small>Hace 3 días</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-imageWrapper.appendChild(imgElement);
-imageWrapper.appendChild(deleteButton);
-listContainer.appendChild(imageWrapper);
-});
-} catch (error) {
-console.error('Error al cargar las imágenes de casos de éxito:', error);
-            }
-        }
+            <!-- Administración de Imágenes -->
+            <section id="images" class="admin-section">
+                <div class="admin-section-header">
+                    <h1><i class="fas fa-images"></i> Administración de Imágenes</h1>
+                    <p>Gestiona las imágenes del carrusel principal</p>
+                </div>
 
-async function eliminarImagen(nombreImagen) {
-            try {
-const response = await fetch(`/api/delete-image?key=${encodeURIComponent(nombreImagen)}`, {
-method: 'DELETE'
-});
-if (response.ok) {
-showToast('Imagen eliminada correctamente.', 'success');
-cargarImagenesCasosExito(); // Recarga la lista de imágenes
-} else {
-showToast('Error al eliminar la imagen.', 'error');
-                }
-} catch (error) {
-console.error('Error al eliminar la imagen:', error);
-showToast('Error al eliminar la imagen.', 'error');
-            }
-        }
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2>Subir Nueva Imagen</h2>
+                    </div>
+                    <div class="admin-card-body">
+                        <form id="upload-carousel-form" enctype="multipart/form-data">
+                            <div class="file-upload-container">
+                                <label for="carousel-upload" class="file-upload-label">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Arrastra imágenes aquí o haz clic para seleccionar</span>
+                                </label>
+                                <input type="file" id="carousel-upload" accept="image/*" multiple>
+                            </div>
+                            <div class="preview-section">
+                                <h3>Vista previa:</h3>
+                                <div id="admin-preview" class="admin-preview"></div>
+                            </div>
+                            <button type="submit" class="admin-btn primary">
+                                <i class="fas fa-upload"></i> Subir Imágenes
+                            </button>
+                        </form>
+                    </div>
+                </div>
 
-async function cargarEnlacesYouTube() {
-            try {
-                const response = await fetch('/api/youtube-links');
-                if (!response.ok) throw new Error('Error al cargar los enlaces de YouTube.');
-                const links = await response.json();
-                const listContainer = document.getElementById('youtube-links-list');
-                listContainer.innerHTML = ''; // Limpia la lista antes de cargar los enlaces
-                links.forEach(link => {
-                    const linkWrapper = document.createElement('div');
-                    linkWrapper.className = 'video-item';
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2>Imágenes Existentes</h2>
+                        <div class="admin-card-actions">
+                            <button class="admin-btn small" onclick="loadAdminImages()">
+                                <i class="fas fa-sync-alt"></i> Refrescar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-card-body">
+                        <div id="admin-image-list" class="admin-media-grid">
+                            <!-- Las imágenes se cargarán dinámicamente aquí -->
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-                    const iframe = document.createElement('iframe');
-                    iframe.src = `https://www.youtube.com/embed/${link}`;
-                    iframe.allowFullscreen = true;
+            <!-- Administración de Videos -->
+            <section id="videos" class="admin-section">
+                <div class="admin-section-header">
+                    <h1><i class="fas fa-video"></i> Administración de Videos</h1>
+                    <p>Gestiona los videos de testimonios</p>
+                </div>
 
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Eliminar';
-                    deleteButton.className = 'mui-btn mui-btn--danger';
-                    deleteButton.onclick = () => eliminarEnlaceYouTube(link);
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2>Subir Nuevo Video</h2>
+                    </div>
+                    <div class="admin-card-body">
+                        <form id="upload-video-form" enctype="multipart/form-data">
+                            <div class="file-upload-container">
+                                <label for="media-upload" class="file-upload-label">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Arrastra videos aquí o haz clic para seleccionar</span>
+                                    <small class="d-block text-muted mt-2">Formatos soportados: mp4, webm, ogg, mov</small>
+                                </label>
+                                <input type="file" id="media-upload" name="videos" accept="video/*" multiple>
+                            </div>
+                            <div class="preview-section" id="video-preview-container">
+                                <h3>Videos seleccionados: <span id="selected-videos-count">0</span></h3>
+                                <div id="video-names-list" class="selected-files-list"></div>
+                            </div>
+                            <button type="submit" class="admin-btn primary">
+                                <i class="fas fa-upload"></i> Subir Videos
+                            </button>
+                        </form>
+                    </div>
+                </div>
 
-                    linkWrapper.appendChild(iframe);
-                    linkWrapper.appendChild(deleteButton);
-                    listContainer.appendChild(linkWrapper);
-                });
-            } catch (error) {
-                console.error('Error al cargar los enlaces de YouTube:', error);
-            }
-        }
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2>Videos Existentes</h2>
+                        <div class="admin-card-actions">
+                            <button class="admin-btn small" onclick="loadAdminVideos()">
+                                <i class="fas fa-sync-alt"></i> Refrescar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-card-body">
+                        <div id="admin-video-list" class="admin-media-grid">
+                            <!-- Los videos se cargarán dinámicamente aquí -->
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        async function eliminarEnlaceYouTube(videoId) {
-            try {
-                const response = await fetch(`/api/youtube-links?videoId=${encodeURIComponent(videoId)}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    showToast('Enlace eliminado correctamente.', 'success');
-                    cargarEnlacesYouTube();
-                } else {
-                    showToast('Error al eliminar el enlace.', 'error');
-                }
-            } catch (error) {
-                console.error('Error al eliminar el enlace:', error);
-                showToast('Error al eliminar el enlace.', 'error');
-            }
-        }
+            <!-- Administración de Enlaces de YouTube -->
+            <section id="youtube" class="admin-section">
+                <div class="admin-section-header">
+                    <h1><i class="fab fa-youtube"></i> Enlaces de YouTube</h1>
+                    <p>Gestiona los enlaces a videos de YouTube</p>
+                </div>
 
-        document.getElementById('youtube-links-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const youtubeLink = document.getElementById('youtube-link').value;
-            const videoId = youtubeLink.split('v=')[1]?.split('&')[0]; // Extrae el ID del video
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2>Agregar Enlace de YouTube</h2>
+                    </div>
+                    <div class="admin-card-body">
+                        <form id="add-youtube-form">
+                            <div class="form-group">
+                                <label for="youtube-link">ID o URL del Video de YouTube:</label>
+                                <div class="input-with-icon">
+                                    <i class="fab fa-youtube"></i>
+                                    <input type="text" id="youtube-link" name="youtube-link" placeholder="Ejemplo: dQw4w9WgXcQ o https://www.youtube.com/watch?v=dQw4w9WgXcQ" required>
+                                </div>
+                                <small class="form-text">Introduce el ID del video o la URL completa</small>
+                            </div>
+                            <button type="submit" class="admin-btn primary">
+                                <i class="fas fa-plus-circle"></i> Agregar Enlace
+                            </button>
+                        </form>
+                    </div>
+                </div>
 
-            if (!videoId) {
-                showToast('Enlace de YouTube no válido.', 'error');
-                return;
-            }
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h2>Enlaces Existentes</h2>
+                        <div class="admin-card-actions">
+                            <button class="admin-btn small" onclick="loadYoutubeLinks()">
+                                <i class="fas fa-sync-alt"></i> Refrescar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-card-body">
+                        <div id="youtube-links-list" class="admin-media-grid">
+                            <!-- Los enlaces se cargarán dinámicamente aquí -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 
-            try {
-                const response = await fetch('/api/youtube-links', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ videoId })
-                });
-
-                if (response.ok) {
-                    showToast('Enlace agregado correctamente.', 'success');
-                    cargarEnlacesYouTube(); // Recarga la lista de enlaces
-                } else {
-                    showToast('Error al agregar el enlace.', 'error');
-                }
-            } catch (error) {
-                console.error('Error al agregar el enlace:', error);
-                showToast('Error al agregar el enlace.', 'error');
-            }
-        });
-
-        async function cargarVideosDisponibles() {
-            try {
-                const response = await fetch('/api/testimonial-videos');
-                if (!response.ok) throw new Error('Error al cargar los videos.');
-                const videos = await response.json();
-                const listContainer = document.getElementById('admin-video-list');
-                listContainer.innerHTML = ''; // Limpia la lista antes de cargar los videos
-                videos.forEach(video => {
-                    const videoWrapper = document.createElement('div');
-                    videoWrapper.className = 'video-item';
-
-                    const videoElement = document.createElement('video');
-                    videoElement.src = `videos/testimonios/${video}`;
-                    videoElement.controls = true;
-
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Eliminar';
-                    deleteButton.className = 'delete-button';
-                    deleteButton.onclick = () => eliminarVideo(video);
-
-                    videoWrapper.appendChild(videoElement);
-                    videoWrapper.appendChild(deleteButton);
-                    listContainer.appendChild(videoWrapper);
-                });
-            } catch (error) {
-                console.error('Error al cargar los videos disponibles:', error);
-            }
-}
-
-async function eliminarVideo(videoName) {
-            try {
-                const response = await fetch(`/api/testimonial-videos?videoName=${encodeURIComponent(videoName)}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    showToast('Video eliminado correctamente.', 'success');
-                    cargarVideosDisponibles(); // Recarga la lista de videos
-                } else {
-showToast('Error al eliminar el video.', 'error');
-                }
-            } catch (error) {
-                console.error('Error al eliminar el video:', error);
-                    showToast('Error al eliminar el video.', 'error');
-                }
-                    }
-
-        document.getElementById('upload-testimonial-videos-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const formData = new FormData();
-            const files = document.getElementById('testimonial-videos-file').files;
-
-            for (let i = 0; i < files.length; i++) {
-                formData.append('testimonialVideos', files[i]);
-            }
-
-            try {
-                const response = await fetch('/api/upload-testimonial-videos', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    showToast('Videos subidos y guardados correctamente.', 'success');
-                    cargarVideosDisponibles(); // Recarga la lista de videos
-                } else {
-                    showToast('Error al subir los videos.', 'error');
-            }
-        } catch (error) {
-                console.error('Error al subir los videos:', error);
-                showToast('Error al subir los videos.', 'error');
-            }
-        });
-
-document.addEventListener('DOMContentLoaded', () => {
-cargarImagenesCasosExito(); // Cargar las imágenes al cargar la página
-cargarEnlacesYouTube(); // Cargar los enlaces al cargar la página
-cargarVideosDisponibles(); // Cargar los videos disponibles al cargar la página
-loadAdminVideos(); // Cargar los videos en la sección de administración
-});
-
-document.getElementById('upload-casos-exito-form').addEventListener('submit', async function(event) {
-event.preventDefault();
-const formData = new FormData();
-const files = document.getElementById('casos-exito-file').files;
-
-for (let i = 0; i < files.length; i++) {
-                formData.append('casosExito', files[i]);
-            }
-
-try {
-const response = await fetch('/api/upload-casos-exito', {
-method: 'POST',
-body: formData
-});
-
-if (response.ok) {
-showToast('Imágenes subidas correctamente.', 'success');
-                    cargarImagenesCasosExito(); // Recarga la lista de imágenes
-} else {
-showToast('Error al subir las imágenes.', 'error');
-                }
-} catch (error) {
-console.error('Error al subir las imágenes:', error);
-                showToast('Error al subir las imágenes.', 'error');
-            }
-});
-</script>
+    <!-- Scripts de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts personalizados -->
+    <script src="script.js"></script>
+    <!-- Scripts específicos para admin -->
+    <script src="admin-scripts.js"></script>
 </body>
 </html>
- 
