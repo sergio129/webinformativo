@@ -300,3 +300,118 @@ body {
         transform: translateY(-10px);
     }
 }
+
+/* Button Styles */
+.mui-btn--raised {
+    background: linear-gradient(135deg, #3f51b5, #5c6bc0); /* Degradado moderno */
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px; /* Botones redondeados */
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para efecto de elevación */
+}
+
+.mui-btn--raised:hover {
+    background: linear-gradient(135deg, #303f9f, #3f51b5); /* Degradado más oscuro al pasar el mouse */
+    transform: translateY(-3px); /* Efecto de elevación */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.mui-btn--raised:active {
+    transform: translateY(1px); /* Efecto de clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra más ligera */
+}
+
+.mui-btn--primary {
+    background: linear-gradient(135deg, #3f51b5, #5c6bc0); /* Degradado consistente */
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px; /* Botones redondeados */
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.mui-btn--primary:hover {
+    background: linear-gradient(135deg, #303f9f, #3f51b5); /* Degradado más oscuro */
+    transform: translateY(-3px); /* Efecto de elevación */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.mui-btn--primary:active {
+    transform: translateY(1px); /* Efecto de clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra más ligera */
+}
+
+.delete-button {
+    background: linear-gradient(135deg, #f44336, #e57373); /* Degradado rojo */
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px; /* Botones redondeados */
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para efecto de elevación */
+}
+
+.delete-button:hover {
+    background: linear-gradient(135deg, #d32f2f, #f44336); /* Degradado más oscuro al pasar el mouse */
+    transform: translateY(-3px); /* Efecto de elevación */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.delete-button:active {
+    transform: translateY(1px); /* Efecto de clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra más ligera */
+}
+
+.mui-btn--danger {
+    background: linear-gradient(135deg, #f44336, #e57373); /* Degradado rojo */
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px; /* Botones redondeados */
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para efecto de elevación */
+    margin-top: 10px; /* Espaciado superior */
+    display: block; /* Asegura que el botón esté en su propia línea */
+    text-align: center; /* Centra el texto del botón */
+}
+
+.mui-btn--danger:hover {
+    background: linear-gradient(135deg, #d32f2f, #f44336); /* Degradado más oscuro al pasar el mouse */
+    transform: translateY(-3px); /* Efecto de elevación */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.mui-btn--danger:active {
+    transform: translateY(1px); /* Efecto de clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra más ligera */
+}
+
+/* Ajuste de ubicación para botones de eliminación */
+.video-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el contenido horizontalmente */
+    gap: 10px; /* Espaciado entre el video y el botón */
+    margin-bottom: 20px; /* Espaciado inferior entre videos */
+}
+
+.video-item video {
+    max-width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

@@ -9,6 +9,7 @@ const imagenesCasosExito = require('./api/imagenes-casos-exito');
 const uploadTestimonialVideos = require('./api/upload-testimonial-videos');
 const youtubeLinks = require('./api/youtube-links');
 const testimonialVideos = require('./api/testimonial-videos'); // Agregado para listar videos testimoniales
+const deleteImage = require('./api/delete-image'); // Importar el módulo para eliminar imágenes
 
 const app = express();
 
@@ -336,8 +337,9 @@ app.post('/api/upload-testimonial-videos', uploadTestimonialVideos);
 app.use('/api/testimonial-videos', testimonialVideos); // Manejo de videos testimoniales
 // Endpoint para manejar enlaces de YouTube
 app.use('/api/youtube-links', youtubeLinks);
-// Endpoint para manejar enlaces de YouTube
 
+// Endpoint para eliminar imágenes
+app.delete('/api/delete-image', deleteImage);
 
 // Manejo de rutas no encontradas
 app.use((req, res) => {

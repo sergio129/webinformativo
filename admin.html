@@ -287,10 +287,11 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
+                document.addEventListener('DOMContentLoaded', () => {
             cargarImagenesCasosExito(); // Cargar las imágenes al cargar la página
             cargarEnlacesYouTube(); // Cargar los enlaces al cargar la página
             cargarVideosDisponibles(); // Cargar los videos disponibles al cargar la página
+            loadAdminVideos(); // Cargar los videos en la sección de administración
         });
 
         document.getElementById('upload-casos-exito-form').addEventListener('submit', async function(event) {
