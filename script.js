@@ -1690,4 +1690,42 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('plan-prueba-form')?.addEventListener('submit', generarPlanPrueba);
     document.getElementById('comparador-versiones-form')?.addEventListener('submit', compararVersiones);
     document.getElementById('validador-requisitos-form')?.addEventListener('submit', validarRequisitos);
+
+    // Controlador de categorías en Otras Herramientas
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const categoryContents = document.querySelectorAll('.category-content');
+
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const category = button.getAttribute('data-category');
+
+            // Desactivar todos los botones y contenidos
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            categoryContents.forEach(content => content.classList.remove('active'));
+
+            // Activar el botón y contenido seleccionado
+            button.classList.add('active');
+            document.getElementById(category).classList.add('active');
+        });
+    });
+
+    // Agregar efectos de hover más avanzados a las tarjetas de herramientas
+    document.querySelectorAll('.service-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('.service-icon i');
+            icon.classList.add('fa-bounce');
+            
+            // Añadir efecto de brillo
+            const shine = document.createElement('div');
+            shine.classList.add('card-shine');
+            this.appendChild(shine);
+            
+            setTimeout(() => {
+                icon.classList.remove('fa-bounce');
+                if (this.contains(shine)) {
+                    this.removeChild(shine);
+                }
+            }, 1000);
+        });
+    });
 });

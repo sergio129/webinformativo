@@ -658,3 +658,248 @@ footer {
         min-width: auto;
     }
 }
+
+/* Estilos para categorías en la pestaña Otras Herramientas */
+.category-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-header h2 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.category-header p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0.9;
+}
+
+.tools-categories {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.category-btn {
+    padding: 12px 22px;
+    background-color: #f5f5f5;
+    color: #333;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.category-btn:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+.category-btn.active {
+    background-color: #3f51b5;
+    color: white;
+    box-shadow: 0 4px 8px rgba(63, 81, 181, 0.3);
+}
+
+.category-content {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.category-content.active {
+    display: grid;
+}
+
+/* Estilos para las tarjetas de herramientas mejoradas */
+.service-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.premium-tool {
+    border: 1px solid #f0f0f0;
+    background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.tool-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff9800;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.premium-tool .tool-badge {
+    background: linear-gradient(45deg, #ff9800, #ff5722);
+}
+
+.tool-badge:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+    z-index: -1;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.service-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+    box-shadow: 0 4px 10px rgba(63, 81, 181, 0.2);
+}
+
+.service-icon i {
+    font-size: 30px;
+    color: #3f51b5;
+}
+
+.premium-tool .service-icon {
+    background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+}
+
+.premium-tool .service-icon i {
+    color: white;
+}
+
+/* Mejoras en los inputs y formularios */
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.input-half {
+    flex: 1;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+/* Estilos para herramientas de tiempo */
+.time-tool {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.time-display {
+    font-size: 3rem;
+    font-family: 'Roboto Mono', monospace;
+    background-color: #f5f5f5;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #333;
+    margin: 15px 0;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.time-input {
+    margin-bottom: 20px;
+}
+
+.time-input input {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+/* Estilos responsivos para las categorías */
+@media (max-width: 768px) {
+    .category-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .category-header p {
+        font-size: 1rem;
+    }
+    
+    .category-btn {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+    }
+    
+    .time-display {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .input-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .button-group button {
+        width: 100%;
+    }
+}

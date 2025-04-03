@@ -352,11 +352,24 @@
                 </div>
             </div>
             <div id="misc-tools" class="tab-content">
-                <div class="grid-container">
-                    <div class="service-card">
+                <div class="category-header">
+                    <h2>Mejora tu productividad con estas herramientas</h2>
+                    <p>Encuentra todo lo que necesitas para potenciar tu flujo de trabajo diario</p>
+                </div>
+
+                <div class="tools-categories">
+                    <button class="category-btn active" data-category="productivity">Productividad</button>
+                    <button class="category-btn" data-category="calculators">Calculadoras</button>
+                    <button class="category-btn" data-category="generators">Generadores</button>
+                    <button class="category-btn" data-category="time">Gestión del tiempo</button>
+                </div>
+
+                <div class="grid-container category-content active" id="productivity">
+                    <div class="service-card premium-tool">
                         <div class="service-icon">
                             <i class="fa fa-file-pdf-o"></i>
                         </div>
+                        <div class="tool-badge">Popular</div>
                         <h2>Generador de Reportes</h2>
                         <p>Genera reportes detallados en formato PDF sobre métricas de calidad y resultados de pruebas.</p>
                         <button onclick="generarReporte()" class="btn-primary">Generar Reporte</button>
@@ -390,15 +403,17 @@
                         <form id="password-generator-form">
                             <label for="password-length">Longitud de la Contraseña:</label>
                             <input type="number" id="password-length" placeholder="Ejemplo: 12" required>
-                            <label>
-                                <input type="checkbox" id="include-symbols"> Incluir Símbolos
-                            </label>
-                            <label>
-                                <input type="checkbox" id="include-numbers"> Incluir Números
-                            </label>
-                            <label>
-                                <input type="checkbox" id="include-uppercase"> Incluir Mayúsculas
-                            </label>
+                            <div class="checkbox-group">
+                                <label>
+                                    <input type="checkbox" id="include-symbols"> Incluir Símbolos
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="include-numbers"> Incluir Números
+                                </label>
+                                <label>
+                                    <input type="checkbox" id="include-uppercase"> Incluir Mayúsculas
+                                </label>
+                            </div>
                             <button type="submit" class="btn-primary">Generar Contraseña</button>
                         </form>
                         <div id="password-result" class="resultado">
@@ -414,16 +429,98 @@
                         <form id="currency-converter-form">
                             <label for="amount">Cantidad:</label>
                             <input type="number" id="amount" placeholder="Ejemplo: 100" required>
-                            <label for="from-currency">De:</label>
-                            <input type="text" id="from-currency" placeholder="Ejemplo: USD" required>
-                            <label for="to-currency">A:</label>
-                            <input type="text" id="to-currency" placeholder="Ejemplo: EUR" required>
+                            <div class="input-group">
+                                <div class="input-half">
+                                    <label for="from-currency">De:</label>
+                                    <input type="text" id="from-currency" placeholder="Ejemplo: USD" required>
+                                </div>
+                                <div class="input-half">
+                                    <label for="to-currency">A:</label>
+                                    <input type="text" id="to-currency" placeholder="Ejemplo: EUR" required>
+                                </div>
+                            </div>
                             <button type="submit" class="btn-primary">Convertir</button>
                         </form>
                         <div id="currency-converter-result" class="resultado">
                             <!-- El resultado de la conversión se mostrará aquí -->
                         </div>
                     </div>
+                </div>
+
+                <div class="grid-container category-content" id="calculators">
+                    <div class="service-card premium-tool">
+                        <div class="service-icon">
+                            <i class="fa fa-percent"></i>
+                        </div>
+                        <div class="tool-badge">Pro</div>
+                        <h2>Calculadora de Interés Compuesto</h2>
+                        <p>Calcula el interés compuesto basado en tus datos.</p>
+                        <form id="compound-interest-form">
+                            <label for="principal">Monto Principal (COP):</label>
+                            <input type="number" id="principal" placeholder="Ejemplo: 100000" required>
+                            <label for="rate">Tasa de Interés (%):</label>
+                            <input type="number" id="rate" placeholder="Ejemplo: 5" required>
+                            <div class="input-group">
+                                <div class="input-half">
+                                    <label for="time">Tiempo (años):</label>
+                                    <input type="number" id="time" placeholder="Ejemplo: 2" required>
+                                </div>
+                                <div class="input-half">
+                                    <label for="frequency">Frecuencia:</label>
+                                    <select id="frequency" required>
+                                        <option value="1">Anual</option>
+                                        <option value="4">Trimestral</option>
+                                        <option value="12">Mensual</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">Calcular</button>
+                        </form>
+                        <div id="compound-interest-result" class="resultado">
+                            <!-- El resultado del cálculo se mostrará aquí -->
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-heartbeat"></i>
+                        </div>
+                        <h2>Calculadora de IMC</h2>
+                        <p>Calcula tu Índice de Masa Corporal (IMC).</p>
+                        <form id="bmi-calculator-form">
+                            <div class="input-group">
+                                <div class="input-half">
+                                    <label for="weight">Peso (kg):</label>
+                                    <input type="number" id="weight" placeholder="Ejemplo: 70" required>
+                                </div>
+                                <div class="input-half">
+                                    <label for="height">Altura (m):</label>
+                                    <input type="number" step="0.01" id="height" placeholder="Ejemplo: 1.75" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary">Calcular IMC</button>
+                        </form>
+                        <div id="bmi-result" class="resultado">
+                            <!-- El resultado del IMC se mostrará aquí -->
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <h2>Calculadora de Edad</h2>
+                        <p>Calcula tu edad exacta a partir de tu fecha de nacimiento.</p>
+                        <form id="age-calculator-form">
+                            <label for="birthdate">Fecha de Nacimiento:</label>
+                            <input type="date" id="birthdate" required>
+                            <button type="submit" class="btn-primary">Calcular Edad</button>
+                        </form>
+                        <div id="age-result" class="resultado">
+                            <!-- El resultado de la edad se mostrará aquí -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid-container category-content" id="generators">
                     <div class="service-card">
                         <div class="service-icon">
                             <i class="fa fa-qrcode"></i>
@@ -437,23 +534,6 @@
                         </form>
                         <div id="qr-code-result" class="resultado">
                             <!-- El código QR generado se mostrará aquí -->
-                        </div>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fa fa-heartbeat"></i>
-                        </div>
-                        <h2>Calculadora de IMC</h2>
-                        <p>Calcula tu Índice de Masa Corporal (IMC).</p>
-                        <form id="bmi-calculator-form">
-                            <label for="weight">Peso (kg):</label>
-                            <input type="number" id="weight" placeholder="Ejemplo: 70" required>
-                            <label for="height">Altura (m):</label>
-                            <input type="number" step="0.01" id="height" placeholder="Ejemplo: 1.75" required>
-                            <button type="submit" class="btn-primary">Calcular IMC</button>
-                        </form>
-                        <div id="bmi-result" class="resultado">
-                            <!-- El resultado del IMC se mostrará aquí -->
                         </div>
                     </div>
                     <div class="service-card">
@@ -473,21 +553,6 @@
                     </div>
                     <div class="service-card">
                         <div class="service-icon">
-                            <i class="fa fa-calendar"></i>
-                        </div>
-                        <h2>Calculadora de Edad</h2>
-                        <p>Calcula tu edad exacta a partir de tu fecha de nacimiento.</p>
-                        <form id="age-calculator-form">
-                            <label for="birthdate">Fecha de Nacimiento:</label>
-                            <input type="date" id="birthdate" required>
-                            <button type="submit" class="btn-primary">Calcular Edad</button>
-                        </form>
-                        <div id="age-result" class="resultado">
-                            <!-- El resultado de la edad se mostrará aquí -->
-                        </div>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">
                             <i class="fa fa-random"></i>
                         </div>
                         <h2>Generador de Palabras Aleatorias</h2>
@@ -503,57 +568,44 @@
                     </div>
                     <div class="service-card">
                         <div class="service-icon">
-                            <i class="fa fa-percent"></i>
-                        </div>
-                        <h2>Calculadora de Interés Compuesto</h2>
-                        <p>Calcula el interés compuesto basado en tus datos.</p>
-                        <form id="compound-interest-form">
-                            <label for="principal">Monto Principal (COP):</label>
-                            <input type="number" id="principal" placeholder="Ejemplo: 100000" required>
-                            <label for="rate">Tasa de Interés (%):</label>
-                            <input type="number" id="rate" placeholder="Ejemplo: 5" required>
-                            <label for="time">Tiempo (años):</label>
-                            <input type="number" id="time" placeholder="Ejemplo: 2" required>
-                            <label for="frequency">Frecuencia de Composición:</label>
-                            <select id="frequency" required>
-                                <option value="1">Anual</option>
-                                <option value="4">Trimestral</option>
-                                <option value="12">Mensual</option>
-                            </select>
-                            <button type="submit" class="btn-primary">Calcular</button>
-                        </form>
-                        <div id="compound-interest-result" class="resultado">
-                            <!-- El resultado del cálculo se mostrará aquí -->
-                        </div>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">
                             <i class="fa fa-sort-numeric-asc"></i>
                         </div>
                         <h2>Generador de Números Aleatorios</h2>
                         <p>Genera números aleatorios dentro de un rango.</p>
                         <form id="random-number-generator-form">
-                            <label for="min-number">Mínimo:</label>
-                            <input type="number" id="min-number" placeholder="Ejemplo: 1" required>
-                            <label for="max-number">Máximo:</label>
-                            <input type="number" id="max-number" placeholder="Ejemplo: 100" required>
+                            <div class="input-group">
+                                <div class="input-half">
+                                    <label for="min-number">Mínimo:</label>
+                                    <input type="number" id="min-number" placeholder="Ejemplo: 1" required>
+                                </div>
+                                <div class="input-half">
+                                    <label for="max-number">Máximo:</label>
+                                    <input type="number" id="max-number" placeholder="Ejemplo: 100" required>
+                                </div>
+                            </div>
                             <button type="submit" class="btn-primary">Generar Número</button>
                         </form>
                         <div id="random-number-result" class="resultado">
                             <!-- El número generado se mostrará aquí -->
                         </div>
                     </div>
-                    <div class="service-card">
+                </div>
+
+                <div class="grid-container category-content" id="time">
+                    <div class="service-card premium-tool">
                         <div class="service-icon">
                             <i class="fa fa-clock-o"></i>
                         </div>
+                        <div class="tool-badge">Nuevo</div>
                         <h2>Cronómetro</h2>
-                        <p>Inicia, pausa y reinicia un cronómetro.</p>
-                        <div id="stopwatch">
-                            <p id="stopwatch-display">00:00:00</p>
-                            <button id="start-stopwatch" class="btn-primary">Iniciar</button>
-                            <button id="pause-stopwatch" class="btn-primary">Pausar</button>
-                            <button id="reset-stopwatch" class="btn-primary">Reiniciar</button>
+                        <p>Inicia, pausa y reinicia un cronómetro para medir tus tiempos con precisión.</p>
+                        <div id="stopwatch" class="time-tool">
+                            <div id="stopwatch-display" class="time-display">00:00:00</div>
+                            <div class="button-group">
+                                <button id="start-stopwatch" class="btn-primary">Iniciar</button>
+                                <button id="pause-stopwatch" class="btn-primary">Pausar</button>
+                                <button id="reset-stopwatch" class="btn-primary">Reiniciar</button>
+                            </div>
                         </div>
                     </div>
                     <div class="service-card">
@@ -561,15 +613,15 @@
                             <i class="fa fa-hourglass-half"></i>
                         </div>
                         <h2>Temporizador</h2>
-                        <p>Configura un temporizador para tus actividades.</p>
+                        <p>Configura un temporizador para tus actividades y recibe una alerta cuando termine.</p>
                         <form id="timer-form">
-                            <label for="timer-minutes">Minutos:</label>
-                            <input type="number" id="timer-minutes" placeholder="Ejemplo: 5" required>
+                            <div class="time-input">
+                                <label for="timer-minutes">Minutos:</label>
+                                <input type="number" id="timer-minutes" placeholder="Ejemplo: 5" required>
+                            </div>
                             <button type="submit" class="btn-primary">Iniciar Temporizador</button>
                         </form>
-                        <div id="timer-display" class="resultado">
-                            <!-- El temporizador se mostrará aquí -->
-                        </div>
+                        <div id="timer-display" class="time-display">00:00</div>
                     </div>
                 </div>
             </div>
