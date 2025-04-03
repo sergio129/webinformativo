@@ -1,14 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-const IMAGES_DIR = path.join(__dirname, '..', 'imagenes');
+const IMAGES_DIR = path.join(__dirname, '..', 'imagenes', 'Casos_Exito');
 
-module.exports = async (req, res) => {
+module.exports = (req, res) => {
     if (req.method === 'DELETE') {
         const { key } = req.query;
 
         if (!key) {
-            return res.status(400).send('No se proporcionó la clave del archivo.');
+            return res.status(400).send('No se proporcionó el nombre de la imagen.');
         }
 
         const filePath = path.join(IMAGES_DIR, key);

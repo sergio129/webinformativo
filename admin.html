@@ -81,6 +81,13 @@
             </div>
         </section>
 
+        <section class="admin-section">
+            <h2 class="section-title">Imágenes de Casos de Éxito</h2>
+            <div id="casos-exito-list" class="image-list">
+                <!-- Las imágenes existentes se cargarán aquí -->
+            </div>
+        </section>
+
         <!-- Contenedor para los toasts -->
         <div id="toast-container"></div>
     </main>
@@ -102,6 +109,59 @@
             }, 3000); // Elimina el toast después de 3 segundos
         }
 
+        async function cargarImagenesCasosExito() {
+            try {
+                const response = await fetch('/api/imagenes-casos-exito');
+                if (!response.ok) {
+                    throw new Error('Error al cargar las imágenes.');
+                }
+                const imagenes = await response.json();
+                const listContainer = document.getElementById('casos-exito-list');
+                listContainer.innerHTML = ''; // Limpia la lista antes de cargar las imágenes
+                imagenes.forEach(imagen => {
+                    const imageWrapper = document.createElement('div');
+                    imageWrapper.className = 'image-item';
+
+                    const imgElement = document.createElement('img');
+                    imgElement.src = `imagenes/Casos_Exito/${imagen}`;
+                    imgElement.alt = 'Caso de Éxito';
+                    imgElement.className = 'gallery-image';
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Eliminar';
+                    deleteButton.className = 'delete-button';
+                    deleteButton.onclick = () => eliminarImagen(imagen);
+
+                    imageWrapper.appendChild(imgElement);
+                    imageWrapper.appendChild(deleteButton);
+                    listContainer.appendChild(imageWrapper);
+                });
+            } catch (error) {
+                console.error('Error al cargar las imágenes de casos de éxito:', error);
+            }
+        }
+
+        async function eliminarImagen(nombreImagen) {
+            try {
+                const response = await fetch(`/api/delete-image?key=${encodeURIComponent(nombreImagen)}`, {
+                    method: 'DELETE'
+                });
+                if (response.ok) {
+                    showToast('Imagen eliminada correctamente.', 'success');
+                    cargarImagenesCasosExito(); // Recarga la lista de imágenes
+                } else {
+                    showToast('Error al eliminar la imagen.', 'error');
+                }
+            } catch (error) {
+                console.error('Error al eliminar la imagen:', error);
+                showToast('Error al eliminar la imagen.', 'error');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarImagenesCasosExito(); // Cargar las imágenes al cargar la página
+        });
+
         document.getElementById('upload-casos-exito-form').addEventListener('submit', async function(event) {
             event.preventDefault();
             const formData = new FormData();
@@ -119,7 +179,7 @@
 
                 if (response.ok) {
                     showToast('Imágenes subidas correctamente.', 'success');
-                    location.reload(); // Recarga la página para actualizar la galería
+                    cargarImagenesCasosExito(); // Recarga la lista de imágenes
                 } else {
                     showToast('Error al subir las imágenes.', 'error');
                 }
