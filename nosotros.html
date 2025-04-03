@@ -3,106 +3,391 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nosotros - QualiTest Solutions</title>
-    <link rel="stylesheet" href="nosotros.css">
+    <title>Sobre Nosotros - QualiTest Solutions</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Estilos personalizados -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <!-- Estilos específicos para nosotros.html -->
+    <link rel="stylesheet" href="nosotros-styles.css">
 </head>
 <body>
-    <header class="mui-appbar">
-        <div class="mui-container">
-            <div class="logo">QualiTest Solutions</div>
-            <nav>
-                <ul class="mui-nav">
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="nosotros.html">Nosotros</a></li>
-                    <li><a href="herramientas.html">Herramientas</a></li>
-                    <li><a href="contacto.html">Contacto</a></li>
-                    <li><a href="admin.html">Administración</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <main>
-        <section id="nosotros" class="about-section">
-            <h2 class="section-title">¡Bienvenidos a QualiTest Solutions!</h2>
-            <p class="section-description">
-                En QualiTest Solutions, nos apasiona la calidad y la excelencia en el desarrollo de software. Somos un equipo de expertos en Control de Calidad (QA) dedicados a garantizar que cada producto digital cumpla con los más altos estándares de rendimiento, usabilidad y seguridad.
-            </p>
-
-            <!-- Sección interactiva -->
-            <div class="interactive-container">
-                <!-- Experiencia y Profesionalismo -->
-                <div class="interactive-card mui-card">
-                    <div class="interactive-icon material-icons">work</div>
-                    <h3>Experiencia y Profesionalismo</h3>
-                    <p>Especialistas en testing manual y automatizado con años de experiencia en diversas industrias.</p>
-                    <button class="mui-btn mui-btn--raised mui-btn--primary">Leer Más</button>
-                </div>
-
-                <!-- Enfoque Personalizado -->
-                <div class="interactive-card mui-card">
-                    <div class="interactive-icon material-icons">person</div>
-                    <h3>Enfoque Personalizado</h3>
-                    <p>Adaptamos nuestras estrategias de testing a las necesidades específicas de tu proyecto.</p>
-                    <button class="mui-btn mui-btn--raised mui-btn--primary">Leer Más</button>
-                </div>
-
-                <!-- Tecnología de Vanguardia -->
-                <div class="interactive-card mui-card">
-                    <div class="interactive-icon material-icons">settings</div>
-                    <h3>Tecnología de Vanguardia</h3>
-                    <p>Utilizamos herramientas avanzadas para pruebas funcionales, de rendimiento, seguridad y UX.</p>
-                    <button class="mui-btn mui-btn--raised mui-btn--primary">Leer Más</button>
-                </div>
-
-                <!-- Compromiso con la Excelencia -->
-                <div class="interactive-card mui-card">
-                    <div class="interactive-icon material-icons">star</div>
-                    <h3>Compromiso con la Excelencia</h3>
-                    <p>No solo buscamos errores, ayudamos a prevenirlos, asegurando una experiencia de usuario impecable.</p>
-                    <button class="mui-btn mui-btn--raised mui-btn--primary">Leer Más</button>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="#">QualiTest Solutions</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="nosotros.html">Nosotros</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="herramientas.html">Herramientas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contacto.html">Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="admin.html">Administración</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </nav>
+    </header>
 
-            <!-- Nueva sección de citas -->
-            <blockquote class="about-quote mui-paper">
-                "La calidad no es un acto, es un hábito." - Aristóteles
-            </blockquote>
-
-            <!-- Nueva sección de equipo -->
-            <section class="team-section">
-                <h3 class="team-title">Conoce a Nuestro Equipo</h3>
-                <div class="team-container">
-                    <div class="team-card mui-card">
-                        <img src="https://ui-avatars.com/api/?name=Sergio+Anaya&background=3f51b5&color=fff&size=150" alt="Avatar de Juan Pérez" class="team-photo">
-                        <h4>Sergio Anaya</h4>
-                        <p>Gerente de Calidad</p>
-                        <button class="mui-btn mui-btn--raised mui-btn--primary">Ver Perfil</button>
-                    </div>
-                    <div class="team-card mui-card">
-                        <img src="https://ui-avatars.com/api/?name=Sandy+Gonzalez&background=3f51b5&color=fff&size=150" alt="Avatar de María López" class="team-photo">
-                        <h4>Sandy Gonzalez</h4>
-                        <p>Gerente Comercial</p>
-                        <button class="mui-btn mui-btn--raised mui-btn--primary">Ver Perfil</button>
-                    </div>
-                    <div class="team-card mui-card">
-                        <img src="https://ui-avatars.com/api/?name=Carlos+Gómez&background=3f51b5&color=fff&size=150" alt="Avatar de Carlos Gómez" class="team-photo">
-                        <h4>Carlos Gómez</h4>
-                        <p>Ingeniero de Pruebas</p>
-                        <button class="mui-btn mui-btn--raised mui-btn--primary">Ver Perfil</button>
+    <!-- Hero Section -->
+    <section class="about-hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 animate-fadeInUp">
+                    <h1>Nuestra Historia</h1>
+                    <p class="lead">Somos un equipo de expertos en calidad de software, comprometidos con la excelencia y la innovación.</p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="counter" data-target="500">0</span>
+                            <span class="stat-label">Proyectos completados</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="counter" data-target="150">0</span>
+                            <span class="stat-label">Clientes satisfechos</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="counter" data-target="15">0</span>
+                            <span class="stat-label">Años de experiencia</span>
+                        </div>
                     </div>
                 </div>
-            </section>
+                <div class="col-lg-6 animate-fadeInUp delay-1">
+                    <div class="about-image-container">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Equipo de QualiTest Solutions" class="img-fluid rounded shadow">
+                        <div class="about-shape"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <p class="about-conclusion">
-                En QualiTest Solutions, no somos solo testers, somos garantes de calidad. ¿Listo para llevar tu software al siguiente nivel? <a href="contacto.html" class="mui-btn mui-btn--raised mui-btn--primary">¡Contáctanos hoy mismo!</a>
-            </p>
-        </section>
-    </main>
-    <footer class="mui-footer">
-        <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
+    <!-- Misión y Visión -->
+    <section class="mission-vision-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="mission-card animate-fadeInUp">
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h2>Nuestra Misión</h2>
+                        <p>Brindar soluciones innovadoras de automatización de pruebas que ayuden a nuestros clientes a elevar la calidad de su software, optimizar sus procesos y reducir costos, contribuyendo así al éxito de sus proyectos tecnológicos.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="vision-card animate-fadeInUp delay-1">
+                        <div class="card-icon">
+                            <i class="far fa-eye"></i>
+                        </div>
+                        <h2>Nuestra Visión</h2>
+                        <p>Ser reconocidos a nivel global como líderes en soluciones de aseguramiento de calidad de software, destacándonos por nuestra innovación tecnológica, excelencia en el servicio y compromiso con el éxito de nuestros clientes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Valores Corporativos -->
+    <section class="values-section">
+        <div class="container">
+            <div class="section-title text-center animate-fadeInUp">
+                <h2>Nuestros Valores</h2>
+                <p>Los principios que guían nuestro trabajo y nuestras relaciones</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="value-card animate-fadeInUp">
+                        <div class="value-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h3>Excelencia</h3>
+                        <p>Nos esforzamos constantemente por superar expectativas y ofrecer lo mejor en cada proyecto.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value-card animate-fadeInUp delay-1">
+                        <div class="value-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Innovación</h3>
+                        <p>Buscamos continuamente nuevas ideas y soluciones tecnológicas que marquen la diferencia.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value-card animate-fadeInUp delay-2">
+                        <div class="value-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Integridad</h3>
+                        <p>Actuamos con honestidad, transparencia y ética en todas nuestras interacciones.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value-card animate-fadeInUp">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Trabajo en Equipo</h3>
+                        <p>Colaboramos eficazmente para lograr objetivos comunes y potenciar nuestras fortalezas.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value-card animate-fadeInUp delay-1">
+                        <div class="value-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Mejora Continua</h3>
+                        <p>Nos comprometemos a evolucionar constantemente y perfeccionar nuestros procesos.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value-card animate-fadeInUp delay-2">
+                        <div class="value-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Pasión</h3>
+                        <p>Amamos lo que hacemos y lo reflejamos en cada proyecto que emprendemos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nuestro Equipo -->
+    <section class="team-section">
+        <div class="container">
+            <div class="section-title text-center animate-fadeInUp">
+                <h2>Nuestro Equipo</h2>
+                <p>Conoce a los profesionales detrás de QualiTest Solutions</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="team-card animate-fadeInUp">
+                        <div class="team-image">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Martínez - CEO" class="img-fluid">
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="far fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="team-info">
+                            <h4>Sergio Anaya</h4>
+                            <p class="position">CEO & Fundador</p>
+                            <p class="description">Con más de 15 años de experiencia en tecnología y aseguramiento de calidad de software.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-card animate-fadeInUp delay-1">
+                        <div class="team-image">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ana Gómez - CTO" class="img-fluid">
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="far fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="team-info">
+                            <h4>Sandy Gonzalez</h4>
+                            <p class="position">CTO</p>
+                            <p class="description">Especialista en automatización de pruebas y arquitectura de software.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-card animate-fadeInUp delay-2">
+                        <div class="team-image">
+                            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Pedro Sánchez - Director de Operaciones" class="img-fluid">
+                            <div class="team-social">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                                <a href="#"><i class="far fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="team-info">
+                            <h4>Pedro Sánchez</h4>
+                            <p class="position">Director de Operaciones</p>
+                            <p class="description">Experto en gestión de proyectos de calidad y metodologías ágiles.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Línea de Tiempo -->
+    <section class="timeline-section">
+        <div class="container">
+            <div class="section-title text-center animate-fadeInUp">
+                <h2>Nuestra Trayectoria</h2>
+                <p>El camino que nos ha traído hasta aquí</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item animate-fadeInUp">
+                    <div class="timeline-badge">2010</div>
+                    <div class="timeline-content">
+                        <h4>Fundación</h4>
+                        <p>QualiTest Solutions nace con el objetivo de mejorar la calidad del software en Colombia.</p>
+                    </div>
+                </div>
+                <div class="timeline-item animate-fadeInUp">
+                    <div class="timeline-badge">2013</div>
+                    <div class="timeline-content">
+                        <h4>Expansión Regional</h4>
+                        <p>Ampliamos nuestros servicios a otros países de Latinoamérica con grandes resultados.</p>
+                    </div>
+                </div>
+                <div class="timeline-item animate-fadeInUp">
+                    <div class="timeline-badge">2016</div>
+                    <div class="timeline-content">
+                        <h4>Innovación Tecnológica</h4>
+                        <p>Desarrollamos nuestra propia plataforma de automatización de pruebas QualiFramework.</p>
+                    </div>
+                </div>
+                <div class="timeline-item animate-fadeInUp">
+                    <div class="timeline-badge">2019</div>
+                    <div class="timeline-content">
+                        <h4>Reconocimiento Internacional</h4>
+                        <p>Recibimos el premio "Excellence in Software Testing" en la feria internacional de tecnología.</p>
+                    </div>
+                </div>
+                <div class="timeline-item animate-fadeInUp">
+                    <div class="timeline-badge">Hoy</div>
+                    <div class="timeline-content">
+                        <h4>Crecimiento Continuo</h4>
+                        <p>Seguimos innovando y expandiéndonos para ofrecer soluciones de vanguardia en calidad de software.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tecnologías y Herramientas -->
+    <section class="technologies-section">
+        <div class="container">
+            <div class="section-title text-center animate-fadeInUp">
+                <h2>Tecnologías y Herramientas</h2>
+                <p>Utilizamos las mejores herramientas para ofrecer soluciones óptimas</p>
+            </div>
+
+            <div class="tech-container animate-fadeInUp">
+                <div class="tech-item">
+                    <img src="https://www.selenium.dev/images/selenium_logo_square_green.png" alt="Selenium" class="tech-logo">
+                    <p>Selenium</p>
+                </div>
+                <div class="tech-item">
+                    <img src="https://avatars.githubusercontent.com/u/8908513?s=200&v=4" alt="Cypress" class="tech-logo">
+                    <p>Cypress</p>
+                </div>
+                <div class="tech-item">
+                    <img src="https://avatars.githubusercontent.com/u/14985020?s=200&v=4" alt="TestNG" class="tech-logo">
+                    <p>TestNG</p>
+                </div>
+                <div class="tech-item">
+                    <img src="https://www.jenkins.io/images/logos/jenkins/jenkins.png" alt="Jenkins" class="tech-logo">
+                    <p>Jenkins</p>
+                </div>
+                <div class="tech-item">
+                    <img src="https://avatars.githubusercontent.com/u/1672245?s=200&v=4" alt="Appium" class="tech-logo">
+                    <p>Appium</p>
+                </div>
+                <div class="tech-item">
+                    <img src="https://avatars.githubusercontent.com/u/9141961?s=200&v=4" alt="Postman" class="tech-logo">
+                    <p>Postman</p>
+                </div>
+                <div class="tech-item">
+                    <img src="https://avatars.githubusercontent.com/u/7658037?s=200&v=4" alt="Docker" class="tech-logo">
+                    <p>Docker</p>
+                </div>
+                <div class="tech-item">
+                    <img src="https://avatars.githubusercontent.com/u/3380462?s=200&v=4" alt="SonarQube" class="tech-logo">
+                    <p>SonarQube</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content animate-fadeInUp">
+                <h2>¿Listo para mejorar la calidad de tu software?</h2>
+                <p>Contáctanos hoy mismo y descubre cómo nuestras soluciones pueden transformar tus procesos de calidad.</p>
+                <a href="contacto.html" class="cta-btn">¡Hablemos!</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-column">
+                    <h4>QualiTest Solutions</h4>
+                    <p>Somos expertos en automatización de pruebas de software, comprometidos con la excelencia y la calidad.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="nosotros.html">Nosotros</a></li>
+                        <li><a href="herramientas.html">Herramientas</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Servicios</h4>
+                    <ul>
+                        <li><a href="#">Automatización de Pruebas</a></li>
+                        <li><a href="#">Pruebas de Rendimiento</a></li>
+                        <li><a href="#">Pruebas de Seguridad</a></li>
+                        <li><a href="#">Consultoría QA</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Carrera 11W #18-27, Monteria</li>
+                        <li><i class="fas fa-phone"></i> +57 310 3904286</li>
+                        <li><i class="fas fa-envelope"></i> info@qualitest.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 QualiTest Solutions. Todos los derechos reservados.</p>
+            </div>
+        </div>
     </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="nosotros-scripts.js"></script>
 </body>
 </html>
