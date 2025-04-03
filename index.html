@@ -3,283 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio - QualiTest Solutions</title>
+    <title>QualiTest Solutions - Automatización de Pruebas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Estilos personalizados -->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Nuevos estilos mejorados -->
+    <link rel="stylesheet" href="index-styles.css">
 </head>
 <body>
-    <header class="mui-appbar">
-        <div class="mui-container">
-            <div class="logo">QualiTest Solutions</div>
-            <nav>
-                <ul class="mui-nav">
-                    <li><a href="index.html" class="mui-btn mui-btn--flat">Inicio</a></li>
-                    <li><a href="nosotros.html" class="mui-btn mui-btn--flat">Nosotros</a></li>
-                    <li><a href="herramientas.html" class="mui-btn mui-btn--flat">Herramientas</a></li>
-                    <li><a href="contacto.html" class="mui-btn mui-btn--flat">Contacto</a></li>
-                    <li><a href="login.html" class="mui-btn mui-btn--raised mui-btn--primary">Administración</a></li>
-                </ul>
-            </nav>
-        </div>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="#">QualiTest Solutions</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="nosotros.html">Nosotros</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="herramientas.html">Herramientas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contacto.html">Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="admin.html">Administración</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </header>
-    <main>
-        <section class="hero-section">
-            <h1 class="hero-title">Bienvenidos a QualiTest Solutions</h1>
-            <p class="hero-description">Líderes en Control de Calidad (QA) para garantizar la excelencia en tus proyectos de software.</p>
-        </section>
-        <section class="features-section">
-            <h2 class="section-title">¿Cómo te podemos ayudar?</h2>
-            <div class="features-container">
-                <div class="feature-card mui-card">
-                    <span class="material-icons feature-icon">support_agent</span>
-                    <h3>Servicio al Cliente</h3>
-                    <p>Estamos aquí para resolver tus dudas y brindarte soporte.</p>
-                    <a href="contacto.html" class="mui-btn mui-btn--raised mui-btn--primary">Contáctanos</a>
+
+    <!-- Hero Section Mejorada -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="animate-fadeInUp">Soluciones de Calidad para Software</h1>
+            <p class="animate-fadeInUp delay-1">Automatizamos tus pruebas para garantizar productos de software con la máxima calidad. Optimiza tus procesos y reduce costos con nuestras soluciones especializadas.</p>
+            <a href="contacto.html" class="hero-cta animate-fadeInUp delay-2">Solicitar Demostración</a>
+        </div>
+    </section>
+
+    <!-- Sección de Carrusel Mejorada -->
+    <section class="content-section">
+        <div class="container">
+            <div id="mainCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
                 </div>
-                <div class="feature-card mui-card">
-                    <span class="material-icons feature-icon">build</span>
-                    <h3>Soluciones Personalizadas</h3>
-                    <p>Adaptamos nuestras herramientas a las necesidades de tu negocio.</p>
-                </div>
-                <div class="feature-card mui-card">
-                    <span class="material-icons feature-icon">trending_up</span>
-                    <h3>Optimización Empresarial</h3>
-                    <p>Mejora la eficiencia de tus procesos con nuestras soluciones.</p>
-                </div>
-            </div>
-        </section>
-        <!-- Beneficios del QA -->
-        <section class="features-section">
-            <h2>Beneficios del QA</h2>
-            <div class="features-container">
-                <div class="feature-card">
-                    <div class="feature-icon">✔️</div>
-                    <h3>Mejora la Calidad</h3>
-                    <p>Identifica y corrige errores antes de que lleguen a producción.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⏱️</div>
-                    <h3>Optimiza el Tiempo</h3>
-                    <p>Reduce el tiempo de desarrollo con pruebas automatizadas.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>Reduce Costos</h3>
-                    <p>Evita gastos innecesarios al detectar problemas tempranamente.</p>
-                </div>
-            </div>
-        </section>
-        <section class="image-banner-section">
-            <h2 class="section-title">Imágenes Destacadas</h2>
-            <div class="mui-carousel">
-                <div id="image-carousel" class="carousel-container">
+                <div class="carousel-inner">
                     <!-- Las imágenes se cargarán dinámicamente aquí -->
+                    <div class="carousel-images" style="display: none;">
+                        <!-- Contenedor oculto para cargar las imágenes del carrusel -->
+                    </div>
                 </div>
-                <button class="carousel-btn prev-btn" onclick="moveCarousel(-1)">&#10094;</button>
-                <button class="carousel-btn next-btn" onclick="moveCarousel(1)">&#10095;</button>
+                <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                    <span class="visually-hidden">Anterior</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                    <span class="visually-hidden">Siguiente</span>
+                </button>
             </div>
-        </section>
-        <script>
-            let currentSlide = 0;
+        </div>
+    </section>
 
-            // Cargar imágenes desde la carpeta "imagenes"
-            fetch('/imagenes')
-                .then(response => response.json())
-                .then(images => {
-                    const carousel = document.getElementById('image-carousel');
-                    images.forEach((image, index) => {
-                        const imgElement = document.createElement('img');
-                        imgElement.src = `/imagenes/${image}`;
-                        imgElement.alt = `Imagen ${index + 1}`;
-                        imgElement.classList.add('carousel-image');
-                        if (index === 0) imgElement.classList.add('active'); // Mostrar la primera imagen
-                        carousel.appendChild(imgElement);
-                    });
-                })
-                .catch(error => console.error('Error al cargar las imágenes:', error));
-
-            function moveCarousel(direction) {
-                const images = document.querySelectorAll('.carousel-image');
-                images[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + direction + images.length) % images.length;
-                images[currentSlide].classList.add('active');
-            }
-        </script>
-        <!-- Casos de Éxito -->
-        <section class="image-gallery-section">
-            <h2>Casos de Éxito</h2>
-            <div class="image-gallery" id="casos-exito-gallery">
-                <!-- Las imágenes se cargarán dinámicamente aquí -->
-            </div>
-        </section>
-        <script>
-            async function cargarCasosExito() {
-                try {
-                    const response = await fetch('/api/imagenes-casos-exito');
-                    if (!response.ok) {
-                        throw new Error('Error al cargar las imágenes.');
-                    }
-                    const imagenes = await response.json();
-                    const gallery = document.getElementById('casos-exito-gallery');
-                    gallery.innerHTML = ''; // Limpia la galería antes de cargar las imágenes
-                    imagenes.forEach(imagen => {
-                        const imgElement = document.createElement('img');
-                        imgElement.src = `imagenes/Casos_Exito/${imagen}`;
-                        imgElement.alt = 'Caso de Éxito';
-                        imgElement.className = 'gallery-image';
-                        gallery.appendChild(imgElement);
-                    });
-                } catch (error) {
-                    console.error('Error al cargar las imágenes de casos de éxito:', error);
-                }
-            }
-
-            // Cargar las imágenes al cargar la página
-            document.addEventListener('DOMContentLoaded', cargarCasosExito);
-        </script>
-        <section id="Testimonios">
-        
-       
-        <!-- Testimonios -->
-        <section id="testimonios" class="testimonios-section">
-            <h2 class="section-title">Testimonios</h2>
-            <div id="testimonios-video-list" class="video-list">
-                <!-- Los videos de testimonios y YouTube se cargarán aquí -->
-            </div>
-        </section>
-
-        <script>
-            async function cargarTestimonios() {
-                try {
-                    const response = await fetch('/api/testimonial-videos');
-                    if (!response.ok) throw new Error('Error al cargar los videos de testimonios.');
-                    const videos = await response.json();
-                    const listContainer = document.getElementById('testimonios-video-list');
-                    listContainer.innerHTML = ''; // Limpia la lista antes de cargar los videos
-
-                    if (videos.length === 0) {
-                        listContainer.innerHTML = '<p>No hay testimonios disponibles.</p>';
-                        return;
-                    }
-
-                    videos.forEach(video => {
-                        const videoPath = `/videos/testimonios/${video}`;
-                        const videoElement = document.createElement('video');
-                        videoElement.src = videoPath;
-                        videoElement.controls = true;
-                        videoElement.style.maxWidth = '300px';
-                        videoElement.style.margin = '10px';
-                        listContainer.appendChild(videoElement);
-                    });
-                } catch (error) {
-                    console.error('Error al cargar los testimonios:', error);
-                }
-            }
-
-            async function cargarVideosYouTube() {
-                try {
-                    const response = await fetch('/api/youtube-links');
-                    if (!response.ok) throw new Error('Error al cargar los enlaces de YouTube.');
-                    const links = await response.json();
-                    const listContainer = document.getElementById('testimonios-video-list');
-
-                    links.forEach(link => {
-                        const iframe = document.createElement('iframe');
-                        iframe.src = `https://www.youtube.com/embed/${link}`;
-                        iframe.allowFullscreen = true;
-                        iframe.style.maxWidth = '300px';
-                        iframe.style.margin = '10px';
-                        listContainer.appendChild(iframe);
-                    });
-                } catch (error) {
-                    console.error('Error al cargar los videos de YouTube:', error);
-                }
-            }
-
-            document.addEventListener('DOMContentLoaded', () => {
-                cargarTestimonios();
-                cargarVideosYouTube();
-            });
-        </script>
-        <!-- Preguntas Frecuentes -->
-        <section class="faq-section">
-            <h2>Preguntas Frecuentes</h2>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <h3>¿Qué es el QA?</h3>
-                    <p>El QA (Quality Assurance) es un proceso que garantiza que un producto o servicio cumpla con los estándares de calidad requeridos.</p>
+    <!-- Banner de Características -->
+    <div class="container">
+        <div class="features-banner">
+            <div class="feature-item animate-fadeInUp">
+                <div class="feature-icon">
+                    <i class="fas fa-tachometer-alt"></i>
                 </div>
-                <div class="faq-item">
-                    <h3>¿Por qué es importante el QA?</h3>
-                    <p>El QA ayuda a prevenir errores, mejorar la experiencia del usuario y reducir costos a largo plazo.</p>
-                </div>
-                <div class="faq-item">
-                    <h3>¿Qué herramientas utilizan?</h3>
-                    <p>Utilizamos herramientas como Selenium, JMeter, Postman, entre otras, para garantizar la calidad de tus proyectos.</p>
+                <div class="feature-text">
+                    <h4>Alta Eficiencia</h4>
+                    <p>Automatización que optimiza tiempos y recursos</p>
                 </div>
             </div>
-        </section>
-        <section class="cta-section">
-            <h2 class="cta-title">¿Listo para comenzar?</h2>
-            <p class="cta-description">Contáctanos hoy mismo y descubre cómo podemos ayudarte a mejorar la calidad de tu software.</p>
-            <a href="contacto.html" class="mui-btn mui-btn--raised mui-btn--primary">Contáctanos</a>
-        </section>
-        <div class="block-container">
-            <div class="block1foot">
-                <p class="country-icons">
-                    <img alt="Colombia" width="30" src="https://staticres.r.worldssl.net/public_master/front/img/colombia-1.png" title="Colombia">
-                    <img alt="Perú" width="30" src="https://staticres.r.worldssl.net/public_master/front/img/peru.svg" title="Perú">
-                    <img alt="Argentina" width="30" src="https://staticres.r.worldssl.net/public_master/front/img/argentina.svg" title="Argentina">
-                    <img alt="USA" width="30" src="https://staticres.r.worldssl.net/public_master/front/img/usa.png" title="USA">
-                </p>
-                <div class="links">
-                    <a href="https://g.co/kgs/qDu9aeT" class="lega">Nuestras oficinas</a><br>
-                    <a href="https://solventa.co/nuestro-equipo" class="lega">Nuestro equipo</a><br>
-                    <a href="https://solventa.co/evita-el-fraude-financiero" class="lega">Evita el fraude financiero</a>
+            <div class="feature-item animate-fadeInUp delay-1">
+                <div class="feature-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="feature-text">
+                    <h4>Precisión Total</h4>
+                    <p>Detección temprana de errores críticos</p>
                 </div>
             </div>
-            <div class="block3foot block3foot--desk">
-                <h3 class="help-title">¿Cómo podemos ayudarte?</h3>
-                <div class="block3foot__horarios">
-                    <p><b>Horario de Atención</b></p>
-                    <p>Lunes a Viernes - 8 AM a 6 PM</p>
-                    <p>Sábados - 8 AM a 12 PM</p>
+            <div class="feature-item animate-fadeInUp delay-2">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
                 </div>
-            </div>
-            <div class="block2foot">
-                <p class="aba-p">
-                    <a href="https://api.whatsapp.com/send?phone=573103904286" target="_blank">
-                        <button class="linkpeticiones btn-ws-footer servicio-cliente-btn">
-                            <img class="icon-ws-footer" src="https://staticres.r.worldssl.net/public_master/front/img/como_pagar/como_pagar_whatsapp_blanco.svg" width="30" height="30" alt="WhatsApp">
-                            <span>Servicio al cliente</span>
-                        </button>
-                    </a>
-                </p>
-            </div>
-            <div class="social-media-section">
-                <h3>Síguenos en nuestras redes sociales</h3>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com/SergioLuisAnayaRomero" target="_blank">
-                        <i class="fa fa-facebook"></i>
-                    </a>
-                    <a href="https://bit.ly/solventacoig" target="_blank">
-                        <i class="fa fa-instagram"></i>
-                    </a>
-                    <a href="https://twitter.com" target="_blank">
-                        <i class="fa fa-twitter"></i>
-                    </a>
-                    <a href="https://www.linkedin.com" target="_blank">
-                        <i class="fa fa-linkedin"></i>
-                    </a>
+                <div class="feature-text">
+                    <h4>Reportes Avanzados</h4>
+                    <p>Métricas y análisis detallados en tiempo real</p>
                 </div>
             </div>
         </div>
-    </main>
-    <footer class="mui-footer">
-        <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
+    </div>
+
+    <!-- Sección de Servicios Mejorada -->
+    <section class="content-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nuestros Servicios</h2>
+                <p>Ofrecemos soluciones completas para cada etapa del proceso de pruebas de software</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top" alt="Automatización de Pruebas">
+                        <div class="card-body">
+                            <h5 class="card-title">Automatización de Pruebas</h5>
+                            <p class="card-text">Implementamos soluciones avanzadas de automatización para optimizar tus procesos de testing.</p>
+                            <a href="#" class="btn btn-primary">Conocer más</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top" alt="Pruebas de Rendimiento">
+                        <div class="card-body">
+                            <h5 class="card-title">Pruebas de Rendimiento</h5>
+                            <p class="card-text">Evaluamos el rendimiento de tus aplicaciones bajo diferentes condiciones y cargas de trabajo.</p>
+                            <a href="#" class="btn btn-primary">Conocer más</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" class="card-img-top" alt="Pruebas de Seguridad">
+                        <div class="card-body">
+                            <h5 class="card-title">Pruebas de Seguridad</h5>
+                            <p class="card-text">Identificamos vulnerabilidades y protegemos tus aplicaciones contra amenazas potenciales.</p>
+                            <a href="#" class="btn btn-primary">Conocer más</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección para mostrar bugs recientes -->
+    <section class="content-section bg-light">
+        <div class="container">
+            <div class="section-title">
+                <h2>Últimas Actualizaciones</h2>
+                <p>Información sobre los bugs recientes y su estado de resolución</p>
+            </div>
+            <div id="bugs-list" class="alert alert-info text-center">
+                <!-- Los bugs recientes se mostrarán aquí dinámicamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Testimonios Mejorada -->
+    <section class="testimonial-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Testimonios</h2>
+                <p>Lo que nuestros clientes dicen sobre nuestros servicios</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="testimonial-card">
+                        <p class="testimonial-content">QualiTest Solutions ha transformado completamente nuestro proceso de pruebas. La automatización implementada nos ha permitido reducir el tiempo de lanzamiento en un 40%.</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos Martínez">
+                            <div class="author-info">
+                                <h5>Carlos Martínez</h5>
+                                <p>Director de Tecnología, Tech Solutions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="testimonial-card">
+                        <p class="testimonial-content">El equipo de QualiTest es excepcional. Su enfoque metodológico y herramientas personalizadas aumentaron la calidad de nuestro software significativamente.</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ana Gómez">
+                            <div class="author-info">
+                                <h5>Ana Gómez</h5>
+                                <p>QA Manager, Innovatech</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Contenedor para testimonios en video - Sección mejorada -->
+                <div class="video-testimonials-section mt-5">
+                    <h3 class="text-center mb-4">Testimonios en Video</h3>
+                    <p class="text-center text-muted mb-4">Mira lo que nuestros clientes dicen sobre nuestras soluciones</p>
+                    
+                    <div id="video-testimonials" class="row g-4">
+                        <!-- Los videos de testimonios se cargarán dinámicamente aquí -->
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <a href="#" class="btn btn-outline-primary" onclick="loadVideoTestimonials()">
+                            <i class="fas fa-sync-alt me-2"></i> Actualizar Videos
+                        </a>
+                        
+                        <!-- Sección para depuración -->
+                        <div id="debug-info" class="mt-3" style="display: none;">
+                            <button class="btn btn-sm btn-secondary" onclick="toggleDebugInfo()">Mostrar información de depuración</button>
+                            <div id="debug-container" class="mt-2 p-3 bg-light rounded text-start" style="display: none;">
+                                <h6 class="mb-2">Información de depuración:</h6>
+                                <div id="debug-message"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección CTA Mejorada -->
+    <section class="content-section">
+        <div class="container">
+            <div class="cta-section">
+                <h2>¿Listo para optimizar tus pruebas?</h2>
+                <p>Nuestras soluciones de automatización están diseñadas para ahorrar tiempo y recursos mientras mejoran la calidad de tu software.</p>
+                <a href="contacto.html" class="cta-btn">Contáctanos Hoy</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Mejorado -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-column">
+                    <h4>QualiTest Solutions</h4>
+                    <p>Somos expertos en automatización de pruebas de software, comprometidos con la excelencia y la calidad.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Enlaces Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="nosotros.html">Nosotros</a></li>
+                        <li><a href="herramientas.html">Herramientas</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Servicios</h4>
+                    <ul>
+                        <li><a href="#">Automatización de Pruebas</a></li>
+                        <li><a href="#">Pruebas de Rendimiento</a></li>
+                        <li><a href="#">Pruebas de Seguridad</a></li>
+                        <li><a href="#">Consultoría QA</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Carrera 11W #18-27, Monteria</li>
+                        <li><i class="fas fa-phone"></i> +57 310 3904286</li>
+                        <li><i class="fas fa-envelope"></i> info@qualitest.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 QualiTest Solutions. Todos los derechos reservados.</p>
+            </div>
+        </div>
     </footer>
+
+    <!-- Área para previsualización de imágenes (oculta) -->
+    <div id="image-preview" style="display:none;">
+        <div class="image-list"></div>
+    </div>
+
+    <!-- Scripts de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts personalizados -->
+    <script src="scripts.js"></script>
+    <!-- Nuevos scripts para efectos -->
+    <script src="index-scripts.js"></script>
 </body>
 </html>
