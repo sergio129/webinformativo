@@ -324,6 +324,33 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => toast.remove(), 300);
         }
     }
+    
+    // Agregar elemento de cerrar sesión si no existe
+    const userProfile = document.querySelector('.admin-user-profile');
+    if (userProfile) {
+        // Verificar si ya existe un botón de cerrar sesión
+        if (!document.querySelector('.logout-btn')) {
+            const logoutBtn = document.createElement('button');
+            logoutBtn.className = 'logout-btn';
+            logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+            logoutBtn.title = 'Cerrar sesión';
+            logoutBtn.addEventListener('click', cerrarSesion);
+            
+            userProfile.appendChild(logoutBtn);
+            
+            // Añadir nombre de usuario si está disponible
+            const sessionData = 
+                JSON.parse(localStorage.getItem('qualitest_session')) || 
+                JSON.parse(sessionStorage.getItem('qualitest_session'));
+            
+            if (sessionData && sessionData.username) {
+                const usernameSpan = document.querySelector('.admin-user-profile span');
+                if (usernameSpan) {
+                    usernameSpan.textContent = sessionData.username;
+                }
+            }
+        }
+    }
 });
 
 // Funciones para actualizar contadores (se conectan con el backend)
@@ -650,6 +677,17 @@ window.loadAdminImages = loadAdminImages;
 window.deleteImage = deleteImage;
 window.loadAdminVideos = loadAdminVideos;
 window.deleteVideo = deleteVideo;
+window.cerrarSesion = cerrarSesion;
+
+// Función para cerrar sesión
+function cerrarSesion() {
+    // Eliminar datos de sesión
+    localStorage.removeItem('qualitest_session');
+    sessionStorage.removeItem('qualitest_session');
+    
+    // Redirigir a la página de login
+    window.location.href = "login.html";
+}
 
 // Función para formatear el tamaño del archivo
 function formatFileSize(bytes) {
@@ -769,6 +807,29 @@ document.head.insertAdjacentHTML('beforeend', `
         .file-upload-container.highlight {
             border-color: #3f51b5;
             background-color: rgba(63, 81, 181, 0.1);
+        }
+        
+        /* Estilos para el botón de cerrar sesión */
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #f44336;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 10px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background-color: rgba(244, 67, 54, 0.1);
+            transform: scale(1.1);
         }
     </style>
 `);

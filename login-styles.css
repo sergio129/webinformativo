@@ -1,0 +1,235 @@
+/* Estilos para la página de login */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f5f7ff;
+    line-height: 1.8;
+    color: #333;
+}
+
+.login-section {
+    padding: 5rem 0;
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+}
+
+.login-card {
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.login-header {
+    padding: 2.5rem 2.5rem 1.5rem;
+    text-align: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.logo-container i {
+    font-size: 2.5rem;
+    color: #3f51b5;
+    margin-right: 10px;
+}
+
+.logo-container h2 {
+    font-size: 2rem;
+    color: #3f51b5;
+    font-weight: 700;
+    margin: 0;
+}
+
+.login-header h3 {
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.login-header p {
+    color: #666;
+    margin-bottom: 0;
+}
+
+.login-form {
+    padding: 1.5rem 2.5rem 2.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+.input-with-icon input {
+    padding-left: 45px;
+    height: 52px;
+    font-size: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.input-with-icon input:focus {
+    border-color: #3f51b5;
+    box-shadow: 0 0 0 0.2rem rgba(63, 81, 181, 0.25);
+}
+
+.input-with-icon input:focus + i {
+    color: #3f51b5;
+}
+
+.form-check-label {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.form-check-input:checked {
+    background-color: #3f51b5;
+    border-color: #3f51b5;
+}
+
+.login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(45deg, #3f51b5, #5c6bc0);
+    color: white;
+    border: none;
+    padding: 0.8rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(63, 81, 181, 0.3);
+    width: 100%;
+}
+
+.login-btn:hover {
+    background: linear-gradient(45deg, #303f9f, #3f51b5);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(63, 81, 181, 0.4);
+}
+
+.login-btn i {
+    font-size: 1.2rem;
+}
+
+.login-message {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.login-message.error {
+    color: #e53935;
+    background-color: rgba(229, 57, 53, 0.1);
+}
+
+.login-message.success {
+    color: #43a047;
+    background-color: rgba(67, 160, 71, 0.1);
+}
+
+.footer-simple {
+    background-color: #202040;
+    color: #a0a0a0;
+    padding: 1.5rem 0;
+    text-align: center;
+}
+
+.footer-simple p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Animación para el botón */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(63, 81, 181, 0.6);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(63, 81, 181, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(63, 81, 181, 0);
+    }
+}
+
+/* Animación para login erróneo */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake {
+    animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+    .login-header, .login-form {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-card {
+        border-radius: 10px;
+    }
+    
+    .login-header {
+        padding-top: 2rem;
+        padding-bottom: 1rem;
+    }
+    
+    .login-header h3 {
+        font-size: 1.5rem;
+    }
+    
+    .login-btn {
+        padding: 0.7rem 2rem;
+        font-size: 1rem;
+    }
+}
