@@ -1967,4 +1967,42 @@ document.addEventListener('DOMContentLoaded', function() {
             setResultStatus(resultDiv, 'success');
         });
     }
+
+    // Controlador para todas las categorías en todas las pestañas
+    const allTabs = ['qa-tools', 'data-tools', 'api-tools', 'misc-tools'];
+    
+    allTabs.forEach(tabId => {
+        const categoryButtons = document.querySelectorAll(`#${tabId} .category-btn`);
+        const categoryContents = document.querySelectorAll(`#${tabId} .category-content`);
+        
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+                
+                // Desactivar todos los botones y contenidos dentro de esta pestaña
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                categoryContents.forEach(content => content.classList.remove('active'));
+                
+                // Activar el botón y contenido seleccionado
+                button.classList.add('active');
+                const selectedContent = document.getElementById(category);
+                if (selectedContent) {
+                    selectedContent.classList.add('active');
+                }
+            });
+        });
+    });
+
+    // Asegurarse de que cuando se cambia de pestaña, la primera categoría esté activa
+    document.querySelectorAll('.tab-button').forEach(tabButton => {
+        tabButton.addEventListener('click', () => {
+            const tabId = tabButton.getAttribute('data-tab');
+            const firstCategoryBtn = document.querySelector(`#${tabId} .category-btn`);
+            if (firstCategoryBtn) {
+                setTimeout(() => {
+                    firstCategoryBtn.click();
+                }, 50);
+            }
+        });
+    });
 });

@@ -89,6 +89,103 @@ header nav ul li a:hover {
     display: block;
 }
 
+/* Estilos generales para cabeceras y categorías en todas las pestañas */
+.tab-content .category-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tab-content .category-header h2 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.tab-content .category-header p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    opacity: 0.9;
+}
+
+/* Variaciones de color para cada pestaña */
+#qa-tools .category-header {
+    background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+}
+
+#data-tools .category-header {
+    background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+}
+
+#api-tools .category-header {
+    background: linear-gradient(135deg, #ff9800 0%, #ffb74d 100%);
+}
+
+#misc-tools .category-header {
+    background: linear-gradient(135deg, #9c27b0 0%, #ba68c8 100%);
+}
+
+/* Botones de categoría personalizados para cada pestaña */
+#qa-tools .category-btn.active {
+    background-color: #3f51b5;
+    color: white;
+    box-shadow: 0 4px 8px rgba(63, 81, 181, 0.3);
+}
+
+#data-tools .category-btn.active {
+    background-color: #4caf50;
+    color: white;
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+#api-tools .category-btn.active {
+    background-color: #ff9800;
+    color: white;
+    box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+}
+
+#misc-tools .category-btn.active {
+    background-color: #9c27b0;
+    color: white;
+    box-shadow: 0 4px 8px rgba(156, 39, 176, 0.3);
+}
+
+/* Efectos de transición mejorados para las categorías */
+.category-content {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.category-content.active {
+    display: grid;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mejoras visuales para los badges según la pestaña */
+#qa-tools .tool-badge {
+    background: linear-gradient(45deg, #3f51b5, #5c6bc0);
+}
+
+#data-tools .tool-badge {
+    background: linear-gradient(45deg, #4caf50, #81c784);
+}
+
+#api-tools .tool-badge {
+    background: linear-gradient(45deg, #ff9800, #ffb74d);
+}
+
+#misc-tools .tool-badge {
+    background: linear-gradient(45deg, #9c27b0, #ba68c8);
+}
+
 /* Grid Container */
 .grid-container {
     display: grid;
@@ -185,14 +282,385 @@ form button:hover {
 
 /* Resultados */
 .resultado {
-    margin-top: 1rem;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem;
+    padding: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     font-size: 1rem;
     color: #333;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.resultado::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    border-radius: 3px 0 0 3px;
+}
+
+.resultado:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.resultado p {
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+}
+
+.resultado strong {
+    font-weight: 600;
+}
+
+/* Colores para cada pestaña */
+#qa-tools .resultado::before {
+    background-color: #3f51b5;
+}
+
+#qa-tools .resultado strong {
+    color: #3f51b5;
+}
+
+#data-tools .resultado::before {
+    background-color: #4caf50;
+}
+
+#data-tools .resultado strong {
+    color: #4caf50;
+}
+
+#api-tools .resultado::before {
+    background-color: #ff9800;
+}
+
+#api-tools .resultado strong {
+    color: #ff9800;
+}
+
+#misc-tools .resultado::before {
+    background-color: #9c27b0;
+}
+
+#misc-tools .resultado strong {
+    color: #9c27b0;
+}
+
+/* Estilos para diferentes tipos de resultado aplicados a todas las pestañas */
+.resultado.success {
+    background-color: #f0f9f0;
+}
+
+.resultado.success::before {
+    background-color: #4CAF50;
+}
+
+.resultado.error {
+    background-color: #fff5f5;
+}
+
+.resultado.error::before {
+    background-color: #F44336;
+}
+
+.resultado.warning {
+    background-color: #fffbf0;
+}
+
+.resultado.warning::before {
+    background-color: #FFC107;
+}
+
+/* Estilos para resultados específicos aplicados a todas las pestañas */
+.resultado pre {
+    background-color: #f1f3f5;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    border-left: 3px solid #3f51b5;
+    margin: 10px 0;
+}
+
+.resultado img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 10px auto;
+    display: block;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.resultado img:hover {
+    transform: scale(1.02);
+}
+
+.resultado ul, 
+.resultado ol {
+    margin: 10px 0;
+    padding-left: 25px;
+}
+
+.resultado li {
+    margin-bottom: 5px;
+    position: relative;
+    padding-left: 5px;
+}
+
+/* Efecto de brillante para todos los resultados */
+.resultado::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: skewX(-20deg);
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+.resultado:hover::after {
+    left: 150%;
+}
+
+/* Estilo específico para enlaces en resultados */
+.resultado a {
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+#qa-tools .resultado a {
+    color: #3f51b5;
+    background-color: #e8eaf6;
+}
+
+#qa-tools .resultado a:hover {
+    background-color: #3f51b5;
+    color: white;
+    box-shadow: 0 4px 8px rgba(63, 81, 181, 0.3);
+}
+
+#data-tools .resultado a {
+    color: #4caf50;
+    background-color: #e8f5e9;
+}
+
+#data-tools .resultado a:hover {
+    background-color: #4caf50;
+    color: white;
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+#api-tools .resultado a {
+    color: #ff9800;
+    background-color: #fff8e1;
+}
+
+#api-tools .resultado a:hover {
+    background-color: #ff9800;
+    color: white;
+    box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+}
+
+#misc-tools .resultado a {
+    color: #9c27b0;
+    background-color: #f3e5f5;
+}
+
+#misc-tools .resultado a:hover {
+    background-color: #9c27b0;
+    color: white;
+    box-shadow: 0 4px 8px rgba(156, 39, 176, 0.3);
+}
+
+/* Estilos para listas de resultados en todas las pestañas */
+.recomendaciones-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 8px;
+    background: #f8f9fa;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.recomendaciones-list li {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.recomendaciones-list li:last-child {
+    border-bottom: none;
+}
+
+.recomendaciones-list li::before {
+    content: '•';
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#qa-tools .recomendaciones-list li:hover {
+    background-color: #e8eaf6;
+}
+
+#qa-tools .recomendaciones-list li::before {
+    color: #3f51b5;
+}
+
+#data-tools .recomendaciones-list li:hover {
+    background-color: #e8f5e9;
+}
+
+#data-tools .recomendaciones-list li::before {
+    color: #4caf50;
+}
+
+#api-tools .recomendaciones-list li:hover {
+    background-color: #fff8e1;
+}
+
+#api-tools .recomendaciones-list li::before {
+    color: #ff9800;
+}
+
+#misc-tools .recomendaciones-list li:hover {
+    background-color: #f3e5f5;
+}
+
+#misc-tools .recomendaciones-list li::before {
+    color: #9c27b0;
+}
+
+/* Estilos específicos para ROI Calculator en QA Tools */
+#resultado-roi {
+    padding: 20px;
+}
+
+#resultado-roi ul {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+#resultado-roi li:last-child {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed #e0e0e0;
+}
+
+#resultado-roi li:last-child strong {
+    font-size: 1.1rem;
+}
+
+/* Estilos específicos para la consola de testing en QA Tools */
+#consola-testing {
+    margin-top: 20px;
+    border-radius: 8px;
+    font-family: 'Roboto Mono', monospace;
+    overflow: hidden;
+    position: relative;
+    border: none;
+    background-color: #1e1e1e;
+    color: #f8f8f8;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#consola-testing::before {
+    content: 'Terminal';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 25px;
+    background-color: #333;
+    color: #fff;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    border-radius: 8px 8px 0 0;
+}
+
+#consola-testing .line {
+    padding: 3px 10px;
+    margin-top: 30px;
+    font-size: 0.9rem;
+}
+
+/* Estilos específicos para la API Response en API Tools */
+.api-response {
+    background-color: #1e1e1e !important;
+    color: #f8f8f8 !important;
+    border-radius: 8px !important;
+    padding: 15px !important;
+    font-family: 'Roboto Mono', monospace !important;
+    font-size: 0.9rem !important;
+    overflow-x: auto !important;
+    border-left: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+.resultado-api h3 {
+    margin-bottom: 10px;
+    color: #ff9800;
+    font-size: 1.2rem;
+}
+
+/* Estilos específicos para validación de JSON en API Tools */
+#json-schema-result.success {
+    background-color: #e8f5e9;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#json-schema-result.error {
+    background-color: #ffebee;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+#json-schema-result ul {
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations for data loading in Data Tools section */
+@keyframes pulse-bg {
+    0% { background-color: #f5f5f5; }
+    50% { background-color: #e0e0e0; }
+    100% { background-color: #f5f5f5; }
+}
+
+.loading-item {
+    animation: pulse-bg 1.5s infinite;
+    border-radius: 4px;
+    height: 20px;
+    margin: 5px 0;
 }
 
 /* Estilos para la tarjeta de resultados de interés compuesto */

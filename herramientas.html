@@ -31,11 +31,23 @@
                 <button class="tab-button" data-tab="misc-tools">Otras Herramientas</button>
             </div>
             <div id="qa-tools" class="tab-content active">
-                <div class="grid-container">
-                    <div class="service-card">
+                <div class="category-header">
+                    <h2>Herramientas para Aseguramiento de Calidad</h2>
+                    <p>Optimiza tus procesos de testing con nuestras herramientas especializadas</p>
+                </div>
+                
+                <div class="tools-categories">
+                    <button class="category-btn active" data-category="qa-analysis">Análisis</button>
+                    <button class="category-btn" data-category="qa-planning">Planificación</button>
+                    <button class="category-btn" data-category="qa-verification">Verificación</button>
+                </div>
+                
+                <div class="grid-container category-content active" id="qa-analysis">
+                    <div class="service-card premium-tool">
                         <div class="service-icon">
                             <i class="fa fa-calculator"></i>
                         </div>
+                        <div class="tool-badge">Popular</div>
                         <h2>Calculadora de ROI para QA</h2>
                         <p>Ingresa los datos para calcular el ahorro estimado al usar nuestros servicios en pesos colombianos (COP):</p>
                         <form id="roi-form">
@@ -51,17 +63,62 @@
                             <!-- El resultado del cálculo se mostrará aquí -->
                         </div>
                     </div>
+                    
                     <div class="service-card">
                         <div class="service-icon">
-                            <i class="fa fa-cogs"></i>
+                            <i class="fa fa-search"></i>
                         </div>
-                        <h2>Demo de Herramientas de Testing</h2>
-                        <p>Prueba cómo funcionan nuestras herramientas de testing automatizado.</p>
-                        <button id="test-automation-btn">Ejecutar Test Automatizado</button>
-                        <div id="consola-testing" class="consola" style="background-color: black; color: white; padding: 10px; border-radius: 5px;">
-                            <!-- Resultados de la simulación se mostrarán aquí -->
+                        <h2>Analizador de Logs</h2>
+                        <p>Sube tus archivos de logs para analizar patrones de errores y advertencias.</p>
+                        <form id="log-analyzer-form" enctype="multipart/form-data">
+                            <label for="log-file">Archivo de Logs:</label>
+                            <input type="file" id="log-file" accept=".log" required>
+                            <button type="submit" class="btn-primary">Analizar Logs</button>
+                        </form>
+                        <div id="log-analysis-result" class="resultado">
+                            <!-- Los resultados del análisis se mostrarán aquí -->
                         </div>
                     </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-code-fork"></i>
+                        </div>
+                        <h2>Comparador de Versiones</h2>
+                        <p>Compara dos versiones de software y determina cuál es mayor.</p>
+                        <form id="comparador-versiones-form">
+                            <label for="version1">Versión 1:</label>
+                            <input type="text" id="version1" placeholder="Ejemplo: 1.2.3" required>
+                            <label for="version2">Versión 2:</label>
+                            <input type="text" id="version2" placeholder="Ejemplo: 1.3.0" required>
+                            <button type="submit" class="btn-primary">Comparar Versiones</button>
+                        </form>
+                        <div id="resultado-comparacion" class="resultado">
+                            <!-- El resultado de la comparación se mostrará aquí -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid-container category-content" id="qa-planning">
+                    <div class="service-card premium-tool">
+                        <div class="service-icon">
+                            <i class="fa fa-tasks"></i>
+                        </div>
+                        <div class="tool-badge">Pro</div>
+                        <h2>Generador de Planes de Prueba Ágiles</h2>
+                        <p>Genera automáticamente un plan de pruebas adaptado a metodologías ágiles.</p>
+                        <form id="plan-prueba-form">
+                            <label for="nombre-proyecto">Nombre del Proyecto:</label>
+                            <input type="text" id="nombre-proyecto" placeholder="Ejemplo: Sistema de Gestión" required>
+                            <label for="duracion-sprint">Duración del Sprint (días):</label>
+                            <input type="number" id="duracion-sprint" min="1" max="30" placeholder="Ejemplo: 14" required>
+                            <button type="submit" class="btn-primary">Generar Plan</button>
+                        </form>
+                        <div id="resultado-plan-prueba" class="resultado">
+                            <!-- Indicador de estado -->
+                        </div>
+                    </div>
+                    
                     <div class="service-card">
                         <div class="service-icon">
                             <i class="fa fa-list-alt"></i>
@@ -85,6 +142,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="service-card">
                         <div class="service-icon">
                             <i class="fa fa-lightbulb-o"></i>
@@ -96,59 +154,14 @@
                             <!-- Las recomendaciones generadas se mostrarán aquí -->
                         </ul>
                     </div>
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fa fa-search"></i>
-                        </div>
-                        <h2>Analizador de Logs</h2>
-                        <p>Sube tus archivos de logs para analizar patrones de errores y advertencias.</p>
-                        <form id="log-analyzer-form" enctype="multipart/form-data">
-                            <label for="log-file">Archivo de Logs:</label>
-                            <input type="file" id="log-file" accept=".log" required>
-                            <button type="submit" class="btn-primary">Analizar Logs</button>
-                        </form>
-                        <div id="log-analysis-result" class="resultado">
-                            <!-- Los resultados del análisis se mostrarán aquí -->
-                        </div>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fa fa-tasks"></i>
-                        </div>
-                        <h2>Generador de Planes de Prueba Ágiles</h2>
-                        <p>Genera automáticamente un plan de pruebas adaptado a metodologías ágiles.</p>
-                        <form id="plan-prueba-form">
-                            <label for="nombre-proyecto">Nombre del Proyecto:</label>
-                            <input type="text" id="nombre-proyecto" placeholder="Ejemplo: Sistema de Gestión" required>
-                            <label for="duracion-sprint">Duración del Sprint (días):</label>
-                            <input type="number" id="duracion-sprint" min="1" max="30" placeholder="Ejemplo: 14" required>
-                            <button type="submit" class="btn-primary">Generar Plan</button>
-                        </form>
-                        <div id="resultado-plan-prueba" class="resultado">
-                            <!-- Indicador de estado -->
-                        </div>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fa fa-code-fork"></i>
-                        </div>
-                        <h2>Comparador de Versiones</h2>
-                        <p>Compara dos versiones de software y determina cuál es mayor.</p>
-                        <form id="comparador-versiones-form">
-                            <label for="version1">Versión 1:</label>
-                            <input type="text" id="version1" placeholder="Ejemplo: 1.2.3" required>
-                            <label for="version2">Versión 2:</label>
-                            <input type="text" id="version2" placeholder="Ejemplo: 1.3.0" required>
-                            <button type="submit" class="btn-primary">Comparar Versiones</button>
-                        </form>
-                        <div id="resultado-comparacion" class="resultado">
-                            <!-- El resultado de la comparación se mostrará aquí -->
-                        </div>
-                    </div>
-                    <div class="service-card">
+                </div>
+                
+                <div class="grid-container category-content" id="qa-verification">
+                    <div class="service-card premium-tool">
                         <div class="service-icon">
                             <i class="fa fa-check-square-o"></i>
                         </div>
+                        <div class="tool-badge">Nuevo</div>
                         <h2>Validador de Requisitos</h2>
                         <p>Analiza la calidad de tus requisitos funcionales y no funcionales.</p>
                         <form id="validador-requisitos-form">
@@ -160,14 +173,39 @@
                             <!-- El resultado de la validación se mostrará aquí -->
                         </div>
                     </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-cogs"></i>
+                        </div>
+                        <h2>Demo de Herramientas de Testing</h2>
+                        <p>Prueba cómo funcionan nuestras herramientas de testing automatizado.</p>
+                        <button id="test-automation-btn">Ejecutar Test Automatizado</button>
+                        <div id="consola-testing" class="consola" style="background-color: black; color: white; padding: 10px; border-radius: 5px;">
+                            <!-- Resultados de la simulación se mostrarán aquí -->
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div id="data-tools" class="tab-content">
-                <div class="grid-container">
-                    <div class="service-card">
+                <div class="category-header">
+                    <h2>Generadores de Datos para Testing</h2>
+                    <p>Crea conjuntos de datos realistas para tus pruebas de software</p>
+                </div>
+                
+                <div class="tools-categories">
+                    <button class="category-btn active" data-category="personal-data">Datos Personales</button>
+                    <button class="category-btn" data-category="bulk-data">Datos Masivos</button>
+                    <button class="category-btn" data-category="date-time">Fechas y Tiempos</button>
+                </div>
+                
+                <div class="grid-container category-content active" id="personal-data">
+                    <div class="service-card premium-tool">
                         <div class="service-icon">
                             <i class="fa fa-database"></i>
                         </div>
+                        <div class="tool-badge">Popular</div>
                         <h2>Generador de Datos de Prueba</h2>
                         <p>Genera datos de prueba personalizados para tus casos de prueba.</p>
                         <form onsubmit="generarDatosPrueba(event)">
@@ -186,10 +224,62 @@
                             <!-- Los datos generados se mostrarán aquí -->
                         </ul>
                     </div>
+                    
                     <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-phone"></i>
+                        </div>
+                        <h2>Generador de Números Telefónicos</h2>
+                        <p>Genera números telefónicos aleatorios para pruebas.</p>
+                        <form id="phone-number-generator-form">
+                            <label for="phone-count">Cantidad de Números:</label>
+                            <input type="number" id="phone-count" placeholder="Ejemplo: 10" required>
+                            <button type="submit" class="btn-primary">Generar Números</button>
+                        </form>
+                        <ul id="phone-number-result" class="recomendaciones-list">
+                            <!-- Los números generados se mostrarán aquí -->
+                        </ul>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <h2>Generador de Correos Electrónicos</h2>
+                        <p>Genera correos electrónicos aleatorios para pruebas.</p>
+                        <form id="email-generator-form">
+                            <label for="email-count">Cantidad de Correos:</label>
+                            <input type="number" id="email-count" placeholder="Ejemplo: 5" required>
+                            <button type="submit" class="btn-primary">Generar Correos</button>
+                        </form>
+                        <ul id="email-result" class="recomendaciones-list">
+                            <!-- Los correos generados se mostrarán aquí -->
+                        </ul>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-map-marker"></i>
+                        </div>
+                        <h2>Generador de Direcciones</h2>
+                        <p>Genera direcciones aleatorias para pruebas.</p>
+                        <form id="address-generator-form">
+                            <label for="address-count">Cantidad de Direcciones:</label>
+                            <input type="number" id="address-count" placeholder="Ejemplo: 3" required>
+                            <button type="submit" class="btn-primary">Generar Direcciones</button>
+                        </form>
+                        <ul id="address-result" class="recomendaciones-list">
+                            <!-- Las direcciones generadas se mostrarán aquí -->
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="grid-container category-content" id="bulk-data">
+                    <div class="service-card premium-tool">
                         <div class="service-icon">
                             <i class="fa fa-database"></i>
                         </div>
+                        <div class="tool-badge">Pro</div>
                         <h2>Generador de Datos de Carga</h2>
                         <p>Genera grandes volúmenes de datos para pruebas de rendimiento.</p>
                         <form onsubmit="generarDatosCarga(event)">
@@ -207,51 +297,9 @@
                             <!-- Los datos generados se mostrarán aquí -->
                         </ul>
                     </div>
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fa fa-phone"></i>
-                        </div>
-                        <h2>Generador de Números Telefónicos</h2>
-                        <p>Genera números telefónicos aleatorios para pruebas.</p>
-                        <form id="phone-number-generator-form">
-                            <label for="phone-count">Cantidad de Números:</label>
-                            <input type="number" id="phone-count" placeholder="Ejemplo: 10" required>
-                            <button type="submit" class="btn-primary">Generar Números</button>
-                        </form>
-                        <ul id="phone-number-result" class="recomendaciones-list">
-                            <!-- Los números generados se mostrarán aquí -->
-                        </ul>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fa fa-envelope"></i>
-                        </div>
-                        <h2>Generador de Correos Electrónicos</h2>
-                        <p>Genera correos electrónicos aleatorios para pruebas.</p>
-                        <form id="email-generator-form">
-                            <label for="email-count">Cantidad de Correos:</label>
-                            <input type="number" id="email-count" placeholder="Ejemplo: 5" required>
-                            <button type="submit" class="btn-primary">Generar Correos</button>
-                        </form>
-                        <ul id="email-result" class="recomendaciones-list">
-                            <!-- Los correos generados se mostrarán aquí -->
-                        </ul>
-                    </div>
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fa fa-map-marker"></i>
-                        </div>
-                        <h2>Generador de Direcciones</h2>
-                        <p>Genera direcciones aleatorias para pruebas.</p>
-                        <form id="address-generator-form">
-                            <label for="address-count">Cantidad de Direcciones:</label>
-                            <input type="number" id="address-count" placeholder="Ejemplo: 3" required>
-                            <button type="submit" class="btn-primary">Generar Direcciones</button>
-                        </form>
-                        <ul id="address-result" class="recomendaciones-list">
-                            <!-- Las direcciones generadas se mostrarán aquí -->
-                        </ul>
-                    </div>
+                </div>
+                
+                <div class="grid-container category-content" id="date-time">
                     <div class="service-card">
                         <div class="service-icon">
                             <i class="fa fa-calendar"></i>
@@ -259,10 +307,16 @@
                         <h2>Generador de Fechas Aleatorias</h2>
                         <p>Genera fechas aleatorias dentro de un rango.</p>
                         <form id="date-generator-form">
-                            <label for="start-date">Fecha de Inicio:</label>
-                            <input type="date" id="start-date" required>
-                            <label for="end-date">Fecha de Fin:</label>
-                            <input type="date" id="end-date" required>
+                            <div class="input-group">
+                                <div class="input-half">
+                                    <label for="start-date">Fecha de Inicio:</label>
+                                    <input type="date" id="start-date" required>
+                                </div>
+                                <div class="input-half">
+                                    <label for="end-date">Fecha de Fin:</label>
+                                    <input type="date" id="end-date" required>
+                                </div>
+                            </div>
                             <label for="date-count">Cantidad de Fechas:</label>
                             <input type="number" id="date-count" placeholder="Ejemplo: 5" required>
                             <button type="submit" class="btn-primary">Generar Fechas</button>
@@ -273,12 +327,25 @@
                     </div>
                 </div>
             </div>
+
             <div id="api-tools" class="tab-content">
-                <div class="grid-container">
-                    <div class="service-card">
+                <div class="category-header">
+                    <h2>Herramientas para Pruebas de API</h2>
+                    <p>Simplifica el testing de tus servicios web y APIs REST</p>
+                </div>
+                
+                <div class="tools-categories">
+                    <button class="category-btn active" data-category="api-testing">Pruebas</button>
+                    <button class="category-btn" data-category="api-mocking">Simulaciones</button>
+                    <button class="category-btn" data-category="api-validation">Validación</button>
+                </div>
+                
+                <div class="grid-container category-content active" id="api-testing">
+                    <div class="service-card premium-tool">
                         <div class="service-icon">
                             <i class="fa fa-plug"></i>
                         </div>
+                        <div class="tool-badge">Popular</div>
                         <h2>Simulador de Pruebas de API</h2>
                         <p>Prueba tus endpoints de API con diferentes métodos y datos.</p>
                         <form onsubmit="simularPruebasAPI(event)" class="api-form">
@@ -300,23 +367,9 @@
                             <pre id="api-response" class="api-response"></pre>
                         </div>
                     </div>
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <i class="fa fa-code"></i>
-                        </div>
-                        <h2>Validador de Esquemas JSON</h2>
-                        <p>Valida si un JSON cumple con un esquema definido.</p>
-                        <form id="json-schema-form" class="api-form">
-                            <label for="json-input">JSON:</label>
-                            <textarea id="json-input" placeholder='{"key": "value"}' required></textarea>
-                            <label for="json-schema">Esquema JSON:</label>
-                            <textarea id="json-schema" placeholder='{"type": "object", "properties": {"key": {"type": "string"}}}' required></textarea>
-                            <button type="submit" class="btn-primary">Validar JSON</button>
-                        </form>
-                        <div id="json-schema-result" class="resultado">
-                            <!-- El resultado de la validación se mostrará aquí -->
-                        </div>
-                    </div>
+                </div>
+                
+                <div class="grid-container category-content" id="api-mocking">
                     <div class="service-card">
                         <div class="service-icon">
                             <i class="fa fa-random"></i>
@@ -334,6 +387,7 @@
                             <!-- La respuesta simulada se mostrará aquí -->
                         </div>
                     </div>
+                    
                     <div class="service-card">
                         <div class="service-icon">
                             <i class="fa fa-exchange"></i>
@@ -350,7 +404,29 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="grid-container category-content" id="api-validation">
+                    <div class="service-card premium-tool">
+                        <div class="service-icon">
+                            <i class="fa fa-code"></i>
+                        </div>
+                        <div class="tool-badge">Pro</div>
+                        <h2>Validador de Esquemas JSON</h2>
+                        <p>Valida si un JSON cumple con un esquema definido.</p>
+                        <form id="json-schema-form" class="api-form">
+                            <label for="json-input">JSON:</label>
+                            <textarea id="json-input" placeholder='{"key": "value"}' required></textarea>
+                            <label for="json-schema">Esquema JSON:</label>
+                            <textarea id="json-schema" placeholder='{"type": "object", "properties": {"key": {"type": "string"}}}' required></textarea>
+                            <button type="submit" class="btn-primary">Validar JSON</button>
+                        </form>
+                        <div id="json-schema-result" class="resultado">
+                            <!-- El resultado de la validación se mostrará aquí -->
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div id="misc-tools" class="tab-content">
                 <div class="category-header">
                     <h2>Mejora tu productividad con estas herramientas</h2>
