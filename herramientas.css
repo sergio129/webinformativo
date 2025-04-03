@@ -92,10 +92,10 @@ header nav ul li a:hover {
 /* Grid Container */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ajusta el número de columnas automáticamente */
-    gap: 20px; /* Espaciado entre las herramientas */
-    justify-content: center; /* Centra las herramientas horizontalmente */
-    padding: 2rem; /* Espaciado interno */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    padding: 2rem;
 }
 
 /* Service Card */
@@ -104,9 +104,9 @@ header nav ul li a:hover {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
-    text-align: center; /* Centra el contenido dentro de cada tarjeta */
-    margin: 0 auto; /* Centra las tarjetas dentro del contenedor */
-    max-width: 100%; /* Asegura que las tarjetas ocupen el espacio disponible */
+    text-align: center;
+    margin: 0 auto;
+    max-width: 100%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -195,17 +195,76 @@ form button:hover {
     color: #333;
 }
 
+/* Estilos para la tarjeta de resultados de interés compuesto */
+.result-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item.total {
+    background-color: #e8eaf6;
+    font-weight: bold;
+}
+
+.result-item .label {
+    color: #555;
+}
+
+.result-item .value {
+    font-family: 'Roboto Mono', monospace;
+    color: #3f51b5;
+    font-weight: 500;
+}
+
+.result-item.total .value {
+    color: #303f9f;
+    font-size: 1.1rem;
+}
+
+/* Estilo para la tarjeta QR */
+.qr-result-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.qr-result-container p {
+    text-align: center;
+    color: #555;
+    max-width: 200px;
+    font-size: 0.9rem;
+}
+
 /* Consola */
 .consola {
-    background-color: #000; /* Fondo negro */
-    color: #0f0; /* Texto verde por defecto */
+    background-color: #000;
+    color: #0f0;
     font-family: monospace;
     padding: 1rem;
     border-radius: 5px;
     height: 200px;
-    overflow-y: auto; /* Habilita scroll si el contenido excede */
+    overflow-y: auto;
     margin-top: 1rem;
-    white-space: pre-wrap; /* Mantiene los saltos de línea */
+    white-space: pre-wrap;
 }
 
 .consola .line {
@@ -213,19 +272,19 @@ form button:hover {
 }
 
 .consola .success {
-    color: #0f0; /* Verde para mensajes exitosos */
+    color: #0f0;
 }
 
 .consola .error {
-    color: #f00; /* Rojo para errores */
+    color: #f00;
 }
 
 .consola .info {
-    color: #00f; /* Azul para información */
+    color: #00f;
 }
 
 .consola .warning {
-    color: #ff0; /* Amarillo para advertencias */
+    color: #ff0;
 }
 
 /* Footer */
@@ -725,13 +784,6 @@ footer {
 }
 
 /* Estilos para las tarjetas de herramientas mejoradas */
-.service-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
 .premium-tool {
     border: 1px solid #f0f0f0;
     background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
@@ -836,19 +888,6 @@ footer {
     gap: 20px;
 }
 
-.time-display {
-    font-size: 3rem;
-    font-family: 'Roboto Mono', monospace;
-    background-color: #f5f5f5;
-    padding: 15px 20px;
-    border-radius: 10px;
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
-    color: #333;
-    margin: 15px 0;
-    text-align: center;
-    letter-spacing: 2px;
-}
-
 .button-group {
     display: flex;
     gap: 10px;
@@ -864,7 +903,330 @@ footer {
     text-align: center;
 }
 
-/* Estilos responsivos para las categorías */
+/* Estilos mejorados para resultados en Otras Herramientas */
+#misc-tools .resultado {
+    margin-top: 1.5rem;
+    padding: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-size: 1rem;
+    color: #333;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#misc-tools .resultado::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background-color: #3f51b5;
+    border-radius: 3px 0 0 3px;
+}
+
+#misc-tools .resultado:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+#misc-tools .resultado p {
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+}
+
+#misc-tools .resultado strong {
+    color: #3f51b5;
+    font-weight: 600;
+}
+
+/* Estilos para resultados específicos */
+#misc-tools .resultado pre {
+    background-color: #f1f3f5;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    border-left: 3px solid #3f51b5;
+    margin: 10px 0;
+}
+
+#misc-tools .resultado img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 10px auto;
+    display: block;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+#misc-tools .resultado img:hover {
+    transform: scale(1.02);
+}
+
+#misc-tools .resultado ul, 
+#misc-tools .resultado ol {
+    margin: 10px 0;
+    padding-left: 25px;
+}
+
+#misc-tools .resultado li {
+    margin-bottom: 5px;
+    position: relative;
+    padding-left: 5px;
+}
+
+/* Estilos para diferentes tipos de resultado */
+#misc-tools .resultado.success {
+    background-color: #f0f9f0;
+}
+
+#misc-tools .resultado.success::before {
+    background-color: #4CAF50;
+}
+
+#misc-tools .resultado.error {
+    background-color: #fff5f5;
+}
+
+#misc-tools .resultado.error::before {
+    background-color: #F44336;
+}
+
+#misc-tools .resultado.warning {
+    background-color: #fffbf0;
+}
+
+#misc-tools .resultado.warning::before {
+    background-color: #FFC107;
+}
+
+/* Estilos para el resultado del generador de contraseñas */
+#password-result {
+    text-align: center;
+}
+
+#password-result p {
+    font-size: 1.1rem;
+}
+
+#password-result strong {
+    font-family: 'Roboto Mono', monospace;
+    background-color: #e8eaf6;
+    padding: 8px 15px;
+    border-radius: 4px;
+    border: 1px dashed #c5cae9;
+    color: #3f51b5;
+    display: inline-block;
+    margin-top: 8px;
+    letter-spacing: 1px;
+}
+
+/* Estilos para el resultado del conversor de monedas */
+#currency-converter-result p {
+    font-size: 1.2rem;
+    text-align: center;
+    background: linear-gradient(135deg, #e8eaf6, #c5cae9);
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: #3f51b5;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el resultado del generador de QR */
+#qr-code-result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+}
+
+#qr-code-result img {
+    border: 10px solid white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+#qr-code-result img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos para el resultado del IMC */
+#bmi-result p {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    position: relative;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Estilos para calculadora de edad */
+#age-result p {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    background: linear-gradient(45deg, #3f51b5, #7986cb);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para generador de números aleatorios */
+#random-number-result p {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3f51b5;
+    padding: 15px;
+    background-color: #e8eaf6;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border: 5px solid white;
+}
+
+/* Estilos para listas de resultados */
+#misc-tools .recomendaciones-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 8px;
+    background: #f8f9fa;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+#misc-tools .recomendaciones-list li {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+#misc-tools .recomendaciones-list li:last-child {
+    border-bottom: none;
+}
+
+#misc-tools .recomendaciones-list li:hover {
+    background-color: #e8eaf6;
+}
+
+#misc-tools .recomendaciones-list li::before {
+    content: '•';
+    color: #3f51b5;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Efecto de brillante para los resultados */
+#misc-tools .resultado::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: skewX(-20deg);
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+#misc-tools .resultado:hover::after {
+    left: 150%;
+}
+
+/* Estilo para los enlaces dentro de los resultados */
+#misc-tools .resultado a {
+    color: #3f51b5;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #e8eaf6;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+#misc-tools .resultado a:hover {
+    background-color: #3f51b5;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Resultados para el generador de Lorem Ipsum */
+#lorem-ipsum-result {
+    text-align: left;
+    color: #555;
+    line-height: 1.8;
+}
+
+#lorem-ipsum-result p {
+    text-indent: 20px;
+    margin-bottom: 15px;
+}
+
+/* Estilo especial para tiempo, cronómetro y temporizador */
+.time-display {
+    background: linear-gradient(145deg, #f0f0f0, #ffffff);
+    box-shadow: 5px 5px 10px #d9d9d9, -5px -5px 10px #ffffff;
+    border-radius: 15px;
+    padding: 20px 30px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 2.5rem;
+    color: #3f51b5;
+    text-align: center;
+    letter-spacing: 3px;
+    position: relative;
+    margin: 20px auto;
+    max-width: 300px;
+    border: none;
+}
+
+.time-display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3f51b5, #7986cb);
+    border-radius: 3px 3px 0 0;
+}
+
+/* Animación de pulso para el cronómetro en funcionamiento */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+.running .time-display {
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 0 rgba(63, 81, 181, 0.4);
+    animation: pulse 2s infinite;
+}
+
+/* Responsive design para las categorías */
 @media (max-width: 768px) {
     .category-header h2 {
         font-size: 1.8rem;

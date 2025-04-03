@@ -1729,3 +1729,242 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Mejoras para la visualización de resultados en Otras Herramientas
+document.addEventListener('DOMContentLoaded', function() {
+    // Función para añadir clases de éxito, error o advertencia a los resultados
+    function setResultStatus(resultElement, status) {
+        resultElement.classList.remove('success', 'error', 'warning');
+        if (status) {
+            resultElement.classList.add(status);
+        }
+    }
+
+    // Mejorar la visualización del generador de contraseñas
+    const passwordGeneratorForm = document.getElementById('password-generator-form');
+    if (passwordGeneratorForm) {
+        passwordGeneratorForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const length = parseInt(document.getElementById('password-length').value, 10);
+            const includeSymbols = document.getElementById('include-symbols').checked;
+            const includeNumbers = document.getElementById('include-numbers').checked;
+            const includeUppercase = document.getElementById('include-uppercase').checked;
+
+            const resultDiv = document.getElementById('password-result');
+            const password = generatePassword(length, includeSymbols, includeNumbers, includeUppercase);
+            
+            // Determinar la fuerza de la contraseña
+            let strength = 'débil';
+            let status = 'error';
+            
+            if (length >= 8 && ((includeSymbols && includeNumbers) || (includeSymbols && includeUppercase) || (includeNumbers && includeUppercase))) {
+                strength = 'fuerte';
+                status = 'success';
+            } else if (length >= 6 && (includeSymbols || includeNumbers || includeUppercase)) {
+                strength = 'media';
+                status = 'warning';
+            }
+
+            resultDiv.innerHTML = `
+                <p>Tu contraseña generada es de fuerza <strong>${strength}</strong>:</p>
+                <strong>${password}</strong>
+            `;
+            
+            setResultStatus(resultDiv, status);
+        });
+    }
+
+    // Mejorar la visualización del conversor de monedas
+    const currencyConverterForm = document.getElementById('currency-converter-form');
+    if (currencyConverterForm) {
+        currencyConverterForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const amount = document.getElementById('amount').value;
+            const fromCurrency = document.getElementById('from-currency').value.toUpperCase();
+            const toCurrency = document.getElementById('to-currency').value.toUpperCase();
+            const resultDiv = document.getElementById('currency-converter-result');
+            
+            resultDiv.innerHTML = '<p>Consultando tasas de cambio...</p>';
+            setResultStatus(resultDiv, null);
+
+            try {
+                const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${fromCurrency}`);
+                if (!response.ok) throw new Error('Error al obtener las tasas de cambio.');
+
+                const data = await response.json();
+                const rate = data.rates[toCurrency];
+                if (!rate) throw new Error('Moneda no válida.');
+
+                const convertedAmount = (amount * rate).toFixed(2);
+                resultDiv.innerHTML = `<p>${amount} ${fromCurrency} = <strong>${convertedAmount}</strong> ${toCurrency}</p>`;
+                setResultStatus(resultDiv, 'success');
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="error">${error.message}</p>`;
+                setResultStatus(resultDiv, 'error');
+            }
+        });
+    }
+
+    // Mejorar la visualización del IMC
+    const bmiCalculatorForm = document.getElementById('bmi-calculator-form');
+    if (bmiCalculatorForm) {
+        bmiCalculatorForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const resultDiv = document.getElementById('bmi-result');
+
+            if (weight > 0 && height > 0) {
+                const bmi = (weight / (height * height)).toFixed(2);
+                let category = '';
+                let status = '';
+                
+                if (bmi < 18.5) {
+                    category = 'Bajo peso';
+                    status = 'warning';
+                } else if (bmi >= 18.5 && bmi < 25) {
+                    category = 'Peso normal';
+                    status = 'success';
+                } else if (bmi >= 25 && bmi < 30) {
+                    category = 'Sobrepeso';
+                    status = 'warning';
+                } else {
+                    category = 'Obesidad';
+                    status = 'error';
+                }
+                
+                resultDiv.innerHTML = `
+                    <p>Tu IMC es: <strong>${bmi}</strong></p>
+                    <p>Categoría: <strong>${category}</strong></p>
+                `;
+                setResultStatus(resultDiv, status);
+            } else {
+                resultDiv.innerHTML = '<p class="error">Por favor, ingresa valores válidos.</p>';
+                setResultStatus(resultDiv, 'error');
+            }
+        });
+    }
+
+    // Cronómetro con efecto visual de ejecución
+    const startStopwatchBtn = document.getElementById('start-stopwatch');
+    const stopwatchContainer = document.getElementById('stopwatch');
+    
+    if (startStopwatchBtn && stopwatchContainer) {
+        startStopwatchBtn.addEventListener('click', () => {
+            if (!stopwatchInterval) {
+                stopwatchContainer.classList.add('running');
+            }
+        });
+        
+        document.getElementById('pause-stopwatch')?.addEventListener('click', () => {
+            stopwatchContainer.classList.remove('running');
+        });
+        
+        document.getElementById('reset-stopwatch')?.addEventListener('click', () => {
+            stopwatchContainer.classList.remove('running');
+        });
+    }
+
+    // Mejorar la visualización del temporizador
+    const timerForm = document.getElementById('timer-form');
+    if (timerForm) {
+        timerForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            
+            document.getElementById('timer-display').classList.add('running');
+            
+            // Cuando el temporizador termina
+            const originalFunction = window.clearInterval;
+            window.clearInterval = function(id) {
+                originalFunction(id);
+                if (id === timerInterval) {
+                    document.getElementById('timer-display').classList.remove('running');
+                }
+            };
+        });
+    }
+
+    // Mejorar la visualización del generador de QR
+    const qrGeneratorForm = document.getElementById('qr-generator-form');
+    if (qrGeneratorForm) {
+        qrGeneratorForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const text = document.getElementById('qr-text').value;
+            const resultDiv = document.getElementById('qr-code-result');
+            
+            resultDiv.innerHTML = `
+                <div class="qr-result-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(text)}&size=150x150" alt="QR Code">
+                    <p>Escanea este código para acceder a: <strong>${text}</strong></p>
+                </div>
+            `;
+            setResultStatus(resultDiv, null);
+        });
+    }
+
+    // Mejorar la visualización del generador de números aleatorios
+    const randomNumberGeneratorForm = document.getElementById('random-number-generator-form');
+    if (randomNumberGeneratorForm) {
+        randomNumberGeneratorForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const min = parseInt(document.getElementById('min-number').value, 10);
+            const max = parseInt(document.getElementById('max-number').value, 10);
+            const resultDiv = document.getElementById('random-number-result');
+
+            if (min > max) {
+                resultDiv.innerHTML = '<p class="error">El valor mínimo no puede ser mayor que el máximo.</p>';
+                setResultStatus(resultDiv, 'error');
+                return;
+            }
+
+            const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            resultDiv.innerHTML = `<p>${randomNumber}</p>`;
+            setResultStatus(resultDiv, null);
+        });
+    }
+
+    // Mejorar los resultados de la calculadora de interés compuesto
+    const compoundInterestForm = document.getElementById('compound-interest-form');
+    if (compoundInterestForm) {
+        compoundInterestForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const principal = parseFloat(document.getElementById('principal').value);
+            const rate = parseFloat(document.getElementById('rate').value) / 100;
+            const time = parseFloat(document.getElementById('time').value);
+            const frequency = parseInt(document.getElementById('frequency').value, 10);
+            const resultDiv = document.getElementById('compound-interest-result');
+
+            const amount = principal * Math.pow(1 + rate / frequency, frequency * time);
+            const interest = amount - principal;
+            
+            const formatoCOP = new Intl.NumberFormat('es-CO', {
+                style: 'currency',
+                currency: 'COP'
+            });
+
+            resultDiv.innerHTML = `
+                <div class="result-card">
+                    <div class="result-item">
+                        <span class="label">Capital inicial:</span>
+                        <span class="value">${formatoCOP.format(principal)}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label">Interés generado:</span>
+                        <span class="value">${formatoCOP.format(interest)}</span>
+                    </div>
+                    <div class="result-item total">
+                        <span class="label">Monto Total:</span>
+                        <span class="value">${formatoCOP.format(amount)}</span>
+                    </div>
+                </div>
+            `;
+            setResultStatus(resultDiv, 'success');
+        });
+    }
+});
