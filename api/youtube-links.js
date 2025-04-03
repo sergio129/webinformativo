@@ -3,13 +3,15 @@ const path = require('path');
 
 const YOUTUBE_LINKS_FILE = path.join(__dirname, '..', 'youtube-links.json');
 
+// Asegura que el archivo de enlaces de YouTube exista
+if (!fs.existsSync(YOUTUBE_LINKS_FILE)) {
+    fs.writeFileSync(YOUTUBE_LINKS_FILE, JSON.stringify([]), 'utf8');
+}
+
 module.exports = async (req, res) => {
     if (req.method === 'GET') {
         fs.readFile(YOUTUBE_LINKS_FILE, 'utf8', (err, data) => {
             if (err) {
-                if (err.code === 'ENOENT') {
-                    return res.json([]); // Si el archivo no existe, devuelve una lista vacía
-                }
                 console.error('Error leyendo los enlaces de YouTube:', err);
                 return res.status(500).send('Error al obtener los enlaces de YouTube.');
             }

@@ -54,16 +54,11 @@
         <section class="admin-section">
             <h2 class="section-title">Videos disponibles</h2>
             <div id="admin-video-list" class="video-list">
-                <!-- Los videos cargados se mostrarán aquí con opciones para eliminarlos -->
+                <!-- Los videos subidos se mostrarán aquí -->
             </div>
         </section>
         <section class="admin-section">
             <h2 class="section-title">Cargar Videos de Testimonios</h2>
-            <form id="upload-testimonial-videos-form" class="admin-form" enctype="multipart/form-data">
-                <label for="testimonial-videos-file">Selecciona videos:</label>
-                <input type="file" id="testimonial-videos-file" name="testimonialVideos" accept="video/*" multiple required>
-                <button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Cargar Videos</button>
-            </form>
             <div id="testimonial-videos-list" class="video-list">
                 <!-- Los videos subidos se mostrarán aquí -->
             </div>
@@ -290,37 +285,57 @@
             }
         }
 
-        document.getElementById('upload-testimonial-videos-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const formData = new FormData();
-            const files = document.getElementById('testimonial-videos-file').files;
-
-            for (let i = 0; i < files.length; i++) {
-                formData.append('testimonialVideos', files[i]);
-            }
-
+        async function cargarVideosDisponibles() {
             try {
-                const response = await fetch('/api/upload-testimonial-videos', {
-                    method: 'POST',
-                    body: formData
-                });
+                const response = await fetch('/api/testimonial-videos');
+                if (!response.ok) throw new Error('Error al cargar los videos.');
+                const videos = await response.json();
+                const listContainer = document.getElementById('admin-video-list');
+                listContainer.innerHTML = ''; // Limpia la lista antes de cargar los videos
+                videos.forEach(video => {
+                    const videoWrapper = document.createElement('div');
+                    videoWrapper.className = 'video-item';
 
+                    const videoElement = document.createElement('video');
+                    videoElement.src = `videos/testimonios/${video}`;
+                    videoElement.controls = true;
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Eliminar';
+                    deleteButton.className = 'delete-button';
+                    deleteButton.onclick = () => eliminarVideo(video);
+
+                    videoWrapper.appendChild(videoElement);
+                    videoWrapper.appendChild(deleteButton);
+                    listContainer.appendChild(videoWrapper);
+                });
+            } catch (error) {
+                console.error('Error al cargar los videos disponibles:', error);
+            }
+        }
+
+        async function eliminarVideo(videoName) {
+            try {
+                const response = await fetch(`/api/testimonial-videos?videoName=${encodeURIComponent(videoName)}`, {
+                    method: 'DELETE'
+                });
                 if (response.ok) {
-                    showToast('Videos subidos correctamente.', 'success');
-                    cargarVideosTestimonios(); // Recarga la lista de videos
+                    alert('Video eliminado correctamente.');
+                    cargarVideosDisponibles(); // Recarga la lista de videos
                 } else {
-                    showToast('Error al subir los videos.', 'error');
+                    alert('Error al eliminar el video.');
                 }
             } catch (error) {
-                console.error('Error al subir los videos:', error);
-                showToast('Error al subir los videos.', 'error');
+                console.error('Error al eliminar el video:', error);
+                alert('Error al eliminar el video.');
             }
-        });
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             cargarImagenesCasosExito(); // Cargar las imágenes al cargar la página
             cargarVideosTestimonios(); // Cargar los videos al cargar la página
             cargarEnlacesYouTube(); // Cargar los enlaces al cargar la página
+            cargarVideosDisponibles(); // Cargar los videos disponibles al cargar la página
         });
 
         document.getElementById('upload-casos-exito-form').addEventListener('submit', async function(event) {

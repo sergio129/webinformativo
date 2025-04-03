@@ -7,6 +7,8 @@ const fs = require('fs');
 const uploadCasosExito = require('./api/upload-casos-exito');
 const imagenesCasosExito = require('./api/imagenes-casos-exito');
 const uploadTestimonialVideos = require('./api/upload-testimonial-videos');
+const youtubeLinks = require('./api/youtube-links');
+const testimonialVideos = require('./api/testimonial-videos'); // Agregado para listar videos testimoniales
 
 const app = express();
 
@@ -329,6 +331,12 @@ app.get('/api/imagenes-casos-exito', imagenesCasosExito);
 
 // Endpoint para subir videos de testimonios
 app.post('/api/upload-testimonial-videos', uploadTestimonialVideos);
+
+// Endpoint para manejar enlaces de YouTube
+app.use('/api/youtube-links', youtubeLinks);
+
+// Endpoint para manejar videos testimoniales
+app.use('/api/testimonial-videos', testimonialVideos); // Agregado para manejar videos testimoniales
 
 // Manejo de rutas no encontradas
 app.use((req, res) => {
