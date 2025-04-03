@@ -1,0 +1,788 @@
+/* Estilos para la página de herramientas */
+
+/* Variables de color */
+:root {
+    --primary-color: #000000;
+    --primary-dark: #303f9f;
+    --primary-light: #c5cae9;
+    --accent-color: #FFC107;
+    --text-color: #333;
+    --text-light: #0f0f0f;
+    --border-color: #e0e0e0;
+    --bg-light: #f9f9f9;
+    --bg-dark: #202040;
+    --success-color: #4CAF50;
+    --warning-color: #FF9800;
+    --info-color: #2196F3;
+    --danger-color: #F44336;
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    line-height: 1.8;
+    color: var(--text-color);
+    background-color: var(--bg-light);
+    overflow-x: hidden;
+}
+
+/* Hero section */
+.tools-hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #5c6bc0 100%);
+    color: white;
+    padding: 6rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.tools-hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.tools-hero-section h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.tools-hero-section p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+    opacity: 0.9;
+}
+
+/* Buscador de herramientas (Nuevo) */
+.tools-search-box {
+    position: relative;
+    max-width: 500px;
+    margin: 2rem auto 0;
+    z-index: 2;
+}
+
+.tools-search-box input {
+    width: 100%;
+    padding: 15px 55px 15px 20px;
+    border: none;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.tools-search-box input:focus {
+    outline: none;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
+.tools-search-box button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tools-search-box button:hover {
+    background-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+/* Sección de herramientas */
+.tools-section {
+    padding: 5rem 0;
+    background-color: white;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    position: relative;
+}
+
+.section-title h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), #5c6bc0);
+    margin: 0.8rem auto 0;
+    border-radius: 2px;
+}
+
+.section-title p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Navegación de pestañas mejorada (Nuevo) */
+.tools-tab-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.tab-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 1.5rem;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-color);
+    min-width: 140px;
+}
+
+.tab-button i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.tab-button span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.tab-button:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.tab-button.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tab-button.active i {
+    color: white;
+}
+
+/* Tabs container */
+.tabs-container {
+    background-color: white;
+    border-radius: 15px;
+    margin-bottom: 3rem;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+/* Tools categories */
+.tools-categories {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    background-color: #f5f7ff;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    padding: 0.6rem 1.2rem;
+    background-color: transparent;
+    border: 1px solid var(--primary-light);
+    border-radius: 30px;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.category-btn:hover {
+    background-color: var(--primary-light);
+}
+
+.category-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Tab content */
+.tab-content {
+    display: none;
+    padding: 2rem;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.category-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.category-header h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.category-header p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
+
+/* Category content */
+.category-content {
+    display: none;
+}
+
+.category-content.active {
+    display: grid;
+}
+
+/* Grid container */
+.grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Tool card */
+.tool-card {
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+.tool-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-light);
+}
+
+.premium-tool {
+    position: relative;
+    z-index: 1;
+}
+
+.premium-tool::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 100px;
+    height: 100px;
+    background-color: var(--accent-color);
+    transform: rotate(45deg);
+    z-index: -1;
+}
+
+.tool-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--accent-color);
+    color: #333;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 15px;
+    z-index: 2;
+}
+
+.tool-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f5f7ff 0%, #e8eaf6 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.tool-header::before {
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+    top: -75px;
+    right: -75px;
+    border-radius: 50%;
+    opacity: 0.5;
+}
+
+.tool-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    background-color: white;
+    border-radius: 50%;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    z-index: 1;
+    transition: var(--transition);
+}
+
+.tool-card:hover .tool-icon {
+    transform: scale(1.1);
+    color: var(--accent-color);
+}
+
+.tool-header h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    position: relative;
+    z-index: 1;
+}
+
+.tool-header p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.tool-body {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.tool-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    border: none;
+    cursor: pointer;
+}
+
+.tool-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    color: white;
+}
+
+/* Resumen de herramientas (Nuevo) */
+.tools-summary {
+    background-color: #f5f7ff;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-top: 3rem;
+    box-shadow: var(--shadow-md);
+}
+
+.summary-item {
+    text-align: center;
+    padding: 1.5rem;
+    transition: var(--transition);
+    border-radius: 10px;
+}
+
+.summary-item:hover {
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-5px);
+}
+
+.summary-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.summary-text {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* CTA mejorado */
+.tools-cta-section {
+    background: linear-gradient(45deg, var(--primary-color), #5c6bc0);
+    color: white;
+    padding: 5rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.tools-cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.cta-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tools-cta-section h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.tools-cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* Botones de CTA (Nuevo) */
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: var(--transition);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cta-btn.primary {
+    background-color: white;
+    color: var(--primary-color);
+}
+
+.cta-btn.primary:hover {
+    background-color: var(--accent-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.cta-btn.secondary {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cta-btn.secondary:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.cta-btn i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.cta-btn:hover i {
+    transform: translateX(5px);
+}
+
+/* Mejorar estilos de formularios */
+form {
+    margin-bottom: 1.5rem;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="date"],
+form input[type="url"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.1);
+}
+
+/* Estilos para checkbox y radio inputs */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-group label input {
+    margin-right: 10px;
+    width: auto;
+}
+
+/* Estilos para resultados */
+.resultado {
+    padding: 1rem;
+    background-color: #f5f7ff;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.resultado p {
+    margin-bottom: 0.5rem;
+}
+
+.resultado ul {
+    margin-bottom: 0;
+}
+
+/* Consola para testing */
+.consola {
+    font-family: 'Courier New', monospace;
+    padding: 1rem;
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 1.5rem;
+}
+
+.consola .line {
+    padding: 0.3rem 0;
+    font-size: 0.9rem;
+}
+
+.consola .success {
+    color: var(--success-color);
+}
+
+.consola .error {
+    color: var(--danger-color);
+}
+
+.consola .info {
+    color: #2196F3;
+}
+
+/* Recomendaciones list */
+.recomendaciones-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+}
+
+.recomendaciones-list li {
+    padding: 0.8rem 1rem;
+    background-color: #f5f7ff;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    border-left: 3px solid var(--primary-color);
+    transition: var(--transition);
+}
+
+.recomendaciones-list li:hover {
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+    transform: translateX(5px);
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.delay-1 {
+    animation-delay: 0.2s;
+}
+
+.delay-2 {
+    animation-delay: 0.4s;
+}
+
+.delay-3 {
+    animation-delay: 0.6s;
+}
+
+.delay-4 {
+    animation-delay: 0.8s;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .tools-hero-section h1 {
+        font-size: 2.8rem;
+    }
+    
+    .section-title h2,
+    .tools-cta-section h2 {
+        font-size: 2.2rem;
+    }
+    
+    .tab-content {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .tools-hero-section {
+        padding: 4rem 0;
+    }
+    
+    .tools-hero-section h1 {
+        font-size: 2.3rem;
+    }
+    
+    .tools-hero-section p {
+        font-size: 1.1rem;
+    }
+    
+    .tools-tab-navigation {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .tab-button {
+        min-width: 120px;
+        padding: 0.8rem 1rem;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .cta-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .tools-hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .tools-search-box {
+        max-width: 90%;
+    }
+    
+    .section-title h2,
+    .tools-cta-section h2,
+    .category-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .tab-content {
+        padding: 1rem;
+    }
+    
+    .tab-button {
+        flex: 1 0 40%;
+        min-width: auto;
+    }
+    
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
