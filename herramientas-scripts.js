@@ -201,14 +201,275 @@ document.addEventListener('DOMContentLoaded', function() {
     // También reinicializar cuando se haga clic en la categoría de tiempo
     const timeCategoryBtn = document.querySelector('[data-category="time"]');
     if (timeCategoryBtn) {
+        console.log("Botón de categoría 'tiempo' encontrado");
+        
         timeCategoryBtn.addEventListener('click', function() {
-            // Pequeño retraso para asegurar que el DOM esté actualizado
-            setTimeout(initTimeTools, 100);
+            console.log("Botón de categoría 'tiempo' clickeado");
+            
+            // Forzar la visibilidad de la sección 'time'
+            const timeSection = document.getElementById('time');
+            if (timeSection) {
+                timeSection.style.display = 'grid';
+                console.log("Sección 'time' establecida a display:grid");
+                
+                // Inicializar herramientas después de asegurar que la sección es visible
+                setTimeout(initTimeTools, 100);
+            } else {
+                console.error("No se encontró la sección #time después de hacer clic en su categoría");
+            }
         });
+    } else {
+        console.warn("Botón de categoría 'tiempo' no encontrado en el DOM");
+    }
+
+    // Agregar funcionalidad específica para activar y mostrar las herramientas de tiempo
+    const timeTools = document.getElementById('time');
+    if (timeTools) {
+        console.log("Sección de tiempo encontrada, inicializando herramientas...");
+        
+        // Hacer visible la sección si está oculta
+        if (window.getComputedStyle(timeTools).display === 'none') {
+            console.log("La sección de tiempo está oculta, verificando si debemos activarla");
+            // Buscar el botón para la categoría de tiempo
+            const timeButton = document.querySelector('[data-category="time"]');
+            if (timeButton) {
+                console.log("Botón de categoría tiempo encontrado");
+                // Si estamos en la pestaña "misc-tools", activar la categoría de tiempo
+                const miscTab = document.getElementById('misc-tools');
+                if (miscTab && miscTab.classList.contains('active')) {
+                    console.log("Activando categoría de tiempo");
+                    timeButton.click();
+                }
+            }
+        }
+        
+        // Inicializar todas las herramientas de tiempo
+        initAllTimeTools();
+    } else {
+        console.warn("No se encontró la sección de herramientas de tiempo (#time)");
+    }
+
+    // Esperar a que todo el DOM esté completamente cargado antes de inicializar herramientas
+    setTimeout(function() {
+        // Forzar la visualización permanente de la sección de tiempo
+        const timeSection = document.getElementById('time');
+        if (timeSection) {
+            console.log("Asegurando visibilidad permanente de la sección de tiempo");
+            
+            // Forzar display grid permanente
+            timeSection.style.display = 'grid';
+            timeSection.style.visibility = 'visible';
+            timeSection.style.opacity = '1';
+            
+            // Prevenir que eventos de navegación oculten la sección
+            const originalDisplay = timeSection.style.display;
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'style' || 
+                        mutation.attributeName === 'class') {
+                        if (timeSection.style.display !== originalDisplay ||
+                            !timeSection.classList.contains('active')) {
+                            console.log("Restaurando visibilidad de sección tiempo");
+                            timeSection.style.display = 'grid';
+                            timeSection.classList.add('active');
+                        }
+                    }
+                });
+            });
+            
+            observer.observe(timeSection, { 
+                attributes: true,
+                attributeFilter: ['style', 'class']
+            });
+            
+            // Inicializar herramientas y mantenerlas visibles
+            initTimeTools();
+        }
+    }, 500);
+    
+    // Modificar el comportamiento de la categoría de tiempo
+    const timeCategoryBtnModified = document.querySelector('[data-category="time"]');
+    if (timeCategoryBtnModified) {
+        // Reemplazar el handler existente con uno que garantice visibilidad
+        timeCategoryBtnModified.addEventListener('click', function(e) {
+            // Prevenir comportamiento predeterminado
+            e.stopPropagation();
+            
+            console.log("Botón de tiempo clickeado - forzando visibilidad");
+            
+            // Activar el botón
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            categoryBtns.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Activar la sección y hacerla visible
+            const timeSection = document.getElementById('time');
+            if (timeSection) {
+                const categories = document.querySelectorAll('.category-content');
+                categories.forEach(cat => cat.classList.remove('active'));
+                
+                timeSection.classList.add('active');
+                timeSection.style.display = 'grid';
+                timeSection.style.visibility = 'visible';
+                timeSection.style.opacity = '1';
+                
+                // Reinicializar herramientas
+                setTimeout(initTimeTools, 50);
+            }
+        }, true);
     }
 });
 
+// Añade una función para verificar y corregir elementos faltantes en el DOM
+function verifyTimeToolsDOM() {
+    console.log("Verificando elementos DOM de herramientas de tiempo...");
+    
+    const timeSection = document.getElementById('time');
+    if (!timeSection) {
+        console.error("ERROR: No se encontró la sección de tiempo (#time)");
+        return false;
+    }
+    
+    console.log("Sección de tiempo encontrada");
+    
+    // Verificar si la sección está vacía y corregir si es necesario
+    if (timeSection.children.length === 0) {
+        console.warn("La sección de tiempo está vacía, añadiendo herramientas dinámicamente...");
+        
+        // Intentar cargar las herramientas dinámicamente
+        createTimeTools(timeSection);
+        return true;
+    }
+    
+    console.log("La sección de tiempo contiene elementos: " + timeSection.children.length);
+    return true;
+}
+
+// Crear herramientas de tiempo dinámicamente si no existen en el DOM
+function createTimeTools(container) {
+    // Herramienta 1: Cronómetro
+    const cronometro = document.createElement('div');
+    cronometro.className = 'tool-card premium-tool';
+    cronometro.innerHTML = `
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="tool-badge">Nuevo</div>
+            <h3>Cronómetro</h3>
+            <p>Mide tiempos con precisión</p>
+        </div>
+        <div class="tool-body">
+            <p>Inicia, pausa y reinicia un cronómetro para medir tus tiempos con precisión.</p>
+            <div id="stopwatch" class="time-tool">
+                <div id="stopwatch-display" class="time-display">00:00:00</div>
+                <div class="button-group">
+                    <button id="start-stopwatch" class="tool-btn">Iniciar</button>
+                    <button id="pause-stopwatch" class="tool-btn">Pausar</button>
+                    <button id="reset-stopwatch" class="tool-btn">Reiniciar</button>
+                </div>
+            </div>
+        </div>
+    `;
+    container.appendChild(cronometro);
+    
+    // Herramienta 2: Temporizador
+    const temporizador = document.createElement('div');
+    temporizador.className = 'tool-card';
+    temporizador.innerHTML = `
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fas fa-hourglass-half"></i>
+            </div>
+            <h3>Temporizador</h3>
+            <p>Configura alertas por tiempo</p>
+        </div>
+        <div class="tool-body">
+            <p>Configura un temporizador para tus actividades y recibe una alerta cuando termine.</p>
+            <form id="timer-form">
+                <div class="time-input">
+                    <label for="timer-minutes">Minutos:</label>
+                    <input type="number" id="timer-minutes" placeholder="Ejemplo: 5" required>
+                </div>
+                <button type="submit" class="tool-btn">Iniciar Temporizador</button>
+            </form>
+            <div id="timer-display" class="time-display">00:00</div>
+        </div>
+    `;
+    container.appendChild(temporizador);
+    
+    // Herramienta 3: Calculadora de Fechas
+    const calculadora = document.createElement('div');
+    calculadora.className = 'tool-card';
+    calculadora.innerHTML = `
+        <div class="tool-header">
+            <div class="tool-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="tool-badge">Nuevo</div>
+            <h3>Calculadora de Fechas</h3>
+            <p>Calcula días entre fechas</p>
+        </div>
+        <div class="tool-body">
+            <p>Calcula la diferencia exacta entre dos fechas en días, semanas, meses y años.</p>
+            <form id="date-calculator-form">
+                <div class="form-group">
+                    <label for="start-date-calc">Fecha Inicial:</label>
+                    <input type="date" id="start-date-calc" required>
+                </div>
+                <div class="form-group">
+                    <label for="end-date-calc">Fecha Final:</label>
+                    <input type="date" id="end-date-calc" required>
+                </div>
+                <button type="submit" class="tool-btn">Calcular Diferencia</button>
+            </form>
+            <div id="date-calc-result" class="resultado"></div>
+        </div>
+    `;
+    container.appendChild(calculadora);
+    
+    // Agregar también las demás herramientas (zonasHorarias, pomodoro, notas)
+    // ...
+    
+    console.log("Herramientas de tiempo creadas dinámicamente");
+}
+
+// Modificar la función initTimeTools para que verifique y corrija el DOM si es necesario
 function initTimeTools() {
+    console.log("Inicializando herramientas de tiempo...");
+    
+    // Verificar y corregir el DOM si es necesario
+    if (!verifyTimeToolsDOM()) {
+        console.error("No se pudieron inicializar las herramientas de tiempo por problemas en el DOM");
+        return;
+    }
+    
+    // Continuar con la inicialización normal
+    // 1. Cronómetro
+    initStopwatch();
+    
+    // 2. Temporizador
+    initTimer();
+    
+    // 3. Calculadora de Fechas
+    initDateCalculator();
+    
+    // 4. Zonas Horarias
+    initTimezones();
+    
+    // 5. Pomodoro Timer
+    initPomodoro();
+    
+    // 6. Notas Rápidas
+    initQuickNotes();
+    
+    console.log("Todas las herramientas de tiempo han sido inicializadas correctamente");
+}
+
+// Función para inicializar todas las herramientas de tiempo
+function initAllTimeTools() {
+    console.log("Iniciando herramientas de tiempo...");
+    
     // 1. Cronómetro
     initStopwatch();
     

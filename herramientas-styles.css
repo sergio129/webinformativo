@@ -721,6 +721,12 @@ form select:focus {
     margin: 1rem 0;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
     color: var(--primary-color);
+    display: block;
+    width: 100%;
+}
+
+.time-tool {
+    margin: 1rem 0;
 }
 
 .time-input {
@@ -812,6 +818,34 @@ form select:focus {
 #note-status.cleared {
     color: var(--info-color);
     background-color: rgba(33, 150, 243, 0.1);
+}
+
+/* Reglas específicas para la grid de herramientas de tiempo */
+#time {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    gap: 2rem !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+#time.category-content {
+    display: grid !important;
+}
+
+.category-content.active#time {
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+/* Evitar transiciones que puedan causar desaparición */
+#time, #time * {
+    transition: none !important;
 }
 
 /* Responsive */
