@@ -135,57 +135,29 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Función para cargar videos locales
         const loadLocalVideos = () => {
+            // Usamos la ruta original que funcionaba antes: videos/testimonios
             return fetch('/videos/testimonios')
                 .then(response => {
                     if (!response.ok) {
-                        console.warn('No se encontraron videos en /videos/testimonios, intentando ruta alternativa...');
-                        return fetch('/videos');
-                    }
-                    return response;
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error al obtener los videos locales');
+                        console.warn('Error al acceder a /videos/testimonios:', response.status);
+                        return [];
                     }
                     return response.json();
                 })
                 .then(videos => {
-                    if (!videos) {
-                        console.warn('No hay respuesta de videos válida');
-                        return [];
-                    }
-                    
-                    // Verificar si videos es un array
-                    let videosArray = videos;
-                    if (!Array.isArray(videos)) {
-                        console.warn('La respuesta de videos no es un array, intentando convertir:', videos);
-                        
-                        if (typeof videos === 'object') {
-                            videosArray = Object.values(videos);
-                        } else {
-                            console.error('Formato de respuesta de videos no válido:', videos);
-                            return [];
-                        }
-                    }
-                    
-                    if (videosArray.length === 0) {
+                    if (!videos || videos.length === 0) {
                         console.warn('No hay videos locales disponibles');
                         return [];
                     }
                     
-                    console.log('Videos locales encontrados:', videosArray.length);
+                    console.log('Videos locales encontrados:', videos.length);
                     
                     // Filtrar solo archivos de video válidos
-                    const validVideos = videosArray.filter(video => {
-                        if (typeof video !== 'string') {
-                            console.warn('Elemento de video no válido:', video);
-                            return false;
-                        }
+                    const validVideos = Array.isArray(videos) ? videos.filter(video => {
+                        if (typeof video !== 'string') return false;
                         const extension = video.split('.').pop().toLowerCase();
                         return ['mp4', 'webm', 'ogg', 'mov'].includes(extension);
-                    });
-                    
-                    console.log('Videos válidos encontrados:', validVideos.length);
+                    }) : [];
                     
                     // Procesar cada video encontrado
                     validVideos.forEach(video => {
@@ -211,18 +183,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         // Manejar el error de carga del video específicamente
                         videoElement.onerror = function() {
-                            // Intentar con ruta alternativa
-                            this.src = `/videos/${video}`;
-                            
-                            // Si vuelve a fallar, mostrar un mensaje de error más amigable
-                            this.onerror = function() {
-                                videoContainer.innerHTML = `
-                                    <div class="p-4 text-center">
-                                        <i class="fas fa-exclamation-triangle text-warning mb-2" style="font-size: 2rem;"></i>
-                                        <p class="mb-0">No se pudo cargar el video "${video}"</p>
-                                    </div>
-                                `;
-                            };
+                            videoContainer.innerHTML = `
+                                <div class="p-4 text-center">
+                                    <i class="fas fa-exclamation-triangle text-warning mb-2" style="font-size: 2rem;"></i>
+                                    <p class="mb-0">No se pudo cargar el video "${video}"</p>
+                                </div>
+                            `;
                         };
                         
                         // Agregar un título al video
@@ -241,12 +207,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     return validVideos;
                 })
                 .catch(error => {
-                    console.error("Error cargando videos locales:", error);
+                    console.error('Error cargando videos locales:', error);
                     return [];
                 });
         };
         
-        // Función para cargar videos de YouTube
+        // Función para cargar videos de YouTube (mantenemos la funcionalidad original)
         const loadYoutubeVideos = () => {
             return fetch('/youtube-links')
                 .then(response => {
@@ -257,33 +223,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     return response.json();
                 })
                 .then(links => {
-                    if (!links) {
-                        console.warn('No hay respuesta de enlaces válida');
-                        return [];
-                    }
-                    
-                    // Verificar si links es un array
-                    let linksArray = links;
-                    if (!Array.isArray(links)) {
-                        console.warn('La respuesta de enlaces no es un array, intentando convertir:', links);
-                        
-                        if (typeof links === 'object') {
-                            linksArray = Object.values(links);
-                        } else {
-                            console.error('Formato de respuesta de enlaces no válido:', links);
-                            return [];
-                        }
-                    }
-                    
-                    if (linksArray.length === 0) {
+                    if (!links || links.length === 0) {
                         console.warn('No hay enlaces de YouTube disponibles');
                         return [];
                     }
                     
-                    console.log('Enlaces de YouTube encontrados:', linksArray.length);
+                    console.log('Enlaces de YouTube encontrados:', links.length);
                     
                     // Procesar cada enlace de YouTube
-                    linksArray.forEach(link => {
+                    links.forEach(link => {
                         // Crear el elemento de columna
                         const videoCol = document.createElement('div');
                         videoCol.className = 'col-md-6 col-lg-4 mb-4';
@@ -314,51 +262,156 @@ document.addEventListener('DOMContentLoaded', function() {
                         totalVideosAdded++;
                     });
                     
-                    return linksArray;
+                    return links;
                 })
                 .catch(error => {
-                    console.error("Error cargando enlaces de YouTube:", error);
+                    console.error('Error cargando enlaces de YouTube:', error);
                     return [];
                 });
         };
         
-        // Cargar ambos tipos de videos y luego verificar si se añadió alguno
+        // Cargar ambos tipos de videos (locales y YouTube)
         Promise.all([loadLocalVideos(), loadYoutubeVideos()])
             .then(([localVideos, youtubeLinks]) => {
                 console.log(`Total de videos añadidos: ${totalVideosAdded}`);
                 
-                // Si no se encontraron videos válidos después de filtrar
+                // Si no se encontraron videos válidos
                 if (totalVideosAdded === 0) {
                     videoTestimonialsContainer.innerHTML = `
                         <div class="col-12">
                             <div class="alert alert-info">
                                 <i class="fas fa-info-circle me-2"></i>
-                                <p>No hay videos de testimonios disponibles en este momento.</p>
-                                <small class="d-block mt-2">Para agregar videos, acceda al panel de administración.</small>
+                                No hay videos de testimonios disponibles en este momento.
                             </div>
                         </div>
                     `;
-                    // Mostrar info de depuración si no hay videos
-                    document.getElementById('debug-info').style.display = 'block';
+                    
+                    // Mostrar mensaje de ayuda para agregar videos
+                    const helpLink = document.createElement('div');
+                    helpLink.className = 'col-12 text-center mt-3';
+                    helpLink.innerHTML = `
+                        <a href="admin.html" class="btn btn-outline-primary">
+                            <i class="fas fa-upload me-2"></i>Agregar videos
+                        </a>
+                    `;
+                    videoTestimonialsContainer.appendChild(helpLink);
                 }
             })
             .catch(error => {
                 console.error('Error cargando videos de testimonios:', error);
                 videoTestimonialsContainer.innerHTML = `
                     <div class="col-12">
-                        <div class="alert alert-danger d-flex align-items-center">
-                            <i class="fas fa-exclamation-circle me-3" style="font-size: 1.5rem;"></i>
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle me-2"></i>
                             <div>
                                 <h5 class="mb-1">Error al cargar los videos</h5>
                                 <p class="mb-0">No se pudieron cargar los videos de testimonios.</p>
-                                <p class="mb-0 text-muted small">${error.toString()}</p>
-                                <button class="btn btn-outline-danger btn-sm mt-2" onclick="loadVideoTestimonials()">Reintentar</button>
+                                <button class="btn btn-outline-danger btn-sm mt-2" onclick="loadVideoTestimonials()">
+                                    <i class="fas fa-sync-alt me-1"></i>Reintentar
+                                </button>
                             </div>
                         </div>
                     </div>
                 `;
-                // Mostrar panel de depuración si hay error
-                document.getElementById('debug-info').style.display = 'block';
+            });
+    }
+
+    // Función mejorada para verificar endpoints
+    function checkVideoEndpoints() {
+        const debugMessage = document.getElementById('debug-message');
+        if (!debugMessage) return;
+        
+        debugMessage.innerHTML = '<div class="text-center my-3"><div class="spinner-border spinner-border-sm text-primary" role="status"></div> Verificando endpoints de videos...</div>';
+        let reportHTML = '<h6 class="mb-3">Estado de las rutas:</h6>';
+        
+        // Agregar timeout a las peticiones para evitar esperas infinitas
+        const fetchWithTimeout = (url, options = {}, timeout = 5000) => {
+            return Promise.race([
+                fetch(url, options),
+                new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error(`Timeout al acceder a ${url}`)), timeout)
+                )
+            ]);
+        };
+        
+        // Verificar endpoint de videos locales
+        fetchWithTimeout('/videos/testimonios')
+            .then(response => {
+                const statusClass = response.ok ? 'text-success' : 'text-danger';
+                reportHTML += `
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h6 class="d-flex justify-content-between">
+                                <span>Endpoint /videos/testimonios:</span> 
+                                <span class="${statusClass}"><strong>${response.ok ? 'Disponible' : 'No disponible'}</strong></span>
+                            </h6>
+                            <div class="small text-muted">Status: ${response.status} ${response.statusText}</div>
+                            ${!response.ok ? '<div class="small text-danger mt-1">Esta ruta debe estar configurada en el servidor.</div>' : ''}
+                        </div>
+                    </div>
+                `;
+                return fetchWithTimeout('/videos');
+            })
+            .then(response => {
+                const statusClass = response.ok ? 'text-success' : 'text-danger';
+                reportHTML += `
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h6 class="d-flex justify-content-between">
+                                <span>Endpoint /videos:</span> 
+                                <span class="${statusClass}"><strong>${response.ok ? 'Disponible' : 'No disponible'}</strong></span>
+                            </h6>
+                            <div class="small text-muted">Status: ${response.status} ${response.statusText}</div>
+                        </div>
+                    </div>
+                `;
+                return fetchWithTimeout('/youtube-links');
+            })
+            .then(response => {
+                const statusClass = response.ok ? 'text-success' : 'text-danger';
+                reportHTML += `
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h6 class="d-flex justify-content-between">
+                                <span>Endpoint /youtube-links:</span> 
+                                <span class="${statusClass}"><strong>${response.ok ? 'Disponible' : 'No disponible'}</strong></span>
+                            </h6>
+                            <div class="small text-muted">Status: ${response.status} ${response.statusText}</div>
+                        </div>
+                    </div>
+                `;
+                
+                // Mostrar la información recopilada
+                debugMessage.innerHTML = reportHTML;
+                
+                // Agregar sección de ayuda para configurar el servidor
+                const helpSection = document.createElement('div');
+                helpSection.className = 'mt-4 p-3 border rounded bg-light';
+                helpSection.innerHTML = `
+                    <h6 class="mb-3">Configuración del servidor:</h6>
+                    <p>Para solucionar el problema de los videos, el servidor debe configurarse para responder a las siguientes rutas:</p>
+                    <ul>
+                        <li><code>/videos/testimonios</code> - Directorio principal de videos de testimonios</li>
+                        <li><code>/youtube-links</code> - API para enlaces de videos de YouTube</li>
+                    </ul>
+                    <div class="mt-3">
+                        <button class="btn btn-sm btn-info" onclick="showTroubleshootingHelp()">
+                            <i class="fas fa-question-circle me-1"></i>Ayuda adicional
+                        </button>
+                    </div>
+                `;
+                debugMessage.appendChild(helpSection);
+            })
+            .catch(error => {
+                debugMessage.innerHTML = `
+                    <div class="alert alert-danger">
+                        <p><i class="fas fa-exclamation-triangle me-2"></i>Error al verificar endpoints: ${error.message}</p>
+                        <p class="mb-0 small">Esto puede indicar que el servidor no está en ejecución o que hay problemas de conectividad.</p>
+                    </div>
+                    <button class="btn btn-sm btn-primary mt-3" onclick="checkVideoEndpoints()">
+                        <i class="fas fa-sync me-1"></i>Intentar nuevamente
+                    </button>
+                `;
             });
     }
 
@@ -373,41 +426,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 debugContainer.style.display = 'none';
             }
         }
-    }
-
-    function checkVideoEndpoints() {
-        const debugMessage = document.getElementById('debug-message');
-        if (!debugMessage) return;
-        
-        debugMessage.innerHTML = '<p>Verificando endpoints de videos...</p>';
-        let reportHTML = '';
-        
-        // Verificar endpoint de videos locales
-        fetch('/videos/testimonios')
-            .then(response => {
-                reportHTML += `<p>Endpoint /videos/testimonios: <strong>${response.ok ? 'Disponible' : 'No disponible'}</strong> (status: ${response.status})</p>`;
-                return fetch('/videos');
-            })
-            .then(response => {
-                reportHTML += `<p>Endpoint /videos: <strong>${response.ok ? 'Disponible' : 'No disponible'}</strong> (status: ${response.status})</p>`;
-                return fetch('/youtube-links');
-            })
-            .then(response => {
-                reportHTML += `<p>Endpoint /youtube-links: <strong>${response.ok ? 'Disponible' : 'No disponible'}</strong> (status: ${response.status})</p>`;
-                
-                // Mostrar la información recopilada
-                debugMessage.innerHTML = reportHTML;
-                
-                // Mostrar botón para ayuda adicional
-                const helpButton = document.createElement('button');
-                helpButton.className = 'btn btn-sm btn-info mt-2';
-                helpButton.textContent = 'Ayuda adicional';
-                helpButton.onclick = showTroubleshootingHelp;
-                debugMessage.appendChild(helpButton);
-            })
-            .catch(error => {
-                debugMessage.innerHTML = `<p class="text-danger">Error al verificar endpoints: ${error.message}</p>`;
-            });
     }
 
     function showTroubleshootingHelp() {
