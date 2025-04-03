@@ -42,24 +42,12 @@
         </section>
         <section class="admin-section">
             <h2 class="section-title">Cargar Videos de Testimonios</h2>
-            <form action="/upload-videos" method="POST" enctype="multipart/form-data" class="admin-form">
-                <label for="video-upload">Selecciona videos:</label>
-                <input type="file" id="video-upload" name="videos" accept="video/*" multiple>
-                <button type="submit" class="btn-primary">Subir Videos</button>
+            <form id="upload-testimonial-videos-form" class="admin-form" enctype="multipart/form-data">
+                <label for="testimonial-videos-file">Selecciona videos:</label>
+                <input type="file" id="testimonial-videos-file" name="testimonialVideos" accept="video/*" multiple required>
+                <button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Cargar Videos</button>
             </form>
-            <div id="admin-video-preview" class="preview-container">
-                <!-- Previsualización de videos cargados -->
-            </div>
-        </section>
-        <section class="admin-section">
-            <h2 class="section-title">Videos disponibles</h2>
             <div id="admin-video-list" class="video-list">
-                <!-- Los videos subidos se mostrarán aquí -->
-            </div>
-        </section>
-        <section class="admin-section">
-            <h2 class="section-title">Cargar Videos de Testimonios</h2>
-            <div id="testimonial-videos-list" class="video-list">
                 <!-- Los videos subidos se mostrarán aquí -->
             </div>
         </section>
@@ -95,26 +83,13 @@
         </section>
 
         <!-- Contenedor para los toasts -->
-        <div id="toast-container"></div>
+        <div id="toast-container" class="toast-container"></div>
     </main>
     <footer class="mui-footer">
         <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
     </footer>
     <script src="script.js"></script>
     <script>
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-
-            const toastContainer = document.getElementById('toast-container');
-            toastContainer.appendChild(toast);
-
-            setTimeout(() => {
-                toast.remove();
-            }, 3000); // Elimina el toast después de 3 segundos
-        }
-
         async function cargarImagenesCasosExito() {
             try {
                 const response = await fetch('/api/imagenes-casos-exito');
@@ -239,52 +214,6 @@
             }
         });
 
-        async function cargarVideosTestimonios() {
-            try {
-                const response = await fetch('/api/testimonial-videos');
-                if (!response.ok) throw new Error('Error al cargar los videos.');
-                const videos = await response.json();
-                const listContainer = document.getElementById('testimonial-videos-list');
-                listContainer.innerHTML = ''; // Limpia la lista antes de cargar los videos
-                videos.forEach(video => {
-                    const videoWrapper = document.createElement('div');
-                    videoWrapper.className = 'video-item';
-
-                    const videoElement = document.createElement('video');
-                    videoElement.src = `videos/testimonios/${video}`;
-                    videoElement.controls = true;
-
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Eliminar';
-                    deleteButton.className = 'mui-btn mui-btn--danger';
-                    deleteButton.onclick = () => eliminarVideoTestimonio(video);
-
-                    videoWrapper.appendChild(videoElement);
-                    videoWrapper.appendChild(deleteButton);
-                    listContainer.appendChild(videoWrapper);
-                });
-            } catch (error) {
-                console.error('Error al cargar los videos de testimonios:', error);
-            }
-        }
-
-        async function eliminarVideoTestimonio(videoName) {
-            try {
-                const response = await fetch(`/api/testimonial-videos?videoName=${encodeURIComponent(videoName)}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    showToast('Video eliminado correctamente.', 'success');
-                    cargarVideosTestimonios();
-                } else {
-                    showToast('Error al eliminar el video.', 'error');
-                }
-            } catch (error) {
-                console.error('Error al eliminar el video:', error);
-                showToast('Error al eliminar el video.', 'error');
-            }
-        }
-
         async function cargarVideosDisponibles() {
             try {
                 const response = await fetch('/api/testimonial-videos');
@@ -320,20 +249,46 @@
                     method: 'DELETE'
                 });
                 if (response.ok) {
-                    alert('Video eliminado correctamente.');
+                    showToast('Video eliminado correctamente.', 'success');
                     cargarVideosDisponibles(); // Recarga la lista de videos
                 } else {
-                    alert('Error al eliminar el video.');
+                    showToast('Error al eliminar el video.', 'error');
                 }
             } catch (error) {
                 console.error('Error al eliminar el video:', error);
-                alert('Error al eliminar el video.');
+                showToast('Error al eliminar el video.', 'error');
             }
         }
 
+        document.getElementById('upload-testimonial-videos-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            const files = document.getElementById('testimonial-videos-file').files;
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append('testimonialVideos', files[i]);
+            }
+
+            try {
+                const response = await fetch('/api/upload-testimonial-videos', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    showToast('Videos subidos y guardados correctamente.', 'success');
+                    cargarVideosDisponibles(); // Recarga la lista de videos
+                } else {
+                    showToast('Error al subir los videos.', 'error');
+                }
+            } catch (error) {
+                console.error('Error al subir los videos:', error);
+                showToast('Error al subir los videos.', 'error');
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             cargarImagenesCasosExito(); // Cargar las imágenes al cargar la página
-            cargarVideosTestimonios(); // Cargar los videos al cargar la página
             cargarEnlacesYouTube(); // Cargar los enlaces al cargar la página
             cargarVideosDisponibles(); // Cargar los videos disponibles al cargar la página
         });

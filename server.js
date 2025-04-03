@@ -332,11 +332,12 @@ app.get('/api/imagenes-casos-exito', imagenesCasosExito);
 // Endpoint para subir videos de testimonios
 app.post('/api/upload-testimonial-videos', uploadTestimonialVideos);
 
+// Endpoint para manejar videos testimoniales
+app.use('/api/testimonial-videos', testimonialVideos); // Manejo de videos testimoniales
 // Endpoint para manejar enlaces de YouTube
 app.use('/api/youtube-links', youtubeLinks);
+// Endpoint para manejar enlaces de YouTube
 
-// Endpoint para manejar videos testimoniales
-app.use('/api/testimonial-videos', testimonialVideos); // Agregado para manejar videos testimoniales
 
 // Manejo de rutas no encontradas
 app.use((req, res) => {
