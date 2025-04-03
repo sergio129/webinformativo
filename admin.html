@@ -68,10 +68,66 @@
                 <!-- Lista de enlaces de YouTube cargados -->
             </div>
         </section>
+        <section class="admin-section">
+            <h2 class="section-title">Gestión de Casos de Éxito</h2>
+            <p class="section-description">Sube imágenes para los casos de éxito que se mostrarán en la galería.</p>
+            <form id="upload-casos-exito-form" class="admin-form" enctype="multipart/form-data">
+                <label for="casos-exito-file">Selecciona imágenes:</label>
+                <input type="file" id="casos-exito-file" name="casosExito" accept="image/*" multiple required>
+                <button type="submit" class="btn-primary">Subir Imágenes</button>
+            </form>
+            <div id="casos-exito-preview" class="preview-container">
+                <!-- Las imágenes subidas se mostrarán aquí -->
+            </div>
+        </section>
+
+        <!-- Contenedor para los toasts -->
+        <div id="toast-container"></div>
     </main>
     <footer class="mui-footer">
         <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
     </footer>
     <script src="script.js"></script>
+    <script>
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+
+            const toastContainer = document.getElementById('toast-container');
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000); // Elimina el toast después de 3 segundos
+        }
+
+        document.getElementById('upload-casos-exito-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            const files = document.getElementById('casos-exito-file').files;
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append('casosExito', files[i]);
+            }
+
+            try {
+                const response = await fetch('/api/upload-casos-exito', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    showToast('Imágenes subidas correctamente.', 'success');
+                    location.reload(); // Recarga la página para actualizar la galería
+                } else {
+                    showToast('Error al subir las imágenes.', 'error');
+                }
+            } catch (error) {
+                console.error('Error al subir las imágenes:', error);
+                showToast('Error al subir las imágenes.', 'error');
+            }
+        });
+    </script>
 </body>
 </html>

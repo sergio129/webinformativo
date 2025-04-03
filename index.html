@@ -111,12 +111,35 @@
         <!-- Casos de Éxito -->
         <section class="image-gallery-section">
             <h2>Casos de Éxito</h2>
-            <div class="image-gallery">
-                <img src="imagenes/caso1.jpg" alt="Caso de Éxito 1" class="gallery-image">
-                <img src="imagenes/caso2.jpg" alt="Caso de Éxito 2" class="gallery-image">
-                <img src="imagenes/caso3.jpg" alt="Caso de Éxito 3" class="gallery-image">
+            <div class="image-gallery" id="casos-exito-gallery">
+                <!-- Las imágenes se cargarán dinámicamente aquí -->
             </div>
         </section>
+        <script>
+            async function cargarCasosExito() {
+                try {
+                    const response = await fetch('/api/imagenes-casos-exito');
+                    if (!response.ok) {
+                        throw new Error('Error al cargar las imágenes.');
+                    }
+                    const imagenes = await response.json();
+                    const gallery = document.getElementById('casos-exito-gallery');
+                    gallery.innerHTML = ''; // Limpia la galería antes de cargar las imágenes
+                    imagenes.forEach(imagen => {
+                        const imgElement = document.createElement('img');
+                        imgElement.src = `imagenes/Casos_Exito/${imagen}`;
+                        imgElement.alt = 'Caso de Éxito';
+                        imgElement.className = 'gallery-image';
+                        gallery.appendChild(imgElement);
+                    });
+                } catch (error) {
+                    console.error('Error al cargar las imágenes de casos de éxito:', error);
+                }
+            }
+
+            // Cargar las imágenes al cargar la página
+            document.addEventListener('DOMContentLoaded', cargarCasosExito);
+        </script>
         <section id="Testimonios">
             <h2>Testimonios</h2>
             <p>En QualiTest Solutions, nos dedicamos a ofrecer servicios de calidad para optimizar tus procesos empresariales.</p>

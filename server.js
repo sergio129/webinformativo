@@ -4,6 +4,8 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const uploadCasosExito = require('./api/upload-casos-exito');
+const imagenesCasosExito = require('./api/imagenes-casos-exito');
 
 const app = express();
 
@@ -315,6 +317,17 @@ app.post('/api/analyze-logs', upload.single('logFile'), (req, res) => {
 // Ruta para comprobación de estado
 app.get('/health', (req, res) => {
     res.status(200).send('OK');
+});
+
+// Endpoint para subir imágenes de casos de éxito
+app.post('/api/upload-casos-exito', uploadCasosExito);
+
+// Endpoint para obtener imágenes de casos de éxito
+app.get('/api/imagenes-casos-exito', imagenesCasosExito);
+
+// Manejo de rutas no encontradas
+app.use((req, res) => {
+    res.status(404).send('Ruta no encontrada');
 });
 
 // Iniciar el servidor con un timeout extendido

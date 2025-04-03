@@ -16,6 +16,14 @@
     {
       "src": "*.js",
       "use": "@vercel/static"
+    },
+    {
+      "src": "api/upload-casos-exito.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/imagenes-casos-exito.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -42,6 +50,14 @@
     {
       "src": "/api/comparar-archivos",
       "dest": "/api/comparar-archivos.js"
+    },
+    {
+      "src": "/api/upload-casos-exito",
+      "dest": "/api/upload-casos-exito.js"
+    },
+    {
+      "src": "/api/imagenes-casos-exito",
+      "dest": "/api/imagenes-casos-exito.js"
     }
   ]
 }
