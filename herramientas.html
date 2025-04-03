@@ -111,6 +111,40 @@
                             <!-- Los resultados del análisis se mostrarán aquí -->
                         </div>
                     </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-tasks"></i>
+                        </div>
+                        <h2>Generador de Planes de Prueba Ágiles</h2>
+                        <p>Genera automáticamente un plan de pruebas adaptado a metodologías ágiles.</p>
+                        <form id="plan-prueba-form">
+                            <label for="nombre-proyecto">Nombre del Proyecto:</label>
+                            <input type="text" id="nombre-proyecto" placeholder="Ejemplo: Sistema de Gestión" required>
+                            <label for="duracion-sprint">Duración del Sprint (días):</label>
+                            <input type="number" id="duracion-sprint" min="1" max="30" placeholder="Ejemplo: 14" required>
+                            <button type="submit" class="btn-primary">Generar Plan</button>
+                        </form>
+                        <div id="resultado-plan-prueba" class="resultado">
+                            <!-- Indicador de estado -->
+                        </div>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-code-fork"></i>
+                        </div>
+                        <h2>Comparador de Versiones</h2>
+                        <p>Compara dos versiones de software y determina cuál es mayor.</p>
+                        <form id="comparador-versiones-form">
+                            <label for="version1">Versión 1:</label>
+                            <input type="text" id="version1" placeholder="Ejemplo: 1.2.3" required>
+                            <label for="version2">Versión 2:</label>
+                            <input type="text" id="version2" placeholder="Ejemplo: 1.3.0" required>
+                            <button type="submit" class="btn-primary">Comparar Versiones</button>
+                        </form>
+                        <div id="resultado-comparacion" class="resultado">
+                            <!-- El resultado de la comparación se mostrará aquí -->
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="data-tools" class="tab-content">
@@ -522,10 +556,48 @@
                             <!-- El temporizador se mostrará aquí -->
                         </div>
                     </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fa fa-check-square-o"></i>
+                        </div>
+                        <h2>Validador de Requisitos</h2>
+                        <p>Analiza la calidad de tus requisitos funcionales y no funcionales.</p>
+                        <form id="validador-requisitos-form">
+                            <label for="requisitos-texto">Ingresa los requisitos (uno por línea):</label>
+                            <textarea id="requisitos-texto" rows="5" placeholder="Ejemplo: El sistema debe permitir a los usuarios iniciar sesión con correo y contraseña" required></textarea>
+                            <button type="submit" class="btn-primary">Validar Requisitos</button>
+                        </form>
+                        <div id="resultado-validacion" class="resultado">
+                            <!-- El resultado de la validación se mostrará aquí -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
+    
+    <!-- Modal para el Plan de Pruebas Ágiles -->
+    <div id="modal-plan-prueba" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModalPlanPrueba()">&times;</span>
+            <h2>Plan de Pruebas Ágiles</h2>
+            <div id="contenedor-plan-prueba" class="contenedor-plan">
+                <!-- El plan de pruebas generado se mostrará aquí -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para la Validación de Requisitos -->
+    <div id="modal-validacion-requisitos" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModalValidacionRequisitos()">&times;</span>
+            <h2>Análisis de Requisitos</h2>
+            <div id="contenedor-validacion-requisitos" class="contenedor-validacion">
+                <!-- El análisis de requisitos se mostrará aquí -->
+            </div>
+        </div>
+    </div>
+    
     <footer>
         <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
     </footer>

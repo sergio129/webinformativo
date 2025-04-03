@@ -10,17 +10,17 @@
 <body>
     <header class="mui-appbar">
         <div class="mui-container">
-            <div class="logo">QualiTest Solutions</div>
-            <nav>
-                <ul class="mui-nav">
-                    <li><a href="index.html">Inicio</a></li>
-                    <li><a href="nosotros.html">Nosotros</a></li>
-                    <li><a href="herramientas.html">Herramientas</a></li>
-                    <li><a href="contacto.html">Contacto</a></li>
-                    <li><a href="admin.html">Administración</a></li>
-                </ul>
-            </nav>
-        </div>
+        <div class="logo">QualiTest Solutions</div>
+<nav>
+            <ul class="mui-nav">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="herramientas.html">Herramientas</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="admin.html">Administración</a></li>
+            </ul>
+        </nav>
+</div>
     </header>
     <main class="admin-container">
         <section class="admin-section">
@@ -37,109 +37,109 @@
         <section class="admin-section">
             <h2 class="section-title">Imágenes disponibles</h2>
             <div id="admin-image-list" class="image-list">
-                <!-- Las imágenes cargadas se mostrarán aquí con opciones para eliminarlas -->
-            </div>
-        </section>
-        <section class="admin-section">
-            <h2 class="section-title">Cargar Videos de Testimonios</h2>
-            <form id="upload-testimonial-videos-form" class="admin-form" enctype="multipart/form-data">
-                <label for="testimonial-videos-file">Selecciona videos:</label>
-                <input type="file" id="testimonial-videos-file" name="testimonialVideos" accept="video/*" multiple required>
-                <button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Cargar Videos</button>
-            </form>
-            <div id="admin-video-list" class="video-list">
+                                              <!-- Las imágenes cargadas se mostrarán aquí con opciones para eliminarlas -->
+</div>
+</section>
+<section class="admin-section">
+<h2 class="section-title">Cargar Videos de Testimonios</h2>
+<form id="upload-testimonial-videos-form" class="admin-form" enctype="multipart/form-data">
+<label for="testimonial-videos-file">Selecciona videos:</label>
+<input type="file" id="testimonial-videos-file" name="testimonialVideos" accept="video/*" multiple required>
+<button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Cargar Videos</button>
+</form>
+<div id="admin-video-list" class="video-list">
                 <!-- Los videos subidos se mostrarán aquí -->
             </div>
         </section>
-        <section class="admin-section">
-            <h2 class="section-title">Agregar Enlaces de YouTube</h2>
-            <form id="youtube-links-form" class="admin-form">
-                <label for="youtube-link">Enlace de YouTube:</label>
-                <input type="url" id="youtube-link" name="youtubeLink" placeholder="https://www.youtube.com/watch?v=..." required>
-                <button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Agregar Enlace</button>
-            </form>
-            <div id="youtube-links-list" class="video-list">
-                <!-- Los enlaces de YouTube existentes se cargarán aquí -->
-            </div>
-        </section>
-        <section class="admin-section">
-            <h2 class="section-title">Gestión de Casos de Éxito</h2>
-            <p class="section-description">Sube imágenes para los casos de éxito que se mostrarán en la galería.</p>
-            <form id="upload-casos-exito-form" class="admin-form" enctype="multipart/form-data">
-                <label for="casos-exito-file">Selecciona imágenes:</label>
-                <input type="file" id="casos-exito-file" name="casosExito" accept="image/*" multiple required>
-                <button type="submit" class="btn-primary">Subir Imágenes</button>
-            </form>
-            <div id="casos-exito-preview" class="preview-container">
-                <!-- Las imágenes subidas se mostrarán aquí -->
-            </div>
-        </section>
+<section class="admin-section">
+<h2 class="section-title">Agregar Enlaces de YouTube</h2>
+<form id="youtube-links-form" class="admin-form">
+<label for="youtube-link">Enlace de YouTube:</label>
+<input type="url" id="youtube-link" name="youtubeLink" placeholder="https://www.youtube.com/watch?v=..." required>
+<button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Agregar Enlace</button>
+</form>
+<div id="youtube-links-list" class="video-list">
+<!-- Los enlaces de YouTube existentes se cargarán aquí -->
+</div>
+</section>
+<section class="admin-section">
+<h2 class="section-title">Gestión de Casos de Éxito</h2>
+<p class="section-description">Sube imágenes para los casos de éxito que se mostrarán en la galería.</p>
+<form id="upload-casos-exito-form" class="admin-form" enctype="multipart/form-data">
+<label for="casos-exito-file">Selecciona imágenes:</label>
+<input type="file" id="casos-exito-file" name="casosExito" accept="image/*" multiple required>
+<button type="submit" class="btn-primary">Subir Imágenes</button>
+</form>
+<div id="casos-exito-preview" class="preview-container">
+<!-- Las imágenes subidas se mostrarán aquí -->
+</div>
+</section>
 
-        <section class="admin-section">
-            <h2 class="section-title">Imágenes de Casos de Éxito</h2>
-            <div id="casos-exito-list" class="image-list">
-                <!-- Las imágenes existentes se cargarán aquí -->
-            </div>
-        </section>
+<section class="admin-section">
+             <h2 class="section-title">Imágenes de Casos de Éxito</h2>
+<div id="casos-exito-list" class="image-list">
+<!-- Las imágenes existentes se cargarán aquí -->
+</div>
+</section>
 
-        <!-- Contenedor para los toasts -->
-        <div id="toast-container" class="toast-container"></div>
-    </main>
-    <footer class="mui-footer">
-        <p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
-    </footer>
-    <script src="script.js"></script>
-    <script>
+<!-- Contenedor para los toasts -->
+<div id="toast-container" class="toast-container"></div>
+</main>
+<footer class="mui-footer">
+<p>&copy; 2023 QualiTest Solutions. Todos los derechos reservados.</p>
+</footer>
+<script src="script.js"></script>
+<script>
         async function cargarImagenesCasosExito() {
-            try {
-                const response = await fetch('/api/imagenes-casos-exito');
-                if (!response.ok) {
-                    throw new Error('Error al cargar las imágenes.');
+try {
+const response = await fetch('/api/imagenes-casos-exito');
+if (!response.ok) {
+throw new Error('Error al cargar las imágenes.');
                 }
-                const imagenes = await response.json();
-                const listContainer = document.getElementById('casos-exito-list');
-                listContainer.innerHTML = ''; // Limpia la lista antes de cargar las imágenes
-                imagenes.forEach(imagen => {
-                    const imageWrapper = document.createElement('div');
-                    imageWrapper.className = 'image-item';
+const imagenes = await response.json();
+const listContainer = document.getElementById('casos-exito-list');
+listContainer.innerHTML = ''; // Limpia la lista antes de cargar las imágenes
+imagenes.forEach(imagen => {
+const imageWrapper = document.createElement('div');
+imageWrapper.className = 'image-item';
 
-                    const imgElement = document.createElement('img');
-                    imgElement.src = `imagenes/Casos_Exito/${imagen}`;
-                    imgElement.alt = 'Caso de Éxito';
-                    imgElement.className = 'gallery-image';
+const imgElement = document.createElement('img');
+imgElement.src = `imagenes/Casos_Exito/${imagen}`;
+imgElement.alt = 'Caso de Éxito';
+imgElement.className = 'gallery-image';
 
-                    const deleteButton = document.createElement('button');
-                    deleteButton.textContent = 'Eliminar';
-                    deleteButton.className = 'delete-button';
-                    deleteButton.onclick = () => eliminarImagen(imagen);
+const deleteButton = document.createElement('button');
+deleteButton.textContent = 'Eliminar';
+deleteButton.className = 'delete-button';
+deleteButton.onclick = () => eliminarImagen(imagen);
 
-                    imageWrapper.appendChild(imgElement);
-                    imageWrapper.appendChild(deleteButton);
-                    listContainer.appendChild(imageWrapper);
-                });
-            } catch (error) {
-                console.error('Error al cargar las imágenes de casos de éxito:', error);
+imageWrapper.appendChild(imgElement);
+imageWrapper.appendChild(deleteButton);
+listContainer.appendChild(imageWrapper);
+});
+} catch (error) {
+console.error('Error al cargar las imágenes de casos de éxito:', error);
             }
         }
 
-        async function eliminarImagen(nombreImagen) {
+async function eliminarImagen(nombreImagen) {
             try {
-                const response = await fetch(`/api/delete-image?key=${encodeURIComponent(nombreImagen)}`, {
-                    method: 'DELETE'
-                });
-                if (response.ok) {
-                    showToast('Imagen eliminada correctamente.', 'success');
-                    cargarImagenesCasosExito(); // Recarga la lista de imágenes
-                } else {
-                    showToast('Error al eliminar la imagen.', 'error');
+const response = await fetch(`/api/delete-image?key=${encodeURIComponent(nombreImagen)}`, {
+method: 'DELETE'
+});
+if (response.ok) {
+showToast('Imagen eliminada correctamente.', 'success');
+cargarImagenesCasosExito(); // Recarga la lista de imágenes
+} else {
+showToast('Error al eliminar la imagen.', 'error');
                 }
-            } catch (error) {
-                console.error('Error al eliminar la imagen:', error);
-                showToast('Error al eliminar la imagen.', 'error');
+} catch (error) {
+console.error('Error al eliminar la imagen:', error);
+showToast('Error al eliminar la imagen.', 'error');
             }
         }
 
-        async function cargarEnlacesYouTube() {
+async function cargarEnlacesYouTube() {
             try {
                 const response = await fetch('/api/youtube-links');
                 if (!response.ok) throw new Error('Error al cargar los enlaces de YouTube.');
@@ -241,9 +241,9 @@
             } catch (error) {
                 console.error('Error al cargar los videos disponibles:', error);
             }
-        }
+}
 
-        async function eliminarVideo(videoName) {
+async function eliminarVideo(videoName) {
             try {
                 const response = await fetch(`/api/testimonial-videos?videoName=${encodeURIComponent(videoName)}`, {
                     method: 'DELETE'
@@ -252,13 +252,13 @@
                     showToast('Video eliminado correctamente.', 'success');
                     cargarVideosDisponibles(); // Recarga la lista de videos
                 } else {
-                    showToast('Error al eliminar el video.', 'error');
+showToast('Error al eliminar el video.', 'error');
                 }
             } catch (error) {
                 console.error('Error al eliminar el video:', error);
-                showToast('Error al eliminar el video.', 'error');
-            }
-        }
+                    showToast('Error al eliminar el video.', 'error');
+                }
+                    }
 
         document.getElementById('upload-testimonial-videos-form').addEventListener('submit', async function(event) {
             event.preventDefault();
@@ -280,46 +280,47 @@
                     cargarVideosDisponibles(); // Recarga la lista de videos
                 } else {
                     showToast('Error al subir los videos.', 'error');
-                }
-            } catch (error) {
+            }
+        } catch (error) {
                 console.error('Error al subir los videos:', error);
                 showToast('Error al subir los videos.', 'error');
             }
         });
 
-                document.addEventListener('DOMContentLoaded', () => {
-            cargarImagenesCasosExito(); // Cargar las imágenes al cargar la página
-            cargarEnlacesYouTube(); // Cargar los enlaces al cargar la página
-            cargarVideosDisponibles(); // Cargar los videos disponibles al cargar la página
-            loadAdminVideos(); // Cargar los videos en la sección de administración
-        });
+document.addEventListener('DOMContentLoaded', () => {
+cargarImagenesCasosExito(); // Cargar las imágenes al cargar la página
+cargarEnlacesYouTube(); // Cargar los enlaces al cargar la página
+cargarVideosDisponibles(); // Cargar los videos disponibles al cargar la página
+loadAdminVideos(); // Cargar los videos en la sección de administración
+});
 
-        document.getElementById('upload-casos-exito-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const formData = new FormData();
-            const files = document.getElementById('casos-exito-file').files;
+document.getElementById('upload-casos-exito-form').addEventListener('submit', async function(event) {
+event.preventDefault();
+const formData = new FormData();
+const files = document.getElementById('casos-exito-file').files;
 
-            for (let i = 0; i < files.length; i++) {
+for (let i = 0; i < files.length; i++) {
                 formData.append('casosExito', files[i]);
             }
 
-            try {
-                const response = await fetch('/api/upload-casos-exito', {
-                    method: 'POST',
-                    body: formData
-                });
+try {
+const response = await fetch('/api/upload-casos-exito', {
+method: 'POST',
+body: formData
+});
 
-                if (response.ok) {
-                    showToast('Imágenes subidas correctamente.', 'success');
+if (response.ok) {
+showToast('Imágenes subidas correctamente.', 'success');
                     cargarImagenesCasosExito(); // Recarga la lista de imágenes
-                } else {
-                    showToast('Error al subir las imágenes.', 'error');
+} else {
+showToast('Error al subir las imágenes.', 'error');
                 }
-            } catch (error) {
-                console.error('Error al subir las imágenes:', error);
+} catch (error) {
+console.error('Error al subir las imágenes:', error);
                 showToast('Error al subir las imágenes.', 'error');
             }
-        });
-    </script>
+});
+</script>
 </body>
 </html>
+ 
