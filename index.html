@@ -141,52 +141,68 @@
             document.addEventListener('DOMContentLoaded', cargarCasosExito);
         </script>
         <section id="Testimonios">
-            <h2>Testimonios</h2>
-            <p>En QualiTest Solutions, nos dedicamos a ofrecer servicios de calidad para optimizar tus procesos empresariales.</p>
-            <div class="video-banner">
-                <div id="video-list" class="video-grid">
-                    <!-- Los videos se cargarán dinámicamente aquí -->
-                </div>
+        
+       
+        <!-- Testimonios -->
+        <section id="testimonios" class="testimonios-section">
+            <h2 class="section-title">Testimonios</h2>
+            <div id="testimonios-video-list" class="video-list">
+                <!-- Los videos de testimonios y YouTube se cargarán aquí -->
             </div>
         </section>
-        <script>
-            // Cargar videos desde la carpeta "videos" y enlaces de YouTube
-            fetch('/videos')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Error al obtener los videos.');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const videoList = document.getElementById('video-list');
-                    const { localVideos, youtubeLinks } = data;
 
-                    // Mostrar videos locales
-                    if (localVideos.length === 0 && youtubeLinks.length === 0) {
-                        videoList.innerHTML = '<p>No hay videos disponibles en este momento.</p>';
+        <script>
+            async function cargarTestimonios() {
+                try {
+                    const response = await fetch('/api/testimonial-videos');
+                    if (!response.ok) throw new Error('Error al cargar los videos de testimonios.');
+                    const videos = await response.json();
+                    const listContainer = document.getElementById('testimonios-video-list');
+                    listContainer.innerHTML = ''; // Limpia la lista antes de cargar los videos
+
+                    if (videos.length === 0) {
+                        listContainer.innerHTML = '<p>No hay testimonios disponibles.</p>';
                         return;
                     }
 
-                    localVideos.forEach(video => {
+                    videos.forEach(video => {
+                        const videoPath = `/videos/testimonios/${video}`;
                         const videoElement = document.createElement('video');
-                        videoElement.src = `/videos/${video}`;
+                        videoElement.src = videoPath;
                         videoElement.controls = true;
-                        videoElement.classList.add('video-item');
-                        videoList.appendChild(videoElement);
+                        videoElement.style.maxWidth = '300px';
+                        videoElement.style.margin = '10px';
+                        listContainer.appendChild(videoElement);
                     });
+                } catch (error) {
+                    console.error('Error al cargar los testimonios:', error);
+                }
+            }
 
-                    // Mostrar videos de YouTube
-                    youtubeLinks.forEach(link => {
+            async function cargarVideosYouTube() {
+                try {
+                    const response = await fetch('/api/youtube-links');
+                    if (!response.ok) throw new Error('Error al cargar los enlaces de YouTube.');
+                    const links = await response.json();
+                    const listContainer = document.getElementById('testimonios-video-list');
+
+                    links.forEach(link => {
                         const iframe = document.createElement('iframe');
                         iframe.src = `https://www.youtube.com/embed/${link}`;
-                        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
                         iframe.allowFullscreen = true;
-                        iframe.classList.add('video-item');
-                        videoList.appendChild(iframe);
+                        iframe.style.maxWidth = '300px';
+                        iframe.style.margin = '10px';
+                        listContainer.appendChild(iframe);
                     });
-                })
-                .catch(error => console.error('Error cargando videos:', error));
+                } catch (error) {
+                    console.error('Error al cargar los videos de YouTube:', error);
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                cargarTestimonios();
+                cargarVideosYouTube();
+            });
         </script>
         <!-- Preguntas Frecuentes -->
         <section class="faq-section">
