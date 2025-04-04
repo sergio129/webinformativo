@@ -1731,152 +1731,333 @@ ${cypressCode.split('\n').map(line => line.trim() ? '    ' + line : '').join('\n
     return cypressCode;
 }
 
-// Conversión de Cypress a Selenium (Java)
-function convertCypressToSelenium(cypressCode) {
-    let seleniumCode = 'import org.openqa.selenium.By;\n';
-    seleniumCode += 'import org.openqa.selenium.WebDriver;\n';
-    seleniumCode += 'import org.openqa.selenium.WebElement;\n';
-    seleniumCode += 'import org.openqa.selenium.chrome.ChromeDriver;\n';
-    seleniumCode += 'import org.openqa.selenium.support.ui.ExpectedConditions;\n';
-    seleniumCode += 'import org.openqa.selenium.support.ui.WebDriverWait;\n';
-    seleniumCode += 'import org.junit.Assert;\n';
-    seleniumCode += 'import java.time.Duration;\n\n';
+// Conversión de Selenium (Java) a Playwright
+function convertSeleniumToPlaywright(seleniumCode) {
+    let playwrightCode = seleniumCode;
     
-    seleniumCode += 'public class ConvertedCypressTest {\n';
-    seleniumCode += '    public void testMethod() {\n';
-    seleniumCode += '        WebDriver driver = new ChromeDriver();\n';
-    seleniumCode += '        try {\n';
+    // Reemplazar importaciones y configuración
+    playwrightCode = playwrightCode.replace(
+        /import.*?;\n|package.*?;\n|public\s+class\s+\w+\s*\{|}/g, 
+        ''
+    );
+    
+    // Reemplazar inicialización de WebDriver
+    playwrightCode = playwrightCode.replace(
+        /WebDriver\s+\w+\s*=\s*new\s+ChromeDriver\(\);/g,
+        `const { chromium } = require('playwright');
+const browser = await chromium.launch();
+const context = await browser.newContext();
+const page = await context.newPage();`
+    );
     
     // Reemplazar navegación
-    let transformedCode = cypressCode.replace(/cy\.visit\(['"]([^'"]+)['"]\);/g, 'driver.get("$1");');
+    playwrightCode = playwrightCode.replace(
+        /driver\.get\("([^"]+)"\);/g, 
+        `await page.goto("$1");`
+    );
+    playwrightCode = playwrightCode.replace(
+        /driver\.navigate\(\)\.to\("([^"]+)"\);/g, 
+        `await page.goto("$1");`
+    );
     
     // Reemplazar selectores y acciones
-    transformedCode = transformedCode.replace(/cy\.get\(['"]#([^'"]+)['"]\)/g, 'driver.findElement(By.id("$1"))');
-    transformedCode = transformedCode.replace(/cy\.get\(['"]\\.([^'"]+)['"]\)/g, 'driver.findElement(By.className("$1"))');
-    transformedCode = transformedCode.replace(/cy\.get\(['"]\[name=['"]([^'"]+)['"]\]['"]\)/g, 'driver.findElement(By.name("$1"))');
-    transformedCode = transformedCode.replace(/cy\.get\(['"]([^#\.\[])[^'"]*['"]\)/g, (match, firstChar) => {
-        // Si el selector comienza con un tag name
-        if (/^[a-zA-Z]/.test(firstChar)) {
-            return match.replace(/cy\.get\(['"]([^'"]+)['"]\)/g, 'driver.findElement(By.cssSelector("$1"))');
-        }
-        return match;
-    });
-    transformedCode = transformedCode.replace(/cy\.contains\(['"]([^'"]+)['"]\)/g, 'driver.findElement(By.xpath("//*[contains(text(),\'$1\')]"))');
+    playwrightCode = playwrightCode.replace(
+        /driver\.findElement\(By\.id\("([^"]+)"\)\)/g, 
+        `page.locator('#$1')`
+    );
+    playwrightCode = playwrightCode.replace(
+        /driver\.findElement\(By\.className\("([^"]+)"\)\)/g, 
+        `page.locator('.$1')`
+    );
+    playwrightCode = playwrightCode.replace(
+        /driver\.findElement\(By\.name\("([^"]+)"\)\)/g, 
+        `page.locator('[name="$1"]')`
+    );
+    playwrightCode = playwrightCode.replace(
+        /driver\.findElement\(By\.xpath\("([^"]+)"\)\)/g, 
+        `page.locator('xpath=$1')`
+    );
+    playwrightCode = playwrightCode.replace(
+        /driver\.findElement\(By\.cssSelector\("([^"]+)"\)\)/g, 
+        `page.locator('$1')`
+    );
+    playwrightCode = playwrightCode.replace(
+        /driver\.findElement\(By\.tagName\("([^"]+)"\)\)/g, 
+        `page.locator('$1')`
+    );
+    playwrightCode = playwrightCode.replace(
+        /driver\.findElement\(By\.linkText\("([^"]+)"\)\)/g, 
+        `page.getByText('$1')`
+    );
     
     // Reemplazar acciones
-    transformedCode = transformedCode.replace(/\.click\(\);/g, '.click();');
-    transformedCode = transformedCode.replace(/\.clear\(\);/g, '.clear();');
-    transformedCode = transformedCode.replace(/\.type\(['"]([^'"]+)['"]\);/g, '.sendKeys("$1");');
-    transformedCode = transformedCode.replace(/\.check\(\);/g, '.click();');
-    transformedCode = transformedCode.replace(/\.uncheck\(\);/g, '.click();');
-    
-    // Reemplazar aserciones
-    transformedCode = transformedCode.replace(/expect\(([^)]+)\)\.to\.equal\(([^)]+)\);/g, 'Assert.assertEquals($2, $1);');
-    transformedCode = transformedCode.replace(/expect\(([^)]+)\)\.to\.be\.true;/g, 'Assert.assertTrue($1);');
-    transformedCode = transformedCode.replace(/expect\(([^)]+)\)\.to\.be\.false;/g, 'Assert.assertFalse($1);');
+    playwrightCode = playwrightCode.replace(
+        /\.click\(\);/g, 
+        `.click();`
+    );
+    playwrightCode = playwrightCode.replace(
+        /\.clear\(\);/g, 
+        `.clear();`
+    );
+    playwrightCode = playwrightCode.replace(
+        /\.sendKeys\("([^"]+)"\);/g, 
+        `.fill("$1");`
+    );
     
     // Reemplazar esperas
-    transformedCode = transformedCode.replace(/cy\.wait\((\d+)\);/g, 'Thread.sleep($1);');
+    playwrightCode = playwrightCode.replace(
+        /Thread\.sleep\((\d+)\);/g, 
+        `await page.waitForTimeout($1);`
+    );
     
-    // Reemplazar reload, back, forward
-    transformedCode = transformedCode.replace(/cy\.reload\(\);/g, 'driver.navigate().refresh();');
-    transformedCode = transformedCode.replace(/cy\.go\('back'\);/g, 'driver.navigate().back();');
-    transformedCode = transformedCode.replace(/cy\.go\('forward'\);/g, 'driver.navigate().forward();');
+    // Reemplazar aserciones
+    playwrightCode = playwrightCode.replace(
+        /Assert\.assertEquals\(([^,]+),\s*([^)]+)\);/g, 
+        `expect($2).toBe($1);`
+    );
+    playwrightCode = playwrightCode.replace(
+        /Assert\.assertTrue\(([^)]+)\);/g, 
+        `expect($1).toBeTruthy();`
+    );
+    playwrightCode = playwrightCode.replace(
+        /Assert\.assertFalse\(([^)]+)\);/g, 
+        `expect($1).toBeFalsy();`
+    );
     
-    // Reemplazar aserciones de visibilidad
-    transformedCode = transformedCode.replace(/\.should\(['"]be\.visible['"]\)/g, '.isDisplayed()');
-    transformedCode = transformedCode.replace(/\.should\(['"]be\.enabled['"]\)/g, '.isEnabled()');
-    transformedCode = transformedCode.replace(/\.should\(['"]be\.checked['"]\)/g, '.isSelected()');
+    // Reemplazar cierre del navegador
+    playwrightCode = playwrightCode.replace(
+        /driver\.close\(\);|driver\.quit\(\);/g, 
+        `await browser.close();`
+    );
     
-    // Reemplazar selectores para dropdowns
-    transformedCode = transformedCode.replace(/\.select\(['"]([^'"]+)['"]\);/g, (match, value) => {
-        return `.click();\n        new org.openqa.selenium.support.ui.Select(driver.findElement(By.xpath("//option[text()=\\'${value}\\']"))).selectByVisibleText("${value}");`;
-    });
+    // Limpiar el código y ajustar formato
+    playwrightCode = playwrightCode
+        .replace(/public\s+void\s+\w+\(\)\s*\{|\}/g, '')
+        .replace(/^\s*[\r\n]/gm, '')
+        .trim();
     
-    // Reemplazar capturas de pantalla
-    transformedCode = transformedCode.replace(/cy\.screenshot\(['"](.*)['"]\);/g, 
-        'org.openqa.selenium.OutputType.FILE screenshot = ((org.openqa.selenium.TakesScreenshot)driver).getScreenshotAs(org.openqa.selenium.OutputType.FILE);\n' +
-        '        // Guardar captura en un archivo');
+    // Agregar estructura básica de Playwright
+    playwrightCode = `// Código convertido de Selenium a Playwright
+const { test, expect } = require('@playwright/test');
+
+test('Converted Selenium Test', async ({ page }) => {
+${playwrightCode.split('\n').map(line => '  ' + line).join('\n')}
+});`;
     
-    // Eliminar bloques describe e it de Cypress
-    transformedCode = transformedCode.replace(/describe\(['"][^'"]+['"],\s*\(\)\s*=>\s*\{|\}\);$|it\(['"][^'"]+['"],\s*\(\)\s*=>\s*\{|\}\);/g, '');
+    return playwrightCode;
+}
+
+// Conversión de Playwright a Selenium (Java)
+function convertPlaywrightToSelenium(playwrightCode) {
+    let seleniumCode = `import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.junit.Assert;
+import java.time.Duration;
+
+public class ConvertedPlaywrightTest {
+    public void testMethod() {
+        WebDriver driver = new ChromeDriver();
+        try {
+`;
     
-    // Agregar indentación adecuada
-    const indentedCode = transformedCode
-        .split('\n')
-        .filter(line => line.trim() !== '')
-        .map(line => '        ' + line.trim())
-        .join('\n');
+    // Eliminar la declaración del test
+    let code = playwrightCode.replace(/const\s*{.*}\s*=\s*require\(['"]\@playwright\/test['"]\);/, '')
+        .replace(/test\(['"].*?['"]\s*,\s*async\s*\(\{.*\}\)\s*=>\s*\{/, '')
+        .replace(/\}\);$/, '');
     
-    seleniumCode += indentedCode + '\n';
-    seleniumCode += '        } finally {\n';
-    seleniumCode += '            driver.quit();\n';
-    seleniumCode += '        }\n';
-    seleniumCode += '    }\n';
-    seleniumCode += '}';
+    // Reemplazar navegación
+    code = code.replace(/await\s+page\.goto\(['"]([^'"]+)['"]\);/g, 'driver.get("$1");');
+    
+    // Reemplazar selectores y acciones
+    code = code.replace(/page\.locator\(['"]#([^'"]+)['"]\)/g, 'driver.findElement(By.id("$1"))');
+    code = code.replace(/page\.locator\(['"]\\.([^'"]+)['"]\)/g, 'driver.findElement(By.className("$1"))');
+    code = code.replace(/page\.locator\(['"]\[name=['"]([^'"]+)['"]\]['"]\)/g, 'driver.findElement(By.name("$1"))');
+    code = code.replace(/page\.locator\(['"]xpath=([^'"]+)['"]\)/g, 'driver.findElement(By.xpath("$1"))');
+    code = code.replace(/page\.locator\(['"]([^'"]+)['"]\)/g, 'driver.findElement(By.cssSelector("$1"))');
+    code = code.replace(/page\.getByText\(['"]([^'"]+)['"]\)/g, 'driver.findElement(By.xpath("//*[contains(text(),\'$1\')]"))');
+    
+    // Reemplazar acciones
+    code = code.replace(/\.click\(\);/g, '.click();');
+    code = code.replace(/\.clear\(\);/g, '.clear();');
+    code = code.replace(/\.fill\(['"]([^'"]+)['"]\);/g, '.sendKeys("$1");');
+    code = code.replace(/\.type\(['"]([^'"]+)['"]\);/g, '.sendKeys("$1");');
+    
+    // Reemplazar esperas
+    code = code.replace(/await\s+page\.waitForTimeout\((\d+)\);/g, 'Thread.sleep($1);');
+    
+    // Reemplazar aserciones
+    code = code.replace(/expect\(([^)]+)\)\.toBe\(([^)]+)\);/g, 'Assert.assertEquals($2, $1);');
+    code = code.replace(/expect\(([^)]+)\)\.toBeTruthy\(\);/g, 'Assert.assertTrue($1);');
+    code = code.replace(/expect\(([^)]+)\)\.toBeFalsy\(\);/g, 'Assert.assertFalse($1);');
+    
+    // Reemplazar cierre del navegador
+    code = code.replace(/await\s+browser\.close\(\);/g, '// El navegador se cerrará automáticamente en el bloque finally');
+    
+    // Ajustar líneas con await
+    code = code.replace(/await\s+/g, '');
+    
+    // Limpiar el código
+    code = code.trim();
+    
+    // Añadir indentación
+    code = code.split('\n').map(line => '            ' + line).join('\n');
+    
+    // Completar la estructura
+    seleniumCode += code + `
+        } finally {
+            driver.quit();
+        }
+    }
+}`;
     
     return seleniumCode;
 }
 
-// Conversión de Selenium Python a Cypress
-function convertSeleniumPythonToCypress(seleniumPythonCode) {
-    let cypressCode = '';
+// Conversión de Playwright a Selenium (Python)
+function convertPlaywrightToSeleniumPython(playwrightCode) {
+    let seleniumPythonCode = `from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+import unittest
+
+class ConvertedPlaywrightTest(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+        
+    def tearDown(self):
+        self.driver.quit()
+        
+    def test_converted_test(self):
+`;
     
-    // Reemplazar imports y configuración
-    seleniumPythonCode = seleniumPythonCode.replace(/from selenium import webdriver|from selenium.webdriver.common.by import By|from selenium.webdriver.support.ui import WebDriverWait|from selenium.webdriver.support import expected_conditions as EC|import time|import unittest/g, '');
-    
-    // Reemplazar clase y configuración de prueba
-    seleniumPythonCode = seleniumPythonCode.replace(/class\s+\w+\([\w.]+\):|def\s+setUp\(self\):|def\s+tearDown\(self\):|def\s+test_\w+\(self\):/g, '');
-    
-    // Reemplazar creación del driver
-    seleniumPythonCode = seleniumPythonCode.replace(/self.driver\s*=\s*webdriver\.Chrome\(\)|\s*driver\s*=\s*webdriver\.Chrome\(\)/g, '// Cypress maneja el navegador automáticamente');
+    // Eliminar la declaración del test
+    let code = playwrightCode.replace(/const\s*{.*}\s*=\s*require\(['"]\@playwright\/test['"]\);/, '')
+        .replace(/test\(['"].*?['"]\s*,\s*async\s*\(\{.*\}\)\s*=>\s*\{/, '')
+        .replace(/\}\);$/, '');
     
     // Reemplazar navegación
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.driver\.get\(['"]([^'"]+)['"]\)|driver\.get\(['"]([^'"]+)['"]\)/g, (_, url1, url2) => `cy.visit('${url1 || url2}');`);
+    code = code.replace(/await\s+page\.goto\(['"]([^'"]+)['"]\);/g, 'self.driver.get("$1")');
     
     // Reemplazar selectores y acciones
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.driver\.find_element\(By\.ID,\s*['"]([^'"]+)['"]\)|driver\.find_element\(By\.ID,\s*['"]([^'"]+)['"]\)/g, (_, id1, id2) => `cy.get('#${id1 || id2}')`);
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.driver\.find_element\(By\.CLASS_NAME,\s*['"]([^'"]+)['"]\)|driver\.find_element\(By\.CLASS_NAME,\s*['"]([^'"]+)['"]\)/g, (_, cls1, cls2) => `cy.get('.${cls1 || cls2}')`);
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.driver\.find_element\(By\.NAME,\s*['"]([^'"]+)['"]\)|driver\.find_element\(By\.NAME,\s*['"]([^'"]+)['"]\)/g, (_, name1, name2) => `cy.get('[name="${name1 || name2}"]')`);
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.driver\.find_element\(By\.XPATH,\s*['"]([^'"]+)['"]\)|driver\.find_element\(By\.XPATH,\s*['"]([^'"]+)['"]\)/g, (_, xpath1, xpath2) => `cy.xpath('${xpath1 || xpath2}')`);
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.driver\.find_element\(By\.CSS_SELECTOR,\s*['"]([^'"]+)['"]\)|driver\.find_element\(By\.CSS_SELECTOR,\s*['"]([^'"]+)['"]\)/g, (_, css1, css2) => `cy.get('${css1 || css2}')`);
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.driver\.find_element\(By\.TAG_NAME,\s*['"]([^'"]+)['"]\)|driver\.find_element\(By\.TAG_NAME,\s*['"]([^'"]+)['"]\)/g, (_, tag1, tag2) => `cy.get('${tag1 || tag2}')`);
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.driver\.find_element\(By\.LINK_TEXT,\s*['"]([^'"]+)['"]\)|driver\.find_element\(By\.LINK_TEXT,\s*['"]([^'"]+)['"]\)/g, (_, text1, text2) => `cy.contains('${text1 || text2}')`);
+    code = code.replace(/page\.locator\(['"]#([^'"]+)['"]\)/g, 'self.driver.find_element(By.ID, "$1")');
+    code = code.replace(/page\.locator\(['"]\\.([^'"]+)['"]\)/g, 'self.driver.find_element(By.CLASS_NAME, "$1")');
+    code = code.replace(/page\.locator\(['"]\[name=['"]([^'"]+)['"]\]['"]\)/g, 'self.driver.find_element(By.NAME, "$1")');
+    code = code.replace(/page\.locator\(['"]xpath=([^'"]+)['"]\)/g, 'self.driver.find_element(By.XPATH, "$1")');
+    code = code.replace(/page\.locator\(['"]([^'"]+)['"]\)/g, 'self.driver.find_element(By.CSS_SELECTOR, "$1")');
+    code = code.replace(/page\.getByText\(['"]([^'"]+)['"]\)/g, 'self.driver.find_element(By.XPATH, "//*[contains(text(),\'$1\')]")');
     
     // Reemplazar acciones
-    seleniumPythonCode = seleniumPythonCode.replace(/\.click\(\)/g, '.click()');
-    seleniumPythonCode = seleniumPythonCode.replace(/\.clear\(\)/g, '.clear()');
-    seleniumPythonCode = seleniumPythonCode.replace(/\.send_keys\(['"]([^'"]+)['"]\)/g, ".type('$1')");
-    
-    // Reemplazar aserciones
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.assertEqual\(([^,]+),\s*([^)]+)\)|assertEqual\(([^,]+),\s*([^)]+)\)/g, (_, val1, val2, val3, val4) => `expect(${val2 || val4}).to.equal(${val1 || val3})`);
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.assertTrue\(([^)]+)\)|assertTrue\(([^)]+)\)/g, (_, val1, val2) => `expect(${val1 || val2}).to.be.true`);
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.assertFalse\(([^)]+)\)|assertFalse\(([^)]+)\)/g, (_, val1, val2) => `expect(${val1 || val2}).to.be.false`);
+    code = code.replace(/\.click\(\);/g, '.click()');
+    code = code.replace(/\.clear\(\);/g, '.clear()');
+    code = code.replace(/\.fill\(['"]([^'"]+)['"]\);/g, '.send_keys("$1")');
+    code = code.replace(/\.type\(['"]([^'"]+)['"]\);/g, '.send_keys("$1")');
     
     // Reemplazar esperas
-    seleniumPythonCode = seleniumPythonCode.replace(/time\.sleep\(([^)]+)\)/g, 'cy.wait($1 * 1000)');
+    code = code.replace(/await\s+page\.waitForTimeout\((\d+)\);/g, 'time.sleep($1 / 1000)');
     
-    // Eliminar self. y driver.quit
-    seleniumPythonCode = seleniumPythonCode.replace(/self\.|self\.driver\.|driver\.quit\(\)/g, '');
+    // Reemplazar aserciones
+    code = code.replace(/expect\(([^)]+)\)\.toBe\(([^)]+)\);/g, 'self.assertEqual($2, $1)');
+    code = code.replace(/expect\(([^)]+)\)\.toBeTruthy\(\);/g, 'self.assertTrue($1)');
+    code = code.replace(/expect\(([^)]+)\)\.toBeFalsy\(\);/g, 'self.assertFalse($1)');
     
-    // Eliminar líneas vacías e identación incorrecta
-    const cleanedCode = seleniumPythonCode
-        .split('\n')
-        .filter(line => line.trim() !== '')
-        .map(line => line.trim())
-        .join('\n');
+    // Reemplazar cierre del navegador
+    code = code.replace(/await\s+browser\.close\(\);/g, '# El navegador se cerrará automáticamente en tearDown');
     
-    // Formatear como test de Cypress
-    cypressCode = `describe('Converted Selenium Python Test', () => {
-  it('should perform the test steps', () => {
-${cleanedCode.split('\n').map(line => line ? '    ' + line : '').join('\n')}
-  });
-});`;
+    // Ajustar líneas con await
+    code = code.replace(/await\s+/g, '');
     
-    return cypressCode;
+    // Limpiar el código
+    code = code.trim();
+    
+    // Añadir indentación
+    code = code.split('\n').map(line => '        ' + line).join('\n');
+    
+    // Completar la estructura
+    seleniumPythonCode += code + `
+
+if __name__ == "__main__":
+    unittest.main()`;
+    
+    return seleniumPythonCode;
 }
 
-// ...existing code for other conversion functions...
+// Conversión de Cypress a Selenium (Python)
+function convertCypressToSeleniumPython(cypressCode) {
+    let seleniumPythonCode = `from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+import unittest
+
+class ConvertedCypressTest(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+        
+    def tearDown(self):
+        self.driver.quit()
+        
+    def test_converted_test(self):
+`;
+    
+    // Eliminar la estructura de Cypress
+    let code = cypressCode.replace(/describe\(['"][^'"]*['"]\s*,\s*\(\)\s*=>\s*\{/, '')
+        .replace(/it\(['"][^'"]*['"]\s*,\s*\(\)\s*=>\s*\{/, '')
+        .replace(/\}\);/g, '');
+    
+    // Reemplazar navegación
+    code = code.replace(/cy\.visit\(['"]([^'"]+)['"]\);/g, 'self.driver.get("$1")');
+    
+    // Reemplazar selectores y acciones
+    code = code.replace(/cy\.get\(['"]#([^'"]+)['"]\)/g, 'self.driver.find_element(By.ID, "$1")');
+    code = code.replace(/cy\.get\(['"]\\.([^'"]+)['"]\)/g, 'self.driver.find_element(By.CLASS_NAME, "$1")');
+    code = code.replace(/cy\.get\(['"]\[name=['"]([^'"]+)['"]\]['"]\)/g, 'self.driver.find_element(By.NAME, "$1")');
+    code = code.replace(/cy\.xpath\(['"]([^'"]+)['"]\)/g, 'self.driver.find_element(By.XPATH, "$1")');
+    code = code.replace(/cy\.get\(['"]([^#\.['"]+)['"]\)/g, 'self.driver.find_element(By.CSS_SELECTOR, "$1")');
+    code = code.replace(/cy\.contains\(['"]([^'"]+)['"]\)/g, 'self.driver.find_element(By.XPATH, "//*[contains(text(),\'$1\')]")');
+    
+    // Reemplazar acciones
+    code = code.replace(/\.click\(\)/g, '.click()');
+    code = code.replace(/\.clear\(\)/g, '.clear()');
+    code = code.replace(/\.type\(['"]([^'"]+)['"]\)/g, '.send_keys("$1")');
+    
+    // Reemplazar esperas
+    code = code.replace(/cy\.wait\((\d+)\)/g, 'time.sleep($1 / 1000)');
+    
+    // Reemplazar aserciones
+    code = code.replace(/expect\(([^)]+)\)\.to\.equal\(([^)]+)\)/g, 'self.assertEqual($2, $1)');
+    code = code.replace(/expect\(([^)]+)\)\.to\.be\.true/g, 'self.assertTrue($1)');
+    code = code.replace(/expect\(([^)]+)\)\.to\.be\.false/g, 'self.assertFalse($1)');
+    
+    // Reemplazar operaciones de navegación
+    code = code.replace(/cy\.reload\(\)/g, 'self.driver.refresh()');
+    code = code.replace(/cy\.go\(['"]back['"]\)/g, 'self.driver.back()');
+    code = code.replace(/cy\.go\(['"]forward['"]\)/g, 'self.driver.forward()');
+    
+    // Reemplazar afirmaciones de visibilidad
+    code = code.replace(/\.should\(['"]be\.visible['"]\)/g, '\n        element = self.driver.find_element(By.XPATH, "...")\n        self.assertTrue(element.is_displayed())');
+    code = code.replace(/\.should\(['"]be\.enabled['"]\)/g, '\n        element = self.driver.find_element(By.XPATH, "...")\n        self.assertTrue(element.is_enabled())');
+    
+    // Limpiar el código
+    code = code.trim();
+    
+    // Añadir indentación
+    code = code.split('\n').map(line => '        ' + line).join('\n');
+    
+    // Completar la estructura
+    seleniumPythonCode += code + `
+
+if __name__ == "__main__":
+    unittest.main()`;
+    
+    return seleniumPythonCode;
+}
 
 // Hacer que la función copyToClipboard sea accesible globalmente
 window.copyToClipboard = copyToClipboard;
