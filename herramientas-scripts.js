@@ -321,6 +321,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inicializar herramientas de automatización
     initAutomationTools();
+
+    // Inicialización directa de la calculadora de esperas
+    setTimeout(function() {
+        // Buscar si estamos en la sección de automatización
+        const automationTab = document.getElementById('automation-tools');
+        if (automationTab && automationTab.classList.contains('active')) {
+            console.log("Inicialización directa de la Calculadora de Esperas en sección de automatización");
+            initWaitCalculator();
+        }
+    }, 1000);
 });
 
 // Añade una función para verificar y corregir elementos faltantes en el DOM
@@ -437,7 +447,7 @@ function createTimeTools(container) {
     console.log("Herramientas de tiempo creadas dinámicamente");
 }
 
-// Modificar la función initTimeTools para que verifique y corrija el DOM si es necesario
+// Modificar la función initTimeTools para quitar la inicialización de la calculadora de esperas
 function initTimeTools() {
     console.log("Inicializando herramientas de tiempo...");
     
@@ -469,7 +479,7 @@ function initTimeTools() {
     console.log("Todas las herramientas de tiempo han sido inicializadas correctamente");
 }
 
-// Función para inicializar todas las herramientas de tiempo
+// Modificar la función initAllTimeTools para quitar la calculadora de esperas
 function initAllTimeTools() {
     console.log("Iniciando herramientas de tiempo...");
     
@@ -490,6 +500,102 @@ function initAllTimeTools() {
     
     // 6. Notas Rápidas
     initQuickNotes();
+    
+    console.log("Todas las herramientas de tiempo han sido inicializadas correctamente");
+}
+
+// Función para inicializar la Calculadora de Esperas
+function initWaitCalculator() {
+    console.log("Inicializando Calculadora de Esperas...");
+    const waitCalculatorForm = document.getElementById('wait-calculator-form');
+    const waitCalculatorResult = document.getElementById('wait-calculator-result');
+    
+    if (!waitCalculatorForm || !waitCalculatorResult) {
+        console.error("No se encontró el formulario o el contenedor de resultados de la Calculadora de Esperas");
+        console.log("waitCalculatorForm:", waitCalculatorForm);
+        console.log("waitCalculatorResult:", waitCalculatorResult);
+        return;
+    }
+    
+    console.log("Formulario de Calculadora de Esperas encontrado, añadiendo event listener");
+    
+    // Eliminar event listeners existentes para evitar duplicación
+    const newForm = waitCalculatorForm.cloneNode(true);
+    waitCalculatorForm.parentNode.replaceChild(newForm, waitCalculatorForm);
+    
+    // Añadir event listener al nuevo formulario
+    newForm.addEventListener('submit', function(e) {
+        // Prevenir el comportamiento predeterminado del formulario
+        e.preventDefault();
+        
+        console.log("Formulario de Calculadora de Esperas enviado");
+        
+        // Obtener los valores de los campos
+        const baseTimeInput = document.getElementById('base-time');
+        const pollFrequencyInput = document.getElementById('poll-frequency');
+        const timeoutFactorInput = document.getElementById('timeout-factor');
+        
+        if (!baseTimeInput || !pollFrequencyInput || !timeoutFactorInput) {
+            console.error("Campos del formulario no encontrados:");
+            console.log("baseTimeInput:", baseTimeInput);
+            console.log("pollFrequencyInput:", pollFrequencyInput);
+            console.log("timeoutFactorInput:", timeoutFactorInput);
+            
+            waitCalculatorResult.innerHTML = '<p class="text-danger">Error: No se pudieron encontrar los campos del formulario. Por favor, asegúrate de que el formulario esté correctamente implementado.</p>';
+            return;
+        }
+        
+        // Obtener valores y convertirlos a números
+        const baseTime = parseFloat(baseTimeInput.value);
+        const pollFrequency = parseFloat(pollFrequencyInput.value);
+        const timeoutFactor = parseFloat(timeoutFactorInput.value);
+        
+        console.log("Valores del formulario:", {baseTime, pollFrequency, timeoutFactor});
+        
+        // Validar los valores
+        if (isNaN(baseTime) || isNaN(pollFrequency) || isNaN(timeoutFactor)) {
+            waitCalculatorResult.innerHTML = '<p class="text-danger">Por favor ingresa valores numéricos válidos</p>';
+            return;
+        }
+        
+        if (baseTime <= 0 || pollFrequency <= 0 || timeoutFactor <= 0) {
+            waitCalculatorResult.innerHTML = '<p class="text-danger">Los valores deben ser mayores que cero</p>';
+            return;
+        }
+        
+        // Realizar cálculos
+        const explicitWait = baseTime;
+        const implicitWait = baseTime;
+        const fluentWait = baseTime;
+        const timeout = baseTime * timeoutFactor;
+        const pollInterval = pollFrequency;
+        
+        // Mostrar resultados
+        waitCalculatorResult.innerHTML = `
+            <h4>Tiempos de espera recomendados:</h4>
+            <ul class="wait-result-list">
+                <li><strong>Explicit Wait:</strong> ${explicitWait.toFixed(1)} segundos</li>
+                <li><strong>Implicit Wait:</strong> ${implicitWait.toFixed(1)} segundos</li>
+                <li><strong>Fluent Wait:</strong> 
+                    <ul>
+                        <li>Timeout: ${timeout.toFixed(1)} segundos</li>
+                        <li>Poll: ${pollInterval.toFixed(1)} segundos</li>
+                    </ul>
+                </li>
+                <li><strong>PageLoad Timeout:</strong> ${(timeout * 2).toFixed(1)} segundos</li>
+                <li><strong>Script Timeout:</strong> ${(timeout * 1.5).toFixed(1)} segundos</li>
+            </ul>
+            <div class="recommendations">
+                <h4>Código de ejemplo:</h4>
+                <pre><code>// Ejemplo con Selenium WebDriver (Java)
+WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(${timeout.toFixed(1)}));
+wait.pollingEvery(Duration.ofSeconds(${pollInterval.toFixed(1)}));
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("elemento")));</code></pre>
+            </div>
+        `;
+        
+        console.log("Resultados de la calculadora de esperas mostrados correctamente");
+    });
 }
 
 // 1. Función para inicializar el cronómetro
@@ -1534,6 +1640,9 @@ function initAutomationTools() {
     
     // Inicializar herramientas de Web Automation
     initSelectorGenerator();
+    
+    // Inicializar la calculadora de esperas directamente en la sección de automatización
+    initWaitCalculator();
     
     // Herramienta de conversión entre frameworks
     const frameworkConverterForm = document.getElementById('framework-converter-form');

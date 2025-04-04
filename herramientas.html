@@ -1131,36 +1131,28 @@
                                 </div>
                                 <div class="tool-badge">Nuevo</div>
                                 <h3>Calculadora de Esperas</h3>
-                                <p>Optimiza tiempos de espera</p>
+                                <p>Calcula tiempos óptimos para pruebas</p>
                             </div>
                             <div class="tool-body">
-                                <p>Calcula los tiempos de espera óptimos para tu automatización basados en métricas de rendimiento.</p>
+                                <p>Calcula los tiempos de espera recomendados para tus pruebas automatizadas basados en el tiempo base.</p>
                                 <form id="wait-calculator-form">
                                     <div class="form-group">
-                                        <label for="page-load-time">Tiempo promedio de carga (ms):</label>
-                                        <input type="number" id="page-load-time" class="form-control" placeholder="3000" min="100" value="3000">
+                                        <label for="base-time">Tiempo Base (segundos):</label>
+                                        <input type="number" id="base-time" placeholder="Ej: 5" step="0.1" min="0.1" value="5" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="animation-time">Transiciones/Animaciones (ms):</label>
-                                        <input type="number" id="animation-time" class="form-control" placeholder="500" min="0" value="500">
+                                        <label for="poll-frequency">Frecuencia de Sondeo (segundos):</label>
+                                        <input type="number" id="poll-frequency" placeholder="Ej: 0.5" step="0.1" min="0.1" value="0.5" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="network-latency">Latencia de red (ms):</label>
-                                        <input type="number" id="network-latency" class="form-control" placeholder="100" min="0" value="100">
+                                        <label for="timeout-factor">Factor de Timeout:</label>
+                                        <input type="number" id="timeout-factor" placeholder="Ej: 3" step="0.5" min="1" value="3" required>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="wait-strategy">Estrategia de espera:</label>
-                                        <select id="wait-strategy" class="form-control">
-                                            <option value="fixed">Espera fija</option>
-                                            <option value="fluent" selected>Espera fluida</option>
-                                            <option value="adaptive">Espera adaptativa</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="tool-btn">Calcular Tiempos</button>
+                                    <button type="submit" class="tool-btn">
+                                        <i class="fas fa-calculator"></i> Calcular Tiempos
+                                    </button>
                                 </form>
-                                <div id="wait-calculator-result" class="resultado">
-                                    <p>Los tiempos recomendados aparecerán aquí...</p>
-                                </div>
+                                <div id="wait-calculator-result" class="resultado"></div>
                             </div>
                         </div>
                     </div>
