@@ -441,7 +441,7 @@ body {
 
 .code-result pre code {
     display: block;
-    color: #333;
+    color: #000000;
 }
 
 /* Estilos para resaltar sintaxis de manera manual */
@@ -937,7 +937,7 @@ form select:focus {
 
 /* Resultados con formato de código */
 .code-result pre {
-    background-color: #272822;
+    background-color: #f4f5f3;
     color: #f8f8f2;
     padding: 1rem;
     border-radius: 8px;
