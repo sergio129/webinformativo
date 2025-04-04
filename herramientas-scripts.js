@@ -404,18 +404,52 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Generar datos
-            let resultHTML = `<h4>Datos Generados (${dataFormat.toUpperCase()}):</h4><pre><code>`;
+            const records = [];
             for (let i = 0; i < dataCount; i++) {
                 const record = {};
                 dataTypes.forEach(type => {
                     record[type] = generateTestData(type);
                 });
-                resultHTML += formatData(record, dataFormat) + '\n';
+                records.push(record);
             }
-            resultHTML += `</code></pre>`;
 
-            // Mostrar resultados
+            let resultHTML = '';
+            switch (dataFormat) {
+                case 'json':
+                    resultHTML = `<pre><code>${JSON.stringify(records, null, 2)}</code></pre>`;
+                    break;
+                case 'csv':
+                    const headers = dataTypes.join(',');
+                    const rows = records.map(record => dataTypes.map(type => record[type]).join(',')).join('\n');
+                    resultHTML = `<pre><code>${headers}\n${rows}</code></pre>`;
+                    break;
+                case 'sql':
+                    const tableName = 'test_data';
+                    resultHTML = `<pre><code>${records.map(record => {
+                        const columns = Object.keys(record).join(', ');
+                        const values = Object.values(record).map(v => `'${v}'`).join(', ');
+                        return `INSERT INTO ${tableName} (${columns}) VALUES (${values});`;
+                    }).join('\n')}</code></pre>`;
+                    break;
+                case 'xml':
+                    const xmlRows = records.map(record => {
+                        const fields = Object.entries(record)
+                            .map(([key, value]) => `    <${key}>${value}</${key}>`)
+                            .join('\n');
+                        return `  <record>\n${fields}\n  </record>`;
+                    }).join('\n');
+                    resultHTML = `<pre><code><?xml version="1.0" encoding="UTF-8"?>\n<data>\n${xmlRows}\n</data></code></pre>`;
+                    break;
+            }
+
             dataGeneratorResult.innerHTML = resultHTML;
+
+            // Añadir botón para copiar
+            dataGeneratorResult.innerHTML += `
+                <button class="tool-btn mt-3 copy-btn" onclick="copyToClipboard(this)">
+                    <i class="fas fa-copy"></i> Copiar datos
+                </button>
+            `;
         });
 
         function generateTestData(type) {
@@ -424,16 +458,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 case 'emails': return `email_${Math.random().toString(36).substring(7)}@example.com`;
                 case 'phones': return `+57 ${Math.floor(Math.random() * 900000000) + 100000000}`;
                 default: return 'Dato desconocido';
-            }
-        }
-
-        function formatData(record, format) {
-            switch (format) {
-                case 'json': return JSON.stringify(record);
-                case 'csv': return Object.values(record).join(',');
-                case 'sql': return `INSERT INTO table (${Object.keys(record).join(', ')}) VALUES (${Object.values(record).map(v => `'${v}'`).join(', ')});`;
-                case 'xml': return `<record>${Object.entries(record).map(([k, v]) => `<${k}>${v}</${k}>`).join('')}</record>`;
-                default: return JSON.stringify(record);
             }
         }
     }
@@ -1646,7 +1670,6 @@ function initTestDataGenerator() {
     testDataForm.parentNode.replaceChild(newForm, testDataForm);
 
     newForm.addEventListener('submit', function(e) {
-        // Prevenir la recarga de la página
         e.preventDefault();
         console.log("Formulario de Generador de Datos de Prueba enviado - evento prevenido");
 
@@ -1656,31 +1679,66 @@ function initTestDataGenerator() {
         });
 
         const dataCount = parseInt(document.getElementById('data-count').value, 10);
+        const dataFormat = document.getElementById('data-format').value;
 
         if (dataTypes.length === 0 || isNaN(dataCount) || dataCount <= 0) {
             testDataResult.innerHTML = '<p class="text-danger">Por favor selecciona al menos un tipo de dato y una cantidad válida</p>';
             return;
         }
 
-        let resultHTML = '<ul>';
+        const records = [];
         for (let i = 0; i < dataCount; i++) {
+            const record = {};
             dataTypes.forEach(type => {
-                resultHTML += `<li>${generateTestData(type)}</li>`;
+                record[type] = generateTestData(type);
             });
+            records.push(record);
         }
-        resultHTML += '</ul>';
+
+        let resultHTML = '';
+        switch (dataFormat) {
+            case 'json':
+                resultHTML = `<pre><code>${JSON.stringify(records, null, 2)}</code></pre>`;
+                break;
+            case 'csv':
+                const headers = dataTypes.join(',');
+                const rows = records.map(record => dataTypes.map(type => record[type]).join(',')).join('\n');
+                resultHTML = `<pre><code>${headers}\n${rows}</code></pre>`;
+                break;
+            case 'sql':
+                const tableName = 'test_data';
+                resultHTML = `<pre><code>${records.map(record => {
+                    const columns = Object.keys(record).join(', ');
+                    const values = Object.values(record).map(v => `'${v}'`).join(', ');
+                    return `INSERT INTO ${tableName} (${columns}) VALUES (${values});`;
+                }).join('\n')}</code></pre>`;
+                break;
+            case 'xml':
+                const xmlRows = records.map(record => {
+                    const fields = Object.entries(record)
+                        .map(([key, value]) => `    <${key}>${value}</${key}>`)
+                        .join('\n');
+                    return `  <record>\n${fields}\n  </record>`;
+                }).join('\n');
+                resultHTML = `<pre><code><?xml version="1.0" encoding="UTF-8"?>\n<data>\n${xmlRows}\n</data></code></pre>`;
+                break;
+        }
 
         testDataResult.innerHTML = resultHTML;
+
+        // Añadir botón para copiar
+        testDataResult.innerHTML += `
+            <button class="tool-btn mt-3 copy-btn" onclick="copyToClipboard(this)">
+                <i class="fas fa-copy"></i> Copiar datos
+            </button>
+        `;
     });
 
     function generateTestData(type) {
         switch (type) {
-            case 'names': return `Nombre ${Math.random().toString(36).substring(7)}`;
-            case 'emails': return `email${Math.random().toString(36).substring(7)}@example.com`;
+            case 'names': return `Nombre_${Math.random().toString(36).substring(7)}`;
+            case 'emails': return `email_${Math.random().toString(36).substring(7)}@example.com`;
             case 'phones': return `+57 ${Math.floor(Math.random() * 900000000) + 100000000}`;
-            case 'addresses': return `Calle ${Math.floor(Math.random() * 100)}, Ciudad`;
-            case 'dates': return new Date().toISOString().split('T')[0];
-            case 'numbers': return Math.floor(Math.random() * 1000);
             default: return 'Dato desconocido';
         }
     }
