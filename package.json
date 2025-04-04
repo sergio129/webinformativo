@@ -8,6 +8,7 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.6.0",
     "aws-sdk": "^2.1360.0",
     "axe-core": "^4.10.3",
     "axios": "^1.8.4",
