@@ -1739,6 +1739,9 @@ function initTestDataGenerator() {
             case 'names': return `Nombre_${Math.random().toString(36).substring(7)}`;
             case 'emails': return `email_${Math.random().toString(36).substring(7)}@example.com`;
             case 'phones': return `+57 ${Math.floor(Math.random() * 900000000) + 100000000}`;
+            case 'addresses': return `Calle ${Math.floor(Math.random() * 100)}, Ciudad`;
+            case 'dates': return new Date().toISOString().split('T')[0];
+            case 'numbers': return Math.floor(Math.random() * 1000);
             default: return 'Dato desconocido';
         }
     }
