@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
             for (let i = 0; i < dataCount; i++) {
                 const record = {};
                 dataTypes.forEach(type => {
-                    record[type] = generateTestData(type, dataLocale);
+                    record[type] = generateTestData(type);
                 });
                 resultHTML += formatData(record, dataFormat) + '\n';
             }
@@ -366,65 +366,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         function generateTestData(type) {
-            const names = ['Juan', 'María', 'Carlos', 'Ana', 'Luis', 'Sofía', 'Pedro', 'Laura', 'Diego', 'Valentina'];
-            const lastNames = ['García', 'Rodríguez', 'Martínez', 'López', 'González', 'Pérez', 'Sánchez', 'Romero'];
-            const domains = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com', 'empresa.com'];
-            const cities = ['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena', 'Bucaramanga', 'Pereira'];
-            const streets = ['Calle', 'Carrera', 'Avenida', 'Diagonal', 'Transversal'];
-            const companies = ['TechCo', 'InnovaSoft', 'DataSys', 'GlobalTech', 'SoftCorp'];
-            
-            switch (type) {
-                case 'names':
-                    const firstName = names[Math.floor(Math.random() * names.length)];
-                    const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-                    return `${firstName} ${lastName}`;
-                    
-                case 'emails':
-                    const userName = names[Math.floor(Math.random() * names.length)].toLowerCase();
-                    const domain = domains[Math.floor(Math.random() * domains.length)];
-                    const number = Math.floor(Math.random() * 1000);
-                    return `${userName}${number}@${domain}`;
-                    
-                case 'phones':
-                    const areaCodes = ['310', '311', '312', '313', '314', '315', '316', '317', '318', '319', '320', '321'];
-                    const areaCode = areaCodes[Math.floor(Math.random() * areaCodes.length)];
-                    const phoneNumber = Math.floor(Math.random() * 9000000) + 1000000;
-                    return `+57 ${areaCode}${phoneNumber}`;
-                    
-                case 'addresses':
-                    const street = streets[Math.floor(Math.random() * streets.length)];
-                    const number1 = Math.floor(Math.random() * 150) + 1;
-                    const number2 = Math.floor(Math.random() * 100) + 1;
-                    const number3 = Math.floor(Math.random() * 100) + 1;
-                    const city = cities[Math.floor(Math.random() * cities.length)];
-                    return `${street} ${number1} # ${number2}-${number3}, ${city}`;
-                    
-                case 'dates':
-                    const start = new Date(2020, 0, 1);
-                    const end = new Date();
-                    const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-                    return randomDate.toISOString().split('T')[0];
-                    
-                case 'numbers':
-                    const types = ['integer', 'float', 'percentage'];
-                    const type = types[Math.floor(Math.random() * types.length)];
-                    switch (type) {
-                        case 'integer':
-                            return Math.floor(Math.random() * 1000);
-                        case 'float':
-                            return (Math.random() * 1000).toFixed(2);
-                        case 'percentage':
-                            return `${Math.floor(Math.random() * 100)}%`;
-                    }
-                    break;
-                    
-                case 'companies':
-                    const company = companies[Math.floor(Math.random() * companies.length)];
-                    const suffix = ['Inc.', 'LLC', 'Corp.', 'S.A.', 'S.A.S.'][Math.floor(Math.random() * 5)];
-                    return `${company} ${suffix}`;
-                    
-                default:
-                    return 'Dato desconocido';
+            try {
+                // Usar la función de verificación
+                const generator = window.checkDataGenerator();
+                return generator.generate(type);
+            } catch (error) {
+                console.error('Error al generar datos:', error);
+                return 'Error: ' + error.message;
             }
         }
 
@@ -507,65 +455,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         function generateTestData(type) {
-            const names = ['Juan', 'María', 'Carlos', 'Ana', 'Luis', 'Sofía', 'Pedro', 'Laura', 'Diego', 'Valentina'];
-            const lastNames = ['García', 'Rodríguez', 'Martínez', 'López', 'González', 'Pérez', 'Sánchez', 'Romero'];
-            const domains = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com', 'empresa.com'];
-            const cities = ['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena', 'Bucaramanga', 'Pereira'];
-            const streets = ['Calle', 'Carrera', 'Avenida', 'Diagonal', 'Transversal'];
-            const companies = ['TechCo', 'InnovaSoft', 'DataSys', 'GlobalTech', 'SoftCorp'];
-            
-            switch (type) {
-                case 'names':
-                    const firstName = names[Math.floor(Math.random() * names.length)];
-                    const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-                    return `${firstName} ${lastName}`;
-                    
-                case 'emails':
-                    const userName = names[Math.floor(Math.random() * names.length)].toLowerCase();
-                    const domain = domains[Math.floor(Math.random() * domains.length)];
-                    const number = Math.floor(Math.random() * 1000);
-                    return `${userName}${number}@${domain}`;
-                    
-                case 'phones':
-                    const areaCodes = ['310', '311', '312', '313', '314', '315', '316', '317', '318', '319', '320', '321'];
-                    const areaCode = areaCodes[Math.floor(Math.random() * areaCodes.length)];
-                    const phoneNumber = Math.floor(Math.random() * 9000000) + 1000000;
-                    return `+57 ${areaCode}${phoneNumber}`;
-                    
-                case 'addresses':
-                    const street = streets[Math.floor(Math.random() * streets.length)];
-                    const number1 = Math.floor(Math.random() * 150) + 1;
-                    const number2 = Math.floor(Math.random() * 100) + 1;
-                    const number3 = Math.floor(Math.random() * 100) + 1;
-                    const city = cities[Math.floor(Math.random() * cities.length)];
-                    return `${street} ${number1} # ${number2}-${number3}, ${city}`;
-                    
-                case 'dates':
-                    const start = new Date(2020, 0, 1);
-                    const end = new Date();
-                    const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-                    return randomDate.toISOString().split('T')[0];
-                    
-                case 'numbers':
-                    const types = ['integer', 'float', 'percentage'];
-                    const type = types[Math.floor(Math.random() * types.length)];
-                    switch (type) {
-                        case 'integer':
-                            return Math.floor(Math.random() * 1000);
-                        case 'float':
-                            return (Math.random() * 1000).toFixed(2);
-                        case 'percentage':
-                            return `${Math.floor(Math.random() * 100)}%`;
-                    }
-                    break;
-                    
-                case 'companies':
-                    const company = companies[Math.floor(Math.random() * companies.length)];
-                    const suffix = ['Inc.', 'LLC', 'Corp.', 'S.A.', 'S.A.S.'][Math.floor(Math.random() * 5)];
-                    return `${company} ${suffix}`;
-                    
-                default:
-                    return 'Dato desconocido';
+            try {
+                // Usar la función de verificación
+                const generator = window.checkDataGenerator();
+                return generator.generate(type);
+            } catch (error) {
+                console.error('Error al generar datos:', error);
+                return 'Error: ' + error.message;
             }
         }
     }
@@ -1843,65 +1739,13 @@ function initTestDataGenerator() {
     });
    
     function generateTestData(type) {
-        const names = ['Juan', 'María', 'Carlos', 'Ana', 'Luis', 'Sofía', 'Pedro', 'Laura', 'Diego', 'Valentina'];
-        const lastNames = ['García', 'Rodríguez', 'Martínez', 'López', 'González', 'Pérez', 'Sánchez', 'Romero'];
-        const domains = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com', 'empresa.com'];
-        const cities = ['Bogotá', 'Medellín', 'Cali', 'Barranquilla', 'Cartagena', 'Bucaramanga', 'Pereira'];
-        const streets = ['Calle', 'Carrera', 'Avenida', 'Diagonal', 'Transversal'];
-        const companies = ['TechCo', 'InnovaSoft', 'DataSys', 'GlobalTech', 'SoftCorp'];
-        
-        switch (type) {
-            case 'names':
-                const firstName = names[Math.floor(Math.random() * names.length)];
-                const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-                return `${firstName} ${lastName}`;
-                
-            case 'emails':
-                const userName = names[Math.floor(Math.random() * names.length)].toLowerCase();
-                const domain = domains[Math.floor(Math.random() * domains.length)];
-                const number = Math.floor(Math.random() * 1000);
-                return `${userName}${number}@${domain}`;
-                
-            case 'phones':
-                const areaCodes = ['310', '311', '312', '313', '314', '315', '316', '317', '318', '319', '320', '321'];
-                const areaCode = areaCodes[Math.floor(Math.random() * areaCodes.length)];
-                const phoneNumber = Math.floor(Math.random() * 9000000) + 1000000;
-                return `+57 ${areaCode}${phoneNumber}`;
-                
-            case 'addresses':
-                const street = streets[Math.floor(Math.random() * streets.length)];
-                const number1 = Math.floor(Math.random() * 150) + 1;
-                const number2 = Math.floor(Math.random() * 100) + 1;
-                const number3 = Math.floor(Math.random() * 100) + 1;
-                const city = cities[Math.floor(Math.random() * cities.length)];
-                return `${street} ${number1} # ${number2}-${number3}, ${city}`;
-                
-            case 'dates':
-                const start = new Date(2020, 0, 1);
-                const end = new Date();
-                const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-                return randomDate.toISOString().split('T')[0];
-                
-            case 'numbers':
-                const types = ['integer', 'float', 'percentage'];
-                const type = types[Math.floor(Math.random() * types.length)];
-                switch (type) {
-                    case 'integer':
-                        return Math.floor(Math.random() * 1000);
-                    case 'float':
-                        return (Math.random() * 1000).toFixed(2);
-                    case 'percentage':
-                        return `${Math.floor(Math.random() * 100)}%`;
-                }
-                break;
-                
-            case 'companies':
-                const company = companies[Math.floor(Math.random() * companies.length)];
-                const suffix = ['Inc.', 'LLC', 'Corp.', 'S.A.', 'S.A.S.'][Math.floor(Math.random() * 5)];
-                return `${company} ${suffix}`;
-                
-            default:
-                return 'Dato desconocido';
+        try {
+            // Usar la función de verificación
+            const generator = window.checkDataGenerator();
+            return generator.generate(type);
+        } catch (error) {
+            console.error('Error al generar datos:', error);
+            return 'Error: ' + error.message;
         }
     }
 }
