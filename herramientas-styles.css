@@ -425,6 +425,48 @@ body {
     color: white;
 }
 
+/* Resultados con formato de código */
+.code-result pre {
+    background-color: #f5f7ff;
+    color: #333;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 0;
+    line-height: 1.5;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.9rem;
+    border: 1px solid #e0e0e0;
+}
+
+.code-result pre code {
+    display: block;
+    color: #333;
+}
+
+/* Estilos para resaltar sintaxis de manera manual */
+.code-result .keyword {
+    color: #0033b3;
+    font-weight: bold;
+}
+
+.code-result .string {
+    color: #008000;
+}
+
+.code-result .comment {
+    color: #808080;
+    font-style: italic;
+}
+
+.code-result .function {
+    color: #6f42c1;
+}
+
+.code-result .variable {
+    color: #e36209;
+}
+
 /* Resumen de herramientas (Nuevo) */
 .tools-summary {
     background-color: #f5f7ff;
