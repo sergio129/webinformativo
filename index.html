@@ -233,6 +233,27 @@
         </div>
     </section>
 
+    <!-- Sección de Datos Masivos -->
+    <section class="content-section">
+        <div class="container">
+            <div class="tool-body">
+                <p>Genera grandes volúmenes de datos para pruebas de rendimiento.</p>
+                <form onsubmit="generarDatosCarga(event)">
+                    <div class="form-group">
+                        <label for="tipo-dato-carga">Tipo de Dato:</label>
+                        <select id="tipo-dato-carga" required class="form-control">
+                            <option value="usuarios">Usuarios</option>
+                            <option value="transacciones">Transacciones</option>
+                            <option value="productos">Productos</option>
+                            <option value="pedidos">Pedidos</option>
+                        </select>
+                    </div>
+                    <!-- ...resto del formulario... -->
+                </form>
+            </div>
+        </div>
+    </section>
+
     <!-- Sección CTA Mejorada -->
     <section class="content-section">
         <div class="container">

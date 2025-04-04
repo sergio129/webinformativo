@@ -1799,3 +1799,185 @@ function initTestPlanGenerator() {
         }
     }
 }
+
+// Nueva función para manejar la generación de datos de carga
+function generarDatosCarga(event) {
+    event.preventDefault();
+    const tipo = document.getElementById('tipo-dato-carga').value;
+    const cantidad = parseInt(document.getElementById('cantidad-datos-carga').value);
+    const listaDatos = document.getElementById('lista-datos-carga');
+
+    // Validar que el select existe y tiene un valor válido
+    if (!tipo || !['usuarios', 'transacciones', 'productos', 'pedidos'].includes(tipo)) {
+        listaDatos.innerHTML = '<p class="error">Error: Tipo de dato no válido</p>';
+        return;
+    }
+
+    // Mostrar indicador de progreso
+    listaDatos.innerHTML = '<div class="progress-bar">Generando datos...</div>';
+
+    try {
+        const datos = [];
+        for (let i = 0; i < cantidad; i++) {
+            let dato;
+            switch (tipo) {
+                case 'usuarios':
+                    dato = {
+                        id: faker.random.uuid(),
+                        nombre: faker.name.findName(),
+                        email: faker.internet.email(),
+                        rol: faker.random.arrayElement(['admin', 'usuario', 'editor']),
+                        fechaRegistro: faker.date.past().toISOString(),
+                        activo: faker.random.boolean()
+                    };
+                    break;
+
+                case 'transacciones':
+                    dato = {
+                        id: faker.random.uuid(),
+                        monto: parseFloat(faker.commerce.price()),
+                        tipo: faker.random.arrayElement(['ingreso', 'egreso', 'transferencia']),
+                        fecha: faker.date.recent().toISOString(),
+                        estado: faker.random.arrayElement(['completada', 'pendiente', 'cancelada']),
+                        referencia: faker.finance.account()
+                    };
+                    break;
+
+                case 'productos':
+                    dato = {
+                        id: faker.random.uuid(),
+                        nombre: faker.commerce.productName(),
+                        precio: parseFloat(faker.commerce.price()),
+                        categoria: faker.commerce.department(),
+                        stock: faker.random.number({ min: 0, max: 1000 }),
+                        proveedor: faker.company.companyName()
+                    };
+                    break;
+
+                case 'pedidos':
+                    dato = {
+                        id: faker.random.uuid(),
+                        cliente: faker.name.findName(),
+                        productos: Array.from({ length: faker.random.number({ min: 1, max: 5 }) }, () => ({
+                            nombre: faker.commerce.productName(),
+                            cantidad: faker.random.number({ min: 1, max: 10 }),
+                            precio: parseFloat(faker.commerce.price())
+                        })),
+                        total: parseFloat(faker.commerce.price()),
+                        estado: faker.random.arrayElement(['nuevo', 'procesando', 'enviado', 'entregado'])
+                    };
+                    break;
+            }
+            datos.push(dato);
+        }
+
+        // Mostrar resultados
+        mostrarResultadosDatosCarga(datos, listaDatos);
+
+    } catch (error) {
+        console.error('Error al generar datos:', error);
+        listaDatos.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+    }
+}
+
+function mostrarResultadosDatosCarga(datos, contenedor) {
+    const panel = `
+        <div class="results-panel">
+            <div class="results-header">
+                <h4>Datos Generados (${datos.length} registros)</h4>
+                <div class="results-actions">
+                    <button onclick="descargarDatosCarga('json')" class="tool-btn">JSON</button>
+                    <button onclick="descargarDatosCarga('csv')" class="tool-btn">CSV</button>
+                    <button onclick="descargarDatosCarga('sql')" class="tool-btn">SQL</button>
+                </div>
+            </div>
+            <div class="results-preview">
+                <pre><code>${JSON.stringify(datos.slice(0, 5), null, 2)}</code></pre>
+            </div>
+            <div class="results-summary">
+                <p>Mostrando 5 de ${datos.length} registros</p>
+                <p>Tamaño total: ${Math.round(JSON.stringify(datos).length / 1024)} KB</p>
+            </div>
+        </div>
+    `;
+
+    contenedor.innerHTML = panel;
+    window.datosCargaGenerados = datos;
+}
+
+function descargarDatosCarga(formato) {
+    if (!window.datosCargaGenerados) return;
+    
+    let contenido;
+    let tipo;
+    let extension;
+    
+    switch (formato) {
+        case 'json':
+            contenido = JSON.stringify(window.datosCargaGenerados, null, 2);
+            tipo = 'application/json';
+            extension = 'json';
+            break;
+        case 'csv':
+            contenido = convertirDatosACsv(window.datosCargaGenerados);
+            tipo = 'text/csv';
+            extension = 'csv';
+            break;
+        case 'sql':
+            contenido = convertirDatosASql(window.datosCargaGenerados);
+            tipo = 'text/plain';
+            extension = 'sql';
+            break;
+    }
+    
+    const blob = new Blob([contenido], { type: tipo });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `datos_carga.${extension}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function convertirDatosACsv(datos) {
+    if (datos.length === 0) return '';
+    
+    const headers = Object.keys(datos[0]);
+    const rows = [headers.join(',')];
+    
+    for (const dato of datos) {
+        const values = headers.map(header => {
+            const val = dato[header];
+            return typeof val === 'string' ? `"${val}"` : val;
+        });
+        rows.push(values.join(','));
+    }
+    
+    return rows.join('\n');
+}
+
+function convertirDatosASql(datos) {
+    if (datos.length === 0) return '';
+    
+    const tableName = 'datos_carga';
+    const headers = Object.keys(datos[0]);
+    const rows = [];
+    
+    for (const dato of datos) {
+        const values = headers.map(header => {
+            const val = dato[header];
+            return typeof val === 'string' ? `'${val}'` : val;
+        });
+        rows.push(
+            `INSERT INTO ${tableName} (${headers.join(', ')}) VALUES (${values.join(', ')});`
+        );
+    }
+    
+    return rows.join('\n');
+}
+
+// Hacer las funciones accesibles globalmente
+window.generarDatosCarga = generarDatosCarga;
+window.descargarDatosCarga = descargarDatosCarga;
