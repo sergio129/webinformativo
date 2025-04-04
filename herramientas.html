@@ -92,6 +92,10 @@
                     <i class="fas fa-ellipsis-h"></i>
                     <span>Otras Herramientas</span>
                 </button>
+                <button class="tab-button" data-tab="automation-tools">
+                    <i class="fas fa-robot"></i>
+                    <span>Automatización</span>
+                </button>
             </div>
             
             <!-- Tabs Container adaptado del diseño original -->
@@ -1030,6 +1034,446 @@
                                     <button id="clear-note" class="tool-btn">Limpiar</button>
                                 </div>
                                 <div id="note-status" class="resultado"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NUEVA SECCIÓN: Herramientas de Automatización -->
+                <div id="automation-tools" class="tab-content">
+                    <div class="tools-categories">
+                        <button class="category-btn active" data-category="web-automation">Web</button>
+                        <button class="category-btn" data-category="api-automation">API</button>
+                        <button class="category-btn" data-category="mobile-automation">Mobile</button>
+                        <button class="category-btn" data-category="testing-utils">Utilidades</button>
+                    </div>
+
+                    <!-- Contenido de Automatización Web -->
+                    <div class="grid-container category-content active" id="web-automation">
+                        <div class="tool-card premium-tool">
+                            <div class="tool-header">
+                                <div class="tool-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div class="tool-badge">Popular</div>
+                                <h3>Generador de Selectores</h3>
+                                <p>CSS, XPath, ID y más</p>
+                            </div>
+                            <div class="tool-body">
+                                <p>Genera selectores robustos para automatización web con Selenium, Cypress o Playwright.</p>
+                                <form id="selector-generator-form" class="automation-form">
+                                    <div class="form-group">
+                                        <label for="html-input">Pega el HTML del elemento:</label>
+                                        <textarea id="html-input" rows="5" class="form-control" placeholder="<button id='login' class='btn-primary'>Iniciar sesión</button>"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tipo de selector:</label>
+                                        <div class="selector-types">
+                                            <label><input type="checkbox" value="css" checked> CSS</label>
+                                            <label><input type="checkbox" value="xpath" checked> XPath</label>
+                                            <label><input type="checkbox" value="id"> ID</label>
+                                            <label><input type="checkbox" value="name"> Name</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="tool-btn">Generar Selectores</button>
+                                </form>
+                                <div id="selector-result" class="resultado">
+                                    <p>Los resultados aparecerán aquí...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-icon">
+                                    <i class="fas fa-laptop-code"></i>
+                                </div>
+                                <h3>Convertidor Selenium/Cypress</h3>
+                                <p>Convierte código entre frameworks</p>
+                            </div>
+                            <div class="tool-body">
+                                <p>Traduce tu código de automatización entre Selenium WebDriver y Cypress.</p>
+                                <form id="framework-converter-form">
+                                    <div class="form-group">
+                                        <label for="source-code">Código fuente:</label>
+                                        <textarea id="source-code" rows="4" class="form-control" placeholder="driver.findElement(By.id('username')).sendKeys('testuser');"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Convertir de:</label>
+                                        <select id="from-framework" class="form-control">
+                                            <option value="selenium">Selenium (Java)</option>
+                                            <option value="selenium-python">Selenium (Python)</option>
+                                            <option value="cypress">Cypress</option>
+                                            <option value="playwright">Playwright</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Convertir a:</label>
+                                        <select id="to-framework" class="form-control">
+                                            <option value="cypress">Cypress</option>
+                                            <option value="selenium">Selenium (Java)</option>
+                                            <option value="selenium-python">Selenium (Python)</option>
+                                            <option value="playwright">Playwright</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="tool-btn">Convertir Código</button>
+                                </form>
+                                <div id="framework-converter-result" class="resultado code-result">
+                                    <p>El código convertido aparecerá aquí...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-icon">
+                                    <i class="fas fa-stopwatch"></i>
+                                </div>
+                                <div class="tool-badge">Nuevo</div>
+                                <h3>Calculadora de Esperas</h3>
+                                <p>Optimiza tiempos de espera</p>
+                            </div>
+                            <div class="tool-body">
+                                <p>Calcula los tiempos de espera óptimos para tu automatización basados en métricas de rendimiento.</p>
+                                <form id="wait-calculator-form">
+                                    <div class="form-group">
+                                        <label for="page-load-time">Tiempo promedio de carga (ms):</label>
+                                        <input type="number" id="page-load-time" class="form-control" placeholder="3000" min="100" value="3000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="animation-time">Transiciones/Animaciones (ms):</label>
+                                        <input type="number" id="animation-time" class="form-control" placeholder="500" min="0" value="500">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="network-latency">Latencia de red (ms):</label>
+                                        <input type="number" id="network-latency" class="form-control" placeholder="100" min="0" value="100">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="wait-strategy">Estrategia de espera:</label>
+                                        <select id="wait-strategy" class="form-control">
+                                            <option value="fixed">Espera fija</option>
+                                            <option value="fluent" selected>Espera fluida</option>
+                                            <option value="adaptive">Espera adaptativa</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="tool-btn">Calcular Tiempos</button>
+                                </form>
+                                <div id="wait-calculator-result" class="resultado">
+                                    <p>Los tiempos recomendados aparecerán aquí...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contenido de Automatización API -->
+                    <div class="grid-container category-content" id="api-automation">
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-icon">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                                <h3>Generador de Requests</h3>
+                                <p>Para RestAssured, Postman y más</p>
+                            </div>
+                            <div class="tool-body">
+                                <p>Genera código de solicitudes HTTP para diferentes frameworks de pruebas de API.</p>
+                                <form id="request-generator-form">
+                                    <div class="form-group">
+                                        <label for="request-method">Método HTTP:</label>
+                                        <select id="request-method" class="form-control">
+                                            <option value="GET">GET</option>
+                                            <option value="POST">POST</option>
+                                            <option value="PUT">PUT</option>
+                                            <option value="DELETE">DELETE</option>
+                                            <option value="PATCH">PATCH</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="request-url">URL:</label>
+                                        <input type="text" id="request-url" class="form-control" placeholder="https://api.example.com/v1/users" value="https://api.example.com/v1/users">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="request-headers">Headers (JSON):</label>
+                                        <textarea id="request-headers" rows="2" class="form-control" placeholder='{"Content-Type": "application/json", "Authorization": "Bearer token"}'></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="request-body">Body (JSON):</label>
+                                        <textarea id="request-body" rows="3" class="form-control" placeholder='{"name": "Test User", "email": "test@example.com"}'></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="request-framework">Framework:</label>
+                                        <select id="request-framework" class="form-control">
+                                            <option value="restassured">RestAssured (Java)</option>
+                                            <option value="requests">Requests (Python)</option>
+                                            <option value="fetch">Fetch API (JavaScript)</option>
+                                            <option value="postman">Postman</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="tool-btn">Generar Request</button>
+                                </form>
+                                <div id="request-generator-result" class="resultado code-result">
+                                    <p>El código generado aparecerá aquí...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-icon">
+                                    <i class="fas fa-terminal"></i>
+                                </div>
+                                <div class="tool-badge">Nuevo</div>
+                                <h3>Simulador de Pruebas de API</h3>
+                                <p>Simula y prueba respuestas de API</p>
+                            </div>
+                            <div class="tool-body">
+                                <p>Simula respuestas de API para diferentes escenarios de prueba sin necesidad de conectar a servicios reales.</p>
+                                <form id="api-simulator-form">
+                                    <div class="form-group">
+                                        <label for="api-endpoint">Endpoint:</label>
+                                        <input type="text" id="api-endpoint" class="form-control" placeholder="/api/users" value="/api/users">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="response-status">Código de estado:</label>
+                                        <select id="response-status" class="form-control">
+                                            <option value="200">200 - OK</option>
+                                            <option value="201">201 - Created</option>
+                                            <option value="400">400 - Bad Request</option>
+                                            <option value="401">401 - Unauthorized</option>
+                                            <option value="403">403 - Forbidden</option>
+                                            <option value="404">404 - Not Found</option>
+                                            <option value="500">500 - Server Error</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="response-type">Tipo de respuesta:</label>
+                                        <select id="response-type" class="form-control">
+                                            <option value="success">Éxito</option>
+                                            <option value="error">Error</option>
+                                            <option value="empty">Vacía</option>
+                                            <option value="pagination">Paginación</option>
+                                            <option value="custom">Personalizada</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group custom-response-group" style="display: none;">
+                                        <label for="custom-response">Respuesta personalizada (JSON):</label>
+                                        <textarea id="custom-response" rows="4" class="form-control" placeholder='{"message": "Custom response"}'></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="delay-time">Tiempo de respuesta (ms):</label>
+                                        <input type="range" id="delay-time" min="0" max="5000" step="100" value="500" class="form-range">
+                                        <div class="d-flex justify-content-between">
+                                            <small>0 ms</small>
+                                            <small id="delay-value">500 ms</small>
+                                            <small>5000 ms</small>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="tool-btn">Simular Respuesta</button>
+                                </form>
+                                <div id="api-simulator-result" class="resultado code-result" style="margin-top: 1rem;">
+                                    <p>La respuesta simulada aparecerá aquí...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card premium-tool">
+                            <div class="tool-header">
+                                <div class="tool-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="tool-badge">Premium</div>
+                                <h3>Generador de Assertions</h3>
+                                <p>Validaciones para pruebas de API</p>
+                            </div>
+                            <div class="tool-body">
+                                <p>Crea assertions robustas para validar respuestas de API en diferentes frameworks de pruebas.</p>
+                                <form id="assertions-generator-form">
+                                    <div class="form-group">
+                                        <label for="response-body">Respuesta JSON ejemplo:</label>
+                                        <textarea id="response-body" rows="4" class="form-control" placeholder='{"id": 123, "user": {"name": "John", "email": "john@example.com"}, "items": [{"id": 1, "name": "Item 1"}, {"id": 2, "name": "Item 2"}]}'></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="assertion-types">Tipo de validaciones:</label>
+                                        <div class="assertions-options">
+                                            <label><input type="checkbox" value="structure" checked> Estructura</label>
+                                            <label><input type="checkbox" value="values" checked> Valores</label>
+                                            <label><input type="checkbox" value="types"> Tipos</label>
+                                            <label><input type="checkbox" value="schema"> JSON Schema</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="assertion-framework">Framework:</label>
+                                        <select id="assertion-framework" class="form-control">
+                                            <option value="junit">JUnit (Java)</option>
+                                            <option value="pytest">Pytest (Python)</option>
+                                            <option value="jest">Jest (JavaScript)</option>
+                                            <option value="postman">Postman</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="tool-btn">Generar Validaciones</button>
+                                </form>
+                                <div id="assertions-generator-result" class="resultado code-result">
+                                    <p>Las validaciones generadas aparecerán aquí...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contenido de Mobile Automation -->
+                    <div class="grid-container category-content" id="mobile-automation">
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <h3>Conversor de Capabilities</h3>
+                                <p>Para Appium y Dispositivos</p>
+                            </div>
+                            <div class="tool-body">
+                                <p>Configura y convierte capabilities para diferentes plataformas móviles y versiones de Appium.</p>
+                                <form id="capabilities-converter-form">
+                                    <div class="form-group">
+                                        <label for="platform-type">Plataforma:</label>
+                                        <select id="platform-type" class="form-control">
+                                            <option value="android">Android</option>
+                                            <option value="ios">iOS</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="appium-version">Versión de Appium:</label>
+                                        <select id="appium-version" class="form-control">
+                                            <option value="1.x">Appium 1.x</option>
+                                            <option value="2.x" selected>Appium 2.x</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="automation-type">Tipo de Automatización:</label>
+                                        <select id="automation-type" class="form-control">
+                                            <option value="native">Aplicación Nativa</option>
+                                            <option value="hybrid">Aplicación Híbrida</option>
+                                            <option value="web">Web Móvil</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="language-format">Formato:</label>
+                                        <select id="language-format" class="form-control">
+                                            <option value="java">Java</option>
+                                            <option value="python">Python</option>
+                                            <option value="javascript">JavaScript</option>
+                                            <option value="ruby">Ruby</option>
+                                            <option value="csharp">C#</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="tool-btn">Generar Capabilities</button>
+                                </form>
+                                <div id="capabilities-converter-result" class="resultado code-result">
+                                    <p>Las capabilities generadas aparecerán aquí...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contenido de Testing Utils -->
+                    <div class="grid-container category-content" id="testing-utils">
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-icon">
+                                    <i class="fas fa-random"></i>
+                                </div>
+                                <h3>Generador de Datos de Prueba</h3>
+                                <p>Datos aleatorios para testing</p>
+                            </div>
+                            <div class="tool-body">
+                                <p>Genera datos aleatorios personalizados para escenarios de prueba específicos.</p>
+                                <form id="test-data-generator-form">
+                                    <div class="form-group">
+                                        <label>Tipo de datos:</label>
+                                        <div class="data-types">
+                                            <label><input type="checkbox" value="names" checked> Nombres</label>
+                                            <label><input type="checkbox" value="emails" checked> Emails</label>
+                                            <label><input type="checkbox" value="phones"> Teléfonos</label>
+                                            <label><input type="checkbox" value="addresses"> Direcciones</label>
+                                            <label><input type="checkbox" value="dates"> Fechas</label>
+                                            <label><input type="checkbox" value="numbers"> Números</label>
+                                            <label><input type="checkbox" value="ids"> IDs</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="data-locale">Localización:</label>
+                                        <select id="data-locale" class="form-control">
+                                            <option value="es-CO">Colombia</option>
+                                            <option value="es-ES">España</option>
+                                            <option value="es-MX">México</option>
+                                            <option value="en-US">Estados Unidos</option>
+                                            <option value="en-GB">Reino Unido</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="data-format">Formato de salida:</label>
+                                        <select id="data-format" class="form-control">
+                                            <option value="json">JSON</option>
+                                            <option value="csv">CSV</option>
+                                            <option value="sql">SQL</option>
+                                            <option value="xml">XML</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="data-count">Cantidad de registros:</label>
+                                        <input type="number" id="data-count" class="form-control" min="1" max="100" value="5">
+                                    </div>
+                                    <button type="submit" class="tool-btn">Generar Datos</button>
+                                </form>
+                                <div id="test-data-generator-result" class="resultado code-result">
+                                    <p>Los datos generados aparecerán aquí...</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tool-card">
+                            <div class="tool-header">
+                                <div class="tool-icon">
+                                    <i class="fas fa-project-diagram"></i>
+                                </div>
+                                <h3>Generador de Plan de Pruebas</h3>
+                                <p>Estructura para test plans</p>
+                            </div>
+                            <div class="tool-body">
+                                <p>Crea una estructura para planes de prueba basada en mejores prácticas y metodologías.</p>
+                                <form id="test-plan-generator-form">
+                                    <div class="form-group">
+                                        <label for="project-type">Tipo de proyecto:</label>
+                                        <select id="project-type" class="form-control">
+                                            <option value="web">Aplicación Web</option>
+                                            <option value="mobile">Aplicación Móvil</option>
+                                            <option value="api">API</option>
+                                            <option value="desktop">Software de Escritorio</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="methodology">Metodología:</label>
+                                        <select id="methodology" class="form-control">
+                                            <option value="agile">Ágil (Scrum/Kanban)</option>
+                                            <option value="waterfall">Tradicional (Cascada)</option>
+                                            <option value="bdd">BDD</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Secciones a incluir:</label>
+                                        <div class="plan-sections">
+                                            <label><input type="checkbox" value="intro" checked> Introducción</label>
+                                            <label><input type="checkbox" value="scope" checked> Alcance</label>
+                                            <label><input type="checkbox" value="strategy" checked> Estrategia</label>
+                                            <label><input type="checkbox" value="schedule" checked> Cronograma</label>
+                                            <label><input type="checkbox" value="resources" checked> Recursos</label>
+                                            <label><input type="checkbox" value="risks" checked> Riesgos</label>
+                                            <label><input type="checkbox" value="cases" checked> Casos de prueba</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="tool-btn">Generar Plan</button>
+                                </form>
+                                <div id="test-plan-generator-result" class="resultado">
+                                    <p>El plan de pruebas generado aparecerá aquí...</p>
+                                </div>
                             </div>
                         </div>
                     </div>

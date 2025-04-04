@@ -848,6 +848,172 @@ form select:focus {
     transition: none !important;
 }
 
+/* Estilos específicos para herramientas de automatización */
+
+/* Contenedor de selección múltiple para opciones */
+.selector-types,
+.assertions-options,
+.data-types,
+.coverage-types,
+.plan-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.selector-types label,
+.assertions-options label,
+.data-types label,
+.coverage-types label,
+.plan-sections label {
+    display: flex;
+    align-items: center;
+    background-color: #f5f7ff;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.selector-types label:hover,
+.assertions-options label:hover,
+.data-types label:hover,
+.coverage-types label:hover,
+.plan-sections label:hover {
+    background-color: var(--primary-light);
+}
+
+.selector-types input[type="checkbox"],
+.assertions-options input[type="checkbox"],
+.data-types input[type="checkbox"],
+.coverage-types input[type="checkbox"],
+.plan-sections input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Resultados con formato de código */
+.code-result pre {
+    background-color: #272822;
+    color: #f8f8f2;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 0;
+    line-height: 1.5;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.code-result pre code {
+    display: block;
+}
+
+/* Lista de selectores */
+.selector-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.selector-list li {
+    margin-bottom: 10px;
+    background-color: #f5f7ff;
+    padding: 0.8rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.selector-list code {
+    background-color: rgba(63, 81, 181, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    color: var(--primary-color);
+}
+
+/* Animación para herramientas de automatización */
+@keyframes fade-in-left {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+#automation-tools .tool-card {
+    animation: fade-in-left 0.6s ease forwards;
+}
+
+#automation-tools .tool-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+#automation-tools .tool-card:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Estilos específicos para el Simulador de API */
+.form-range {
+    width: 100%;
+    height: 0.5rem;
+    padding: 0;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.form-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--primary-color);
+    border: 0;
+    border-radius: 1rem;
+    transition: background-color .15s ease-in-out;
+    cursor: pointer;
+}
+
+.form-range::-moz-range-thumb {
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--primary-color);
+    border: 0;
+    border-radius: 1rem;
+    transition: background-color .15s ease-in-out;
+    cursor: pointer;
+}
+
+.form-range:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--primary-color);
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+.text-info {
+    color: var(--info-color);
+}
+
+.text-danger {
+    color: var(--danger-color);
+}
+
 /* Responsive */
 @media (max-width: 992px) {
     .tools-hero-section h1 {

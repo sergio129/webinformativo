@@ -318,6 +318,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, true);
     }
+
+    // Inicializar herramientas de automatización
+    initAutomationTools();
 });
 
 // Añade una función para verificar y corregir elementos faltantes en el DOM
@@ -950,3 +953,618 @@ document.head.insertAdjacentHTML('beforeend', `
         }
     </style>
 `);
+
+// Funciones para las herramientas de automatización
+
+// 1. Generador de Selectores
+function initSelectorGenerator() {
+    const selectorForm = document.getElementById('selector-generator-form');
+    const selectorResult = document.getElementById('selector-result');
+    
+    if (!selectorForm || !selectorResult) return;
+    
+    selectorForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const htmlInput = document.getElementById('html-input').value.trim();
+        if (!htmlInput) {
+            selectorResult.innerHTML = '<p class="text-danger">Por favor ingresa el HTML del elemento</p>';
+            return;
+        }
+        
+        const selectedTypes = [];
+        document.querySelectorAll('.selector-types input[type="checkbox"]:checked').forEach(cb => {
+            selectedTypes.push(cb.value);
+        });
+        
+        if (selectedTypes.length === 0) {
+            selectorResult.innerHTML = '<p class="text-warning">Por favor selecciona al menos un tipo de selector</p>';
+            return;
+        }
+        
+        try {
+            // Crear un elemento temporal para analizar el HTML
+            const tempContainer = document.createElement('div');
+            tempContainer.innerHTML = htmlInput;
+            const element = tempContainer.firstElementChild;
+            
+            if (!element) {
+                selectorResult.innerHTML = '<p class="text-danger">HTML inválido o no contiene elementos</p>';
+                return;
+            }
+            
+            let resultHTML = '<h4>Selectores generados:</h4><ul class="selector-list">';
+            
+            // Generar selectores según los tipos seleccionados
+            if (selectedTypes.includes('css')) {
+                const cssSelector = generateCssSelector(element);
+                resultHTML += `<li><strong>CSS:</strong> <code>${cssSelector}</code></li>`;
+            }
+            
+            if (selectedTypes.includes('xpath')) {
+                const xpathSelector = generateXPathSelector(element);
+                resultHTML += `<li><strong>XPath:</strong> <code>${xpathSelector}</code></li>`;
+            }
+            
+            if (selectedTypes.includes('id') && element.id) {
+                resultHTML += `<li><strong>ID:</strong> <code>${element.id}</code></li>`;
+            }
+            
+            if (selectedTypes.includes('name') && element.getAttribute('name')) {
+                resultHTML += `<li><strong>Name:</strong> <code>${element.getAttribute('name')}</code></li>`;
+            }
+            
+            resultHTML += '</ul>';
+            selectorResult.innerHTML = resultHTML;
+        } catch (error) {
+            selectorResult.innerHTML = `<p class="text-danger">Error: ${error.message}</p>`;
+        }
+    });
+    
+    // Función para generar selector CSS
+    function generateCssSelector(element) {
+        let selector = element.tagName.toLowerCase();
+        
+        if (element.id) {
+            return `#${element.id}`;
+        }
+        
+        if (element.className) {
+            const classes = element.className.split(' ').filter(c => c.trim() !== '');
+            if (classes.length > 0) {
+                selector += `.${classes.join('.')}`;
+            }
+        }
+        
+        // Añadir atributos para mayor precisión
+        ['name', 'type', 'placeholder', 'value'].forEach(attr => {
+            if (element.getAttribute(attr)) {
+                selector += `[${attr}="${element.getAttribute(attr)}"]`;
+            }
+        });
+        
+        return selector;
+    }
+    
+    // Función para generar selector XPath
+    function generateXPathSelector(element) {
+        // Implementación básica de XPath
+        if (element.id) {
+            return `//${element.tagName.toLowerCase()}[@id="${element.id}"]`;
+        }
+        
+        let xpath = `//${element.tagName.toLowerCase()}`;
+        
+        if (element.className) {
+            const classes = element.className.split(' ').filter(c => c.trim() !== '');
+            if (classes.length > 0) {
+                xpath += `[@class="${element.className}"]`;
+            }
+        }
+        
+        ['name', 'type', 'placeholder'].forEach(attr => {
+            if (element.getAttribute(attr)) {
+                xpath += `[@${attr}="${element.getAttribute(attr)}"]`;
+            }
+        });
+        
+        return xpath;
+    }
+}
+
+// 2. Generador de Requests para API
+function initRequestGenerator() {
+    const requestForm = document.getElementById('request-generator-form');
+    const requestResult = document.getElementById('request-generator-result');
+    
+    if (!requestForm || !requestResult) return;
+    
+    requestForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const method = document.getElementById('request-method').value;
+        const url = document.getElementById('request-url').value.trim();
+        let headers = document.getElementById('request-headers').value.trim();
+        let body = document.getElementById('request-body').value.trim();
+        const framework = document.getElementById('request-framework').value;
+        
+        if (!url) {
+            requestResult.innerHTML = '<p class="text-danger">Por favor ingresa una URL válida</p>';
+            return;
+        }
+        
+        // Convertir headers y body a objetos si están en formato JSON
+        try {
+            headers = headers ? JSON.parse(headers) : {};
+        } catch (error) {
+            requestResult.innerHTML = '<p class="text-danger">Error en el formato JSON de headers</p>';
+            return;
+        }
+        
+        try {
+            body = body ? JSON.parse(body) : null;
+        } catch (error) {
+            requestResult.innerHTML = '<p class="text-danger">Error en el formato JSON del body</p>';
+            return;
+        }
+        
+        // Generar código según el framework seleccionado
+        let code = '';
+        
+        switch (framework) {
+            case 'restassured':
+                code = generateRestAssuredCode(method, url, headers, body);
+                break;
+            case 'requests':
+                code = generateRequestsCode(method, url, headers, body);
+                break;
+            case 'fetch':
+                code = generateFetchCode(method, url, headers, body);
+                break;
+            case 'postman':
+                code = generatePostmanCode(method, url, headers, body);
+                break;
+            default:
+                code = 'Framework no soportado';
+        }
+        
+        requestResult.innerHTML = `<pre><code>${code}</code></pre>`;
+    });
+    
+    // Funciones para generar código
+    function generateRestAssuredCode(method, url, headers, body) {
+        let code = 'import io.restassured.RestAssured;\n';
+        code += 'import static io.restassured.RestAssured.*;\n';
+        code += 'import static io.restassured.matcher.RestAssuredMatchers.*;\n';
+        code += 'import static org.hamcrest.Matchers.*;\n\n';
+        
+        code += 'public class APITest {\n';
+        code += '    public void testAPI() {\n';
+        
+        code += `        given()\n`;
+        
+        // Headers
+        if (headers && Object.keys(headers).length > 0) {
+            code += '            // Headers\n';
+            for (const [key, value] of Object.entries(headers)) {
+                code += `            .header("${key}", "${value}")\n`;
+            }
+        }
+        
+        // Body
+        if (body) {
+            code += '            // Body\n';
+            code += `            .body(${JSON.stringify(body, null, 4)})\n`;
+        }
+        
+        code += `        .when()\n`;
+        code += `            .${method.toLowerCase()}("${url}")\n`;
+        code += `        .then()\n`;
+        code += `            .statusCode(200);\n`;
+        code += '    }\n';
+        code += '}';
+        
+        return code;
+    }
+    
+    function generateRequestsCode(method, url, headers, body) {
+        let code = 'import requests\n\n';
+        code += `# ${method} request to ${url}\n`;
+        
+        // Headers
+        if (headers && Object.keys(headers).length > 0) {
+            code += 'headers = ' + JSON.stringify(headers, null, 4) + '\n\n';
+        } else {
+            code += 'headers = {}\n\n';
+        }
+        
+        // Body
+        if (body) {
+            code += 'payload = ' + JSON.stringify(body, null, 4) + '\n\n';
+        }
+        
+        code += `response = requests.${method.toLowerCase()}(\n`;
+        code += `    "${url}",\n`;
+        
+        if (headers && Object.keys(headers).length > 0) {
+            code += '    headers=headers,\n';
+        }
+        
+        if (body) {
+            code += '    json=payload\n';
+        }
+        
+        code += ')\n\n';
+        code += '# Verificar respuesta\n';
+        code += 'print(response.status_code)\n';
+        code += 'print(response.json())\n';
+        
+        return code;
+    }
+    
+    function generateFetchCode(method, url, headers, body) {
+        let code = '// Usando Fetch API\n';
+        
+        // Headers
+        if (headers && Object.keys(headers).length > 0) {
+            code += 'const headers = ' + JSON.stringify(headers, null, 4) + ';\n\n';
+        } else {
+            code += 'const headers = {};\n\n';
+        }
+        
+        // Body
+        if (body) {
+            code += 'const payload = ' + JSON.stringify(body, null, 4) + ';\n\n';
+        }
+        
+        code += 'fetch("' + url + '", {\n';
+        code += '    method: "' + method + '",\n';
+        
+        if (headers && Object.keys(headers).length > 0) {
+            code += '    headers: headers,\n';
+        }
+        
+        if (body) {
+            code += '    body: JSON.stringify(payload)\n';
+        }
+        
+        code += '})\n';
+        code += '.then(response => response.json())\n';
+        code += '.then(data => console.log(data))\n';
+        code += '.catch(error => console.error("Error:", error));\n';
+        
+        return code;
+    }
+    
+    function generatePostmanCode(method, url, headers, body) {
+        let code = 'pm.sendRequest({\n';
+        code += `    url: "${url}",\n`;
+        code += `    method: "${method}",\n`;
+        
+        if (headers && Object.keys(headers).length > 0) {
+            code += '    header: ' + JSON.stringify(headers, null, 4) + ',\n';
+        }
+        
+        if (body) {
+            code += '    body: {\n';
+            code += '        mode: "raw",\n';
+            code += '        raw: JSON.stringify(' + JSON.stringify(body, null, 4) + '),\n';
+            code += '        options: {\n';
+            code += '            raw: {\n';
+            code += '                language: "json"\n';
+            code += '            }\n';
+            code += '        }\n';
+            code += '    }\n';
+        }
+        
+        code += '}, function(err, response) {\n';
+        code += '    if (err) {\n';
+        code += '        console.log(err);\n';
+        code += '    } else {\n';
+        code += '        pm.test("Status code is 200", function() {\n';
+        code += '            pm.response.to.have.status(200);\n';
+        code += '        });\n';
+        code += '        \n';
+        code += '        const responseJson = response.json();\n';
+        code += '        console.log(responseJson);\n';
+        code += '    }\n';
+        code += '});\n';
+        
+        return code;
+    }
+}
+
+// 3. Inicializar el Simulador de Pruebas de API
+function initApiSimulator() {
+    const apiSimulatorForm = document.getElementById('api-simulator-form');
+    const apiSimulatorResult = document.getElementById('api-simulator-result');
+    const responseTypeSelect = document.getElementById('response-type');
+    const customResponseGroup = document.querySelector('.custom-response-group');
+    const delayTimeInput = document.getElementById('delay-time');
+    const delayValueDisplay = document.getElementById('delay-value');
+    
+    if (!apiSimulatorForm || !apiSimulatorResult) return;
+    
+    // Mostrar/ocultar el campo de respuesta personalizada según la selección
+    if (responseTypeSelect) {
+        responseTypeSelect.addEventListener('change', function() {
+            if (this.value === 'custom' && customResponseGroup) {
+                customResponseGroup.style.display = 'block';
+            } else if (customResponseGroup) {
+                customResponseGroup.style.display = 'none';
+            }
+        });
+    }
+    
+    // Actualizar visualización del valor de retraso
+    if (delayTimeInput && delayValueDisplay) {
+        delayTimeInput.addEventListener('input', function() {
+            delayValueDisplay.textContent = this.value + ' ms';
+        });
+    }
+    
+    // Manejar envío del formulario
+    apiSimulatorForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const endpoint = document.getElementById('api-endpoint').value.trim();
+        const statusCode = document.getElementById('response-status').value;
+        const responseType = responseTypeSelect.value;
+        const delayTime = parseInt(delayTimeInput.value);
+        
+        // Mostrar indicador de carga
+        apiSimulatorResult.innerHTML = '<p class="text-info">Simulando respuesta, espere por favor...</p>';
+        
+        // Generar respuesta según el tipo seleccionado
+        let response;
+        
+        if (responseType === 'custom') {
+            const customResponse = document.getElementById('custom-response').value.trim();
+            try {
+                response = JSON.parse(customResponse);
+            } catch (error) {
+                apiSimulatorResult.innerHTML = '<p class="text-danger">Error: JSON personalizado inválido</p>';
+                return;
+            }
+        } else {
+            response = generateMockResponse(endpoint, responseType, statusCode);
+        }
+        
+        // Simular tiempo de respuesta
+        setTimeout(() => {
+            // Construir respuesta HTTP completa
+            const httpResponse = {
+                status: parseInt(statusCode),
+                statusText: getStatusText(statusCode),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Powered-By': 'QualiTest API Simulator',
+                    'Date': new Date().toUTCString()
+                },
+                body: response
+            };
+            
+            // Mostrar respuesta
+            const formattedJson = JSON.stringify(httpResponse, null, 2);
+            apiSimulatorResult.innerHTML = `<pre><code>${formattedJson}</code></pre>`;
+            
+            // Agregar código de uso para test
+            apiSimulatorResult.innerHTML += `
+                <div class="mt-3">
+                    <h4>Código para prueba:</h4>
+                    <pre><code>// Ejemplo de test con Jest/SuperTest
+test('${endpoint} should return ${statusCode}', async () => {
+  const response = await request(app).get('${endpoint}');
+  expect(response.status).toBe(${statusCode});
+  expect(response.body).toMatchObject(${JSON.stringify(response, null, 2)});
+});</code></pre>
+                </div>
+            `;
+        }, delayTime);
+    });
+    
+    // Función para obtener texto de estado según código
+    function getStatusText(code) {
+        const statusTexts = {
+            '200': 'OK',
+            '201': 'Created',
+            '400': 'Bad Request',
+            '401': 'Unauthorized',
+            '403': 'Forbidden',
+            '404': 'Not Found',
+            '500': 'Internal Server Error'
+        };
+        return statusTexts[code] || 'Unknown Status';
+    }
+    
+    // Función para generar respuesta simulada
+    function generateMockResponse(endpoint, type, statusCode) {
+        const isError = parseInt(statusCode) >= 400;
+        
+        // Respuesta base según el tipo
+        switch (type) {
+            case 'success':
+                if (endpoint.includes('user')) {
+                    return {
+                        id: 123,
+                        username: 'testuser',
+                        email: 'user@example.com',
+                        name: 'Test User',
+                        createdAt: new Date().toISOString()
+                    };
+                } else {
+                    return {
+                        success: true,
+                        message: 'Operación completada exitosamente',
+                        timestamp: new Date().toISOString()
+                    };
+                }
+            
+            case 'error':
+                if (statusCode === '400') {
+                    return {
+                        error: 'Bad Request',
+                        message: 'Parámetros de solicitud inválidos',
+                        details: [
+                            'El campo "email" es requerido',
+                            'El valor de "age" debe ser un número'
+                        ]
+                    };
+                } else if (statusCode === '401') {
+                    return {
+                        error: 'Unauthorized',
+                        message: 'Autenticación requerida para acceder a este recurso'
+                    };
+                } else if (statusCode === '404') {
+                    return {
+                        error: 'Not Found',
+                        message: `Recurso no encontrado: ${endpoint}`
+                    };
+                } else {
+                    return {
+                        error: 'Error',
+                        message: 'Ocurrió un error al procesar la solicitud',
+                        status: parseInt(statusCode)
+                    };
+                }
+            
+            case 'empty':
+                return {};
+            
+            case 'pagination':
+                return {
+                    page: 1,
+                    perPage: 10,
+                    total: 42,
+                    totalPages: 5,
+                    data: Array(10).fill(null).map((_, i) => ({
+                        id: i + 1,
+                        name: `Item ${i + 1}`,
+                        description: `Descripción del ítem ${i + 1}`
+                    }))
+                };
+            
+            default:
+                return {
+                    message: 'Respuesta simulada generada por QualiTest API Simulator'
+                };
+        }
+    }
+}
+
+// 4. Inicialización de herramientas de automatización
+function initAutomationTools() {
+    console.log("Inicializando herramientas de automatización...");
+    
+    // Inicializar herramientas de Web Automation
+    initSelectorGenerator();
+    
+    // Herramienta de conversión entre frameworks
+    const frameworkConverterForm = document.getElementById('framework-converter-form');
+    if (frameworkConverterForm) {
+        frameworkConverterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const result = document.getElementById('framework-converter-result');
+            if (result) {
+                const sourceCode = document.getElementById('source-code').value;
+                const fromFramework = document.getElementById('from-framework').value;
+                const toFramework = document.getElementById('to-framework').value;
+                
+                // Este es un ejemplo básico, en una implementación real haría una conversión más sofisticada
+                let convertedCode = '';
+                
+                if (fromFramework === 'selenium' && toFramework === 'cypress') {
+                    // Ejemplo de conversión simple de Selenium a Cypress
+                    convertedCode = sourceCode
+                        .replace(/driver\.findElement\(By\.id\("([^"]+)"\)\)\.sendKeys\("([^"]+)"\)/g, 'cy.get("#$1").type("$2")')
+                        .replace(/driver\.findElement\(By\.id\("([^"]+)"\)\)\.click\(\)/g, 'cy.get("#$1").click()');
+                } else if (fromFramework === 'cypress' && toFramework === 'selenium') {
+                    // Ejemplo de conversión simple de Cypress a Selenium
+                    convertedCode = sourceCode
+                        .replace(/cy\.get\("([^"]+)"\)\.type\("([^"]+)"\)/g, 'driver.findElement(By.css("$1")).sendKeys("$2")')
+                        .replace(/cy\.get\("([^"]+)"\)\.click\(\)/g, 'driver.findElement(By.css("$1")).click()');
+                } else {
+                    convertedCode = '// Conversion de ' + fromFramework + ' a ' + toFramework + ' no implementada\n// Código original:\n' + sourceCode;
+                }
+                
+                result.innerHTML = '<pre><code>' + convertedCode + '</code></pre>';
+            }
+        });
+    }
+    
+    // Herramienta de calculadora de esperas
+    const waitCalculatorForm = document.getElementById('wait-calculator-form');
+    if (waitCalculatorForm) {
+        waitCalculatorForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const result = document.getElementById('wait-calculator-result');
+            if (result) {
+                const pageLoadTime = parseInt(document.getElementById('page-load-time').value);
+                const animationTime = parseInt(document.getElementById('animation-time').value);
+                const networkLatency = parseInt(document.getElementById('network-latency').value);
+                const waitStrategy = document.getElementById('wait-strategy').value;
+                
+                const baseWait = Math.ceil((pageLoadTime + animationTime + networkLatency) / 1000);
+                const implicitWait = Math.ceil(baseWait / 2);
+                const explicitWait = baseWait;
+                const pollingInterval = Math.ceil(animationTime / 1000) || 1;
+                
+                let html = `<h4>Tiempos de espera recomendados:</h4>`;
+                html += `<ul>`;
+                html += `<li><strong>Implícita:</strong> ${implicitWait} segundos</li>`;
+                html += `<li><strong>Explícita:</strong> ${explicitWait} segundos</li>`;
+                html += `<li><strong>Intervalo de polling:</strong> ${pollingInterval} segundos</li>`;
+                html += `</ul>`;
+                
+                html += `<h4>Código de ejemplo (${waitStrategy}):</h4>`;
+                
+                // Ejemplos de código para diferentes estrategias
+                if (waitStrategy === 'fixed') {
+                    html += `<pre><code>// Java - Selenium WebDriver
+driver.manage().timeouts().implicitlyWait(${implicitWait}, TimeUnit.SECONDS);
+
+// Espera explícita
+WebDriverWait wait = new WebDriverWait(driver, ${explicitWait});
+wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("elemento")));</code></pre>`;
+                } else if (waitStrategy === 'fluent') {
+                    html += `<pre><code>// Java - Selenium WebDriver
+Wait&lt;WebDriver&gt; wait = new FluentWait&lt;WebDriver&gt;(driver)
+    .withTimeout(Duration.ofSeconds(${explicitWait}))
+    .pollingEvery(Duration.ofSeconds(${pollingInterval}))
+    .ignoring(NoSuchElementException.class);
+
+WebElement element = wait.until(driver -> {
+    return driver.findElement(By.id("elemento"));
+});</code></pre>`;
+                } else {
+                    html += `<pre><code>// Java - Adaptive Wait Helper
+public WebElement waitForElement(By locator) {
+    int attempts = 0;
+    int maxAttempts = 3;
+    int timeoutSeconds = ${explicitWait};
+    
+    while (attempts < maxAttempts) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, timeoutSeconds);
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        } catch (Exception e) {
+            attempts++;
+            timeoutSeconds *= 2; // Duplicar tiempo en cada intento
+        }
+    }
+    throw new RuntimeException("Elemento no encontrado después de " + attempts + " intentos");
+}</code></pre>`;
+                }
+                
+                result.innerHTML = html;
+            }
+        });
+    }
+    
+    // Inicializar herramientas de API Automation
+    initRequestGenerator();
+    initApiSimulator();
+    
+    // Inicializar rest of automation tools...
+    // Estas implementaciones se pueden completar según sea necesario
+}
