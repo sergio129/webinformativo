@@ -335,6 +335,108 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar herramientas específicas
     initTestDataGenerator();
     initTestPlanGenerator();
+
+    // Generador de Datos de Prueba
+    const testDataForm = document.getElementById('test-data-generator-form');
+    const testDataResult = document.getElementById('test-data-generator-result');
+    const testButton = document.getElementById('test-data-generator-test-btn');
+
+    if (testDataForm && testDataResult && testButton) {
+        testButton.addEventListener('click', function () {
+            console.log("Botón Test clickeado");
+
+            // Valores de prueba
+            const dataTypes = ['names', 'emails', 'phones']; // Tipos de datos
+            const dataLocale = 'es-CO'; // Localización
+            const dataFormat = 'json'; // Formato
+            const dataCount = 3; // Cantidad
+
+            let resultHTML = `<h4>Datos Generados (${dataFormat.toUpperCase()}):</h4><pre><code>`;
+            for (let i = 0; i < dataCount; i++) {
+                const record = {};
+                dataTypes.forEach(type => {
+                    record[type] = generateTestData(type, dataLocale);
+                });
+                resultHTML += formatData(record, dataFormat) + '\n';
+            }
+            resultHTML += `</code></pre>`;
+
+            // Mostrar resultados en el contenedor
+            testDataResult.innerHTML = resultHTML;
+        });
+
+        function generateTestData(type, locale) {
+            switch (type) {
+                case 'names': return `Nombre_${locale}_${Math.random().toString(36).substring(7)}`;
+                case 'emails': return `email_${locale}_${Math.random().toString(36).substring(7)}@example.com`;
+                case 'phones': return `+57 ${Math.floor(Math.random() * 900000000) + 100000000}`;
+                default: return 'Dato desconocido';
+            }
+        }
+
+        function formatData(record, format) {
+            switch (format) {
+                case 'json': return JSON.stringify(record);
+                case 'csv': return Object.values(record).join(',');
+                case 'sql': return `INSERT INTO table (${Object.keys(record).join(', ')}) VALUES (${Object.values(record).map(v => `'${v}'`).join(', ')});`;
+                case 'xml': return `<record>${Object.entries(record).map(([k, v]) => `<${k}>${v}</${k}>`).join('')}</record>`;
+                default: return JSON.stringify(record);
+            }
+        }
+    }
+
+    // Generador de Datos
+    const dataGeneratorForm = document.getElementById('data-generator-form');
+    const dataGeneratorResult = document.getElementById('data-generator-result');
+
+    if (dataGeneratorForm && dataGeneratorResult) {
+        dataGeneratorForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Obtener valores del formulario
+            const dataTypes = Array.from(document.querySelectorAll('.data-types input:checked')).map(input => input.value);
+            const dataCount = parseInt(document.getElementById('data-count').value, 10);
+            const dataFormat = document.getElementById('data-format').value;
+
+            if (dataTypes.length === 0 || isNaN(dataCount) || dataCount <= 0) {
+                dataGeneratorResult.innerHTML = '<p class="text-danger">Por favor selecciona al menos un tipo de dato y una cantidad válida</p>';
+                return;
+            }
+
+            // Generar datos
+            let resultHTML = `<h4>Datos Generados (${dataFormat.toUpperCase()}):</h4><pre><code>`;
+            for (let i = 0; i < dataCount; i++) {
+                const record = {};
+                dataTypes.forEach(type => {
+                    record[type] = generateTestData(type);
+                });
+                resultHTML += formatData(record, dataFormat) + '\n';
+            }
+            resultHTML += `</code></pre>`;
+
+            // Mostrar resultados
+            dataGeneratorResult.innerHTML = resultHTML;
+        });
+
+        function generateTestData(type) {
+            switch (type) {
+                case 'names': return `Nombre_${Math.random().toString(36).substring(7)}`;
+                case 'emails': return `email_${Math.random().toString(36).substring(7)}@example.com`;
+                case 'phones': return `+57 ${Math.floor(Math.random() * 900000000) + 100000000}`;
+                default: return 'Dato desconocido';
+            }
+        }
+
+        function formatData(record, format) {
+            switch (format) {
+                case 'json': return JSON.stringify(record);
+                case 'csv': return Object.values(record).join(',');
+                case 'sql': return `INSERT INTO table (${Object.keys(record).join(', ')}) VALUES (${Object.values(record).map(v => `'${v}'`).join(', ')});`;
+                case 'xml': return `<record>${Object.entries(record).map(([k, v]) => `<${k}>${v}</${k}>`).join('')}</record>`;
+                default: return JSON.stringify(record);
+            }
+        }
+    }
 });
 
 // Añade una función para verificar y corregir elementos faltantes en el DOM

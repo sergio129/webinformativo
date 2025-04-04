@@ -340,6 +340,15 @@
                                         <label for="data-count">Cantidad de registros:</label>
                                         <input type="number" id="data-count" class="form-control" min="1" max="100" value="5">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="data-format">Formato de salida:</label>
+                                        <select id="data-format" class="form-control">
+                                            <option value="json">JSON</option>
+                                            <option value="csv">CSV</option>
+                                            <option value="sql">SQL</option>
+                                            <option value="xml">XML</option>
+                                        </select>
+                                    </div>
                                     <button type="submit" class="tool-btn">Generar Datos</button>
                                 </form>
                                 <div id="test-data-generator-result" class="resultado code-result">
@@ -1373,60 +1382,6 @@
 
                     <!-- Contenido de Testing Utils -->
                     <div class="grid-container category-content" id="testing-utils">
-                        <div class="tool-card">
-                            <div class="tool-header">
-                                <div class="tool-icon">
-                                    <i class="fas fa-random"></i>
-                                </div>
-                                <h3>Generador de Datos de Prueba</h3>
-                                <p>Datos aleatorios para testing</p>
-                            </div>
-                            <div class="tool-body">
-                                <p>Genera datos aleatorios personalizados para escenarios de prueba específicos.</p>
-                                <form id="test-data-generator-form">
-                                    <div class="form-group">
-                                        <label>Tipo de datos:</label>
-                                        <div class="data-types">
-                                            <label><input type="checkbox" value="names"> Nombres</label>
-                                            <label><input type="checkbox" value="emails"> Emails</label>
-                                            <label><input type="checkbox" value="phones"> Teléfonos</label>
-                                            <label><input type="checkbox" value="addresses"> Direcciones</label>
-                                            <label><input type="checkbox" value="dates"> Fechas</label>
-                                            <label><input type="checkbox" value="numbers"> Números</label>
-                                            <label><input type="checkbox" value="ids"> IDs</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="data-locale">Localización:</label>
-                                        <select id="data-locale" class="form-control">
-                                            <option value="es-CO">Colombia</option>
-                                            <option value="es-ES">España</option>
-                                            <option value="es-MX">México</option>
-                                            <option value="en-US">Estados Unidos</option>
-                                            <option value="en-GB">Reino Unido</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="data-format">Formato de salida:</label>
-                                        <select id="data-format" class="form-control">
-                                            <option value="json">JSON</option>
-                                            <option value="csv">CSV</option>
-                                            <option value="sql">SQL</option>
-                                            <option value="xml">XML</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="data-count">Cantidad de registros:</label>
-                                        <input type="number" id="data-count" class="form-control" min="1" max="100" value="5">
-                                    </div>
-                                    <button type="submit" class="tool-btn">Generar Datos</button>
-                                </form>
-                                <div id="test-data-generator-result" class="resultado code-result">
-                                    <p>Los datos generados aparecerán aquí...</p>
-                                </div>
-                            </div>
-                        </div>
-                        
                         <div class="tool-card">
                             <div class="tool-header">
                                 <div class="tool-icon">
