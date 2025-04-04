@@ -331,6 +331,10 @@ document.addEventListener('DOMContentLoaded', function() {
             initWaitCalculator();
         }
     }, 1000);
+
+    // Inicializar herramientas específicas
+    initTestDataGenerator();
+    initTestPlanGenerator();
 });
 
 // Añade una función para verificar y corregir elementos faltantes en el DOM
@@ -1069,8 +1073,16 @@ function initSelectorGenerator() {
     
     if (!selectorForm || !selectorResult) return;
     
-    selectorForm.addEventListener('submit', function(e) {
+    console.log("Formulario del Generador de Selectores encontrado, añadiendo event listener");
+    
+    // Clonar el formulario para eliminar cualquier event listener anterior
+    const newForm = selectorForm.cloneNode(true);
+    selectorForm.parentNode.replaceChild(newForm, selectorForm);
+    
+    newForm.addEventListener('submit', function(e) {
+        // IMPORTANTE: Prevenir la recarga de la página
         e.preventDefault();
+        console.log("Formulario de Generador de Selectores enviado - evento prevenido");
         
         const htmlInput = document.getElementById('html-input').value.trim();
         if (!htmlInput) {
@@ -1122,6 +1134,13 @@ function initSelectorGenerator() {
             
             resultHTML += '</ul>';
             selectorResult.innerHTML = resultHTML;
+            
+            // Añadir un botón para copiar los selectores
+            selectorResult.innerHTML += `
+                <button class="tool-btn mt-3 copy-btn" onclick="copySelectorsToClipboard(this)">
+                    <i class="fas fa-copy"></i> Copiar selectores
+                </button>
+            `;
         } catch (error) {
             selectorResult.innerHTML = `<p class="text-danger">Error: ${error.message}</p>`;
         }
@@ -1178,6 +1197,31 @@ function initSelectorGenerator() {
     }
 }
 
+// Función para copiar los selectores al portapapeles
+function copySelectorsToClipboard(button) {
+    const selectorList = button.parentElement.querySelector('.selector-list');
+    let text = '';
+    
+    selectorList.querySelectorAll('li').forEach(item => {
+        const label = item.querySelector('strong').textContent;
+        const selector = item.querySelector('code').textContent;
+        text += `${label} ${selector}\n`;
+    });
+    
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            // Cambiar texto del botón temporalmente
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
+            setTimeout(() => {
+                button.innerHTML = originalText;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Error al copiar: ', err);
+        });
+}
+
 // 2. Generador de Requests para API
 function initRequestGenerator() {
     const requestForm = document.getElementById('request-generator-form');
@@ -1185,8 +1229,16 @@ function initRequestGenerator() {
     
     if (!requestForm || !requestResult) return;
     
-    requestForm.addEventListener('submit', function(e) {
+    console.log("Formulario del Generador de Requests encontrado, añadiendo event listener");
+    
+    // Clonar el formulario para eliminar cualquier event listener anterior
+    const newForm = requestForm.cloneNode(true);
+    requestForm.parentNode.replaceChild(newForm, requestForm);
+    
+    newForm.addEventListener('submit', function(e) {
+        // IMPORTANTE: Esto previene que la página se recargue al enviar el formulario
         e.preventDefault();
+        console.log("Formulario de Generador de Requests enviado - evento prevenido");
         
         const method = document.getElementById('request-method').value;
         const url = document.getElementById('request-url').value.trim();
@@ -1234,153 +1286,20 @@ function initRequestGenerator() {
                 code = 'Framework no soportado';
         }
         
-        requestResult.innerHTML = `<pre><code>${code}</code></pre>`;
+        requestResult.innerHTML = `<pre><code>${escapeHtml(code)}</code></pre>`;
+        
+        // Añadir un botón para copiar el código generado
+        requestResult.innerHTML += `
+            <button class="tool-btn mt-3 copy-btn" onclick="copyToClipboard(this)">
+                <i class="fas fa-copy"></i> Copiar código
+            </button>
+        `;
+        
+        console.log("Código de request generado correctamente para el framework:", framework);
     });
-    
-    // Funciones para generar código
-    function generateRestAssuredCode(method, url, headers, body) {
-        let code = 'import io.restassured.RestAssured;\n';
-        code += 'import static io.restassured.RestAssured.*;\n';
-        code += 'import static io.restassured.matcher.RestAssuredMatchers.*;\n';
-        code += 'import static org.hamcrest.Matchers.*;\n\n';
-        
-        code += 'public class APITest {\n';
-        code += '    public void testAPI() {\n';
-        
-        code += `        given()\n`;
-        
-        // Headers
-        if (headers && Object.keys(headers).length > 0) {
-            code += '            // Headers\n';
-            for (const [key, value] of Object.entries(headers)) {
-                code += `            .header("${key}", "${value}")\n`;
-            }
-        }
-        
-        // Body
-        if (body) {
-            code += '            // Body\n';
-            code += `            .body(${JSON.stringify(body, null, 4)})\n`;
-        }
-        
-        code += `        .when()\n`;
-        code += `            .${method.toLowerCase()}("${url}")\n`;
-        code += `        .then()\n`;
-        code += `            .statusCode(200);\n`;
-        code += '    }\n';
-        code += '}';
-        
-        return code;
-    }
-    
-    function generateRequestsCode(method, url, headers, body) {
-        let code = 'import requests\n\n';
-        code += `# ${method} request to ${url}\n`;
-        
-        // Headers
-        if (headers && Object.keys(headers).length > 0) {
-            code += 'headers = ' + JSON.stringify(headers, null, 4) + '\n\n';
-        } else {
-            code += 'headers = {}\n\n';
-        }
-        
-        // Body
-        if (body) {
-            code += 'payload = ' + JSON.stringify(body, null, 4) + '\n\n';
-        }
-        
-        code += `response = requests.${method.toLowerCase()}(\n`;
-        code += `    "${url}",\n`;
-        
-        if (headers && Object.keys(headers).length > 0) {
-            code += '    headers=headers,\n';
-        }
-        
-        if (body) {
-            code += '    json=payload\n';
-        }
-        
-        code += ')\n\n';
-        code += '# Verificar respuesta\n';
-        code += 'print(response.status_code)\n';
-        code += 'print(response.json())\n';
-        
-        return code;
-    }
-    
-    function generateFetchCode(method, url, headers, body) {
-        let code = '// Usando Fetch API\n';
-        
-        // Headers
-        if (headers && Object.keys(headers).length > 0) {
-            code += 'const headers = ' + JSON.stringify(headers, null, 4) + ';\n\n';
-        } else {
-            code += 'const headers = {};\n\n';
-        }
-        
-        // Body
-        if (body) {
-            code += 'const payload = ' + JSON.stringify(body, null, 4) + ';\n\n';
-        }
-        
-        code += 'fetch("' + url + '", {\n';
-        code += '    method: "' + method + '",\n';
-        
-        if (headers && Object.keys(headers).length > 0) {
-            code += '    headers: headers,\n';
-        }
-        
-        if (body) {
-            code += '    body: JSON.stringify(payload)\n';
-        }
-        
-        code += '})\n';
-        code += '.then(response => response.json())\n';
-        code += '.then(data => console.log(data))\n';
-        code += '.catch(error => console.error("Error:", error));\n';
-        
-        return code;
-    }
-    
-    function generatePostmanCode(method, url, headers, body) {
-        let code = 'pm.sendRequest({\n';
-        code += `    url: "${url}",\n`;
-        code += `    method: "${method}",\n`;
-        
-        if (headers && Object.keys(headers).length > 0) {
-            code += '    header: ' + JSON.stringify(headers, null, 4) + ',\n';
-        }
-        
-        if (body) {
-            code += '    body: {\n';
-            code += '        mode: "raw",\n';
-            code += '        raw: JSON.stringify(' + JSON.stringify(body, null, 4) + '),\n';
-            code += '        options: {\n';
-            code += '            raw: {\n';
-            code += '                language: "json"\n';
-            code += '            }\n';
-            code += '        }\n';
-            code += '    }\n';
-        }
-        
-        code += '}, function(err, response) {\n';
-        code += '    if (err) {\n';
-        code += '        console.log(err);\n';
-        code += '    } else {\n';
-        code += '        pm.test("Status code is 200", function() {\n';
-        code += '            pm.response.to.have.status(200);\n';
-        code += '        });\n';
-        code += '        \n';
-        code += '        const responseJson = response.json();\n';
-        code += '        console.log(responseJson);\n';
-        code += '    }\n';
-        code += '});\n';
-        
-        return code;
-    }
 }
 
-// 3. Inicializar el Simulador de Pruebas de API
+// Simulador de API - Asegurarnos que no recarga la página
 function initApiSimulator() {
     const apiSimulatorForm = document.getElementById('api-simulator-form');
     const apiSimulatorResult = document.getElementById('api-simulator-result');
@@ -1390,6 +1309,8 @@ function initApiSimulator() {
     const delayValueDisplay = document.getElementById('delay-value');
     
     if (!apiSimulatorForm || !apiSimulatorResult) return;
+    
+    console.log("Formulario del Simulador de API encontrado, añadiendo event listener");
     
     // Mostrar/ocultar el campo de respuesta personalizada según la selección
     if (responseTypeSelect) {
@@ -1409,14 +1330,20 @@ function initApiSimulator() {
         });
     }
     
+    // Clonar el formulario para eliminar cualquier event listener anterior
+    const newForm = apiSimulatorForm.cloneNode(true);
+    apiSimulatorForm.parentNode.replaceChild(newForm, apiSimulatorForm);
+    
     // Manejar envío del formulario
-    apiSimulatorForm.addEventListener('submit', function(e) {
+    newForm.addEventListener('submit', function(e) {
+        // IMPORTANTE: Prevenir la recarga de la página
         e.preventDefault();
+        console.log("Formulario de Simulador de API enviado - evento prevenido");
         
         const endpoint = document.getElementById('api-endpoint').value.trim();
         const statusCode = document.getElementById('response-status').value;
-        const responseType = responseTypeSelect.value;
-        const delayTime = parseInt(delayTimeInput.value);
+        const responseType = document.getElementById('response-type').value;
+        const delayTime = parseInt(document.getElementById('delay-time').value);
         
         // Mostrar indicador de carga
         apiSimulatorResult.innerHTML = '<p class="text-info">Simulando respuesta, espere por favor...</p>';
@@ -1452,7 +1379,7 @@ function initApiSimulator() {
             
             // Mostrar respuesta
             const formattedJson = JSON.stringify(httpResponse, null, 2);
-            apiSimulatorResult.innerHTML = `<pre><code>${formattedJson}</code></pre>`;
+            apiSimulatorResult.innerHTML = `<pre><code>${escapeHtml(formattedJson)}</code></pre>`;
             
             // Agregar código de uso para test
             apiSimulatorResult.innerHTML += `
@@ -1466,262 +1393,130 @@ test('${endpoint} should return ${statusCode}', async () => {
 });</code></pre>
                 </div>
             `;
+            
+            // Añadir un botón para copiar el código generado
+            apiSimulatorResult.innerHTML += `
+                <button class="tool-btn mt-3 copy-btn" onclick="copyToClipboard(this)">
+                    <i class="fas fa-copy"></i> Copiar código
+                </button>
+            `;
         }, delayTime);
     });
-    
-    // Función para obtener texto de estado según código
-    function getStatusText(code) {
-        const statusTexts = {
-            '200': 'OK',
-            '201': 'Created',
-            '400': 'Bad Request',
-            '401': 'Unauthorized',
-            '403': 'Forbidden',
-            '404': 'Not Found',
-            '500': 'Internal Server Error'
-        };
-        return statusTexts[code] || 'Unknown Status';
-    }
-    
-    // Función para generar respuesta simulada
-    function generateMockResponse(endpoint, type, statusCode) {
-        const isError = parseInt(statusCode) >= 400;
-        
-        // Respuesta base según el tipo
-        switch (type) {
-            case 'success':
-                if (endpoint.includes('user')) {
-                    return {
-                        id: 123,
-                        username: 'testuser',
-                        email: 'user@example.com',
-                        name: 'Test User',
-                        createdAt: new Date().toISOString()
-                    };
-                } else {
-                    return {
-                        success: true,
-                        message: 'Operación completada exitosamente',
-                        timestamp: new Date().toISOString()
-                    };
-                }
-            
-            case 'error':
-                if (statusCode === '400') {
-                    return {
-                        error: 'Bad Request',
-                        message: 'Parámetros de solicitud inválidos',
-                        details: [
-                            'El campo "email" es requerido',
-                            'El valor de "age" debe ser un número'
-                        ]
-                    };
-                } else if (statusCode === '401') {
-                    return {
-                        error: 'Unauthorized',
-                        message: 'Autenticación requerida para acceder a este recurso'
-                    };
-                } else if (statusCode === '404') {
-                    return {
-                        error: 'Not Found',
-                        message: `Recurso no encontrado: ${endpoint}`
-                    };
-                } else {
-                    return {
-                        error: 'Error',
-                        message: 'Ocurrió un error al procesar la solicitud',
-                        status: parseInt(statusCode)
-                    };
-                }
-            
-            case 'empty':
-                return {};
-            
-            case 'pagination':
-                return {
-                    page: 1,
-                    perPage: 10,
-                    total: 42,
-                    totalPages: 5,
-                    data: Array(10).fill(null).map((_, i) => ({
-                        id: i + 1,
-                        name: `Item ${i + 1}`,
-                        description: `Descripción del ítem ${i + 1}`
-                    }))
-                };
-            
-            default:
-                return {
-                    message: 'Respuesta simulada generada por QualiTest API Simulator'
-                };
-        }
-    }
 }
 
-// Herramienta de conversión entre frameworks
-const frameworkConverterForm = document.getElementById('framework-converter-form');
-if (frameworkConverterForm) {
-    frameworkConverterForm.addEventListener('submit', function(e) {
+// Framework Converter - Asegurarnos que no recarga la página
+function initFrameworkConverter() {
+    const frameworkConverterForm = document.getElementById('framework-converter-form');
+    const frameworkConverterResult = document.getElementById('framework-converter-result');
+    
+    if (!frameworkConverterForm || !frameworkConverterResult) return;
+    
+    console.log("Formulario del Conversor de Frameworks encontrado, añadiendo event listener");
+    
+    // Clonar el formulario para eliminar cualquier event listener anterior
+    const newForm = frameworkConverterForm.cloneNode(true);
+    frameworkConverterForm.parentNode.replaceChild(newForm, frameworkConverterForm);
+    
+    newForm.addEventListener('submit', function(e) {
+        // IMPORTANTE: Prevenir la recarga de la página
         e.preventDefault();
-        const result = document.getElementById('framework-converter-result');
-        if (result) {
-            const sourceCode = document.getElementById('source-code').value.trim();
-            const fromFramework = document.getElementById('from-framework').value;
-            const toFramework = document.getElementById('to-framework').value;
-            
-            if (!sourceCode) {
-                result.innerHTML = '<p class="text-danger">Por favor ingresa código para convertir</p>';
-                return;
+        console.log("Formulario de Conversor de Frameworks enviado - evento prevenido");
+        
+        const sourceCode = document.getElementById('source-code').value.trim();
+        const fromFramework = document.getElementById('from-framework').value;
+        const toFramework = document.getElementById('to-framework').value;
+        
+        if (!sourceCode) {
+            frameworkConverterResult.innerHTML = '<p class="text-danger">Por favor ingresa código para convertir</p>';
+            return;
+        }
+        
+        // Verificar que los frameworks sean diferentes
+        if (fromFramework === toFramework) {
+            frameworkConverterResult.innerHTML = '<p class="text-warning">Los frameworks de origen y destino son iguales. Por favor selecciona frameworks diferentes.</p>';
+            return;
+        }
+        
+        // Convertir código según los frameworks seleccionados
+        let convertedCode = '';
+        let languageClass = 'javascript';
+        
+        try {
+            if (fromFramework === 'selenium' && toFramework === 'cypress') {
+                convertedCode = convertSeleniumToCypress(sourceCode);
+            } else if (fromFramework === 'selenium-python' && toFramework === 'cypress') {
+                convertedCode = convertSeleniumPythonToCypress(sourceCode);
+                languageClass = 'javascript';
+            } else if (fromFramework === 'cypress' && toFramework === 'selenium') {
+                convertedCode = convertCypressToSelenium(sourceCode);
+                languageClass = 'java';
+            } else if (fromFramework === 'cypress' && toFramework === 'selenium-python') {
+                convertedCode = convertCypressToSeleniumPython(sourceCode);
+                languageClass = 'python';
+            } else if (fromFramework === 'selenium' && toFramework === 'playwright') {
+                convertedCode = convertSeleniumToPlaywright(sourceCode);
+            } else if (fromFramework === 'selenium-python' && toFramework === 'playwright') {
+                convertedCode = convertSeleniumPythonToPlaywright(sourceCode);
+                languageClass = 'javascript';
+            } else if (fromFramework === 'playwright' && toFramework === 'selenium') {
+                convertedCode = convertPlaywrightToSelenium(sourceCode);
+                languageClass = 'java';
+            } else if (fromFramework === 'playwright' && toFramework === 'selenium-python') {
+                convertedCode = convertPlaywrightToSeleniumPython(sourceCode);
+                languageClass = 'python';
+            } else {
+                convertedCode = '// La conversión de ' + fromFramework + ' a ' + toFramework + ' no está implementada completamente.\n\n// Código original:\n' + sourceCode;
             }
             
-            // Verificar que los frameworks sean diferentes
-            if (fromFramework === toFramework) {
-                result.innerHTML = '<p class="text-warning">Los frameworks de origen y destino son iguales. Por favor selecciona frameworks diferentes.</p>';
-                return;
-            }
+            // Mostrar el resultado con formato de código
+            frameworkConverterResult.innerHTML = `<pre class="code-block"><code class="language-${languageClass}">${escapeHtml(convertedCode)}</code></pre>`;
             
-            // Convertir código según los frameworks seleccionados
-            let convertedCode = '';
-            let languageClass = 'javascript';
+            // Añadir botón para copiar el código convertido
+            frameworkConverterResult.innerHTML += `
+                <button class="tool-btn mt-3 copy-btn" onclick="copyToClipboard(this)">
+                    <i class="fas fa-copy"></i> Copiar código
+                </button>
+            `;
             
-            try {
-                if (fromFramework === 'selenium' && toFramework === 'cypress') {
-                    convertedCode = convertSeleniumToCypress(sourceCode);
-                } else if (fromFramework === 'selenium-python' && toFramework === 'cypress') {
-                    convertedCode = convertSeleniumPythonToCypress(sourceCode);
-                    languageClass = 'javascript';
-                } else if (fromFramework === 'cypress' && toFramework === 'selenium') {
-                    convertedCode = convertCypressToSelenium(sourceCode);
-                    languageClass = 'java';
-                } else if (fromFramework === 'cypress' && toFramework === 'selenium-python') {
-                    convertedCode = convertCypressToSeleniumPython(sourceCode);
-                    languageClass = 'python';
-                } else if (fromFramework === 'selenium' && toFramework === 'playwright') {
-                    convertedCode = convertSeleniumToPlaywright(sourceCode);
-                } else if (fromFramework === 'selenium-python' && toFramework === 'playwright') {
-                    convertedCode = convertSeleniumPythonToPlaywright(sourceCode);
-                    languageClass = 'javascript';
-                } else if (fromFramework === 'playwright' && toFramework === 'selenium') {
-                    convertedCode = convertPlaywrightToSelenium(sourceCode);
-                    languageClass = 'java';
-                } else if (fromFramework === 'playwright' && toFramework === 'selenium-python') {
-                    convertedCode = convertPlaywrightToSeleniumPython(sourceCode);
-                    languageClass = 'python';
-                } else {
-                    convertedCode = '// La conversión de ' + fromFramework + ' a ' + toFramework + ' no está implementada completamente.\n\n// Código original:\n' + sourceCode;
-                }
-                
-                // Mostrar el resultado con formato de código
-                result.innerHTML = `<pre class="code-block"><code class="language-${languageClass}">${escapeHtml(convertedCode)}</code></pre>`;
-                
-                // Añadir botón para copiar el código convertido
-                result.innerHTML += `
-                    <button class="tool-btn mt-3 copy-btn" onclick="copyToClipboard(this)">
-                        <i class="fas fa-copy"></i> Copiar código
-                    </button>
-                `;
-                
-                // Resaltar sintaxis si existe una librería como highlight.js
-                if (typeof hljs !== 'undefined') {
-                    document.querySelectorAll('pre code').forEach((block) => {
-                        hljs.highlightElement(block);
-                    });
-                }
-            } catch (error) {
-                result.innerHTML = `<p class="text-danger">Error en la conversión: ${error.message}</p>`;
+            // Resaltar sintaxis si existe una librería como highlight.js
+            if (typeof hljs !== 'undefined') {
+                document.querySelectorAll('pre code').forEach((block) => {
+                    hljs.highlightElement(block);
+                });
             }
+        } catch (error) {
+            frameworkConverterResult.innerHTML = `<p class="text-danger">Error en la conversión: ${error.message}</p>`;
         }
     });
 }
 
-// 4. Inicialización de herramientas de automatización
+// Modificar la función initAutomationTools para incluir todas las inicializaciones
 function initAutomationTools() {
     console.log("Inicializando herramientas de automatización...");
     
     // Inicializar herramientas de Web Automation
     initSelectorGenerator();
     
+    // Inicializar el Generador de Requests para API
+    initRequestGenerator();
+    
+    // Inicializar el Simulador de Pruebas de API
+    initApiSimulator();
+    
     // Inicializar la calculadora de esperas directamente en la sección de automatización
     initWaitCalculator();
     
-    // Herramienta de conversión entre frameworks
-    const frameworkConverterForm = document.getElementById('framework-converter-form');
-    if (frameworkConverterForm) {
-        frameworkConverterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const result = document.getElementById('framework-converter-result');
-            if (result) {
-                const sourceCode = document.getElementById('source-code').value.trim();
-                const fromFramework = document.getElementById('from-framework').value;
-                const toFramework = document.getElementById('to-framework').value;
-                
-                if (!sourceCode) {
-                    result.innerHTML = '<p class="text-danger">Por favor ingresa código para convertir</p>';
-                    return;
-                }
-                
-                // Verificar que los frameworks sean diferentes
-                if (fromFramework === toFramework) {
-                    result.innerHTML = '<p class="text-warning">Los frameworks de origen y destino son iguales. Por favor selecciona frameworks diferentes.</p>';
-                    return;
-                }
-                
-                // Convertir código según los frameworks seleccionados
-                let convertedCode = '';
-                let languageClass = 'javascript';
-                
-                try {
-                    if (fromFramework === 'selenium' && toFramework === 'cypress') {
-                        convertedCode = convertSeleniumToCypress(sourceCode);
-                    } else if (fromFramework === 'selenium-python' && toFramework === 'cypress') {
-                        convertedCode = convertSeleniumPythonToCypress(sourceCode);
-                        languageClass = 'javascript';
-                    } else if (fromFramework === 'cypress' && toFramework === 'selenium') {
-                        convertedCode = convertCypressToSelenium(sourceCode);
-                        languageClass = 'java';
-                    } else if (fromFramework === 'cypress' && toFramework === 'selenium-python') {
-                        convertedCode = convertCypressToSeleniumPython(sourceCode);
-                        languageClass = 'python';
-                    } else if (fromFramework === 'selenium' && toFramework === 'playwright') {
-                        convertedCode = convertSeleniumToPlaywright(sourceCode);
-                    } else if (fromFramework === 'selenium-python' && toFramework === 'playwright') {
-                        convertedCode = convertSeleniumPythonToPlaywright(sourceCode);
-                        languageClass = 'javascript';
-                    } else if (fromFramework === 'playwright' && toFramework === 'selenium') {
-                        convertedCode = convertPlaywrightToSelenium(sourceCode);
-                        languageClass = 'java';
-                    } else if (fromFramework === 'playwright' && toFramework === 'selenium-python') {
-                        convertedCode = convertPlaywrightToSeleniumPython(sourceCode);
-                        languageClass = 'python';
-                    } else {
-                        convertedCode = '// La conversión de ' + fromFramework + ' a ' + toFramework + ' no está implementada completamente.\n\n// Código original:\n' + sourceCode;
-                    }
-                    
-                    // Mostrar el resultado con formato de código
-                    result.innerHTML = `<pre><code class="language-${languageClass}">${escapeHtml(convertedCode)}</code></pre>`;
-                    
-                    // Añadir botón para copiar el código convertido
-                    result.innerHTML += `
-                        <button class="tool-btn mt-3 copy-btn" onclick="copyToClipboard(this)">
-                            <i class="fas fa-copy"></i> Copiar código
-                        </button>
-                    `;
-                    
-                    // Resaltar sintaxis si existe una librería como highlight.js
-                    if (typeof hljs !== 'undefined') {
-                        document.querySelectorAll('pre code').forEach((block) => {
-                            hljs.highlightElement(block);
-                        });
-                    }
-                } catch (error) {
-                    result.innerHTML = `<p class="text-danger">Error en la conversión: ${error.message}</p>`;
-                }
-            }
-        });
-    }
+    // Inicializar el conversor de frameworks
+    initFrameworkConverter();
     
-    // ...existing code for other tools...
+    console.log("Todas las herramientas de automatización han sido inicializadas correctamente");
 }
+
+// Hacer que la nueva función copySelectorsToClipboard sea accesible globalmente
+window.copySelectorsToClipboard = copySelectorsToClipboard;
+
+// Hacer que la función copyToClipboard sea accesible globalmente
+window.copyToClipboard = copyToClipboard;
 
 // Función para escapar HTML y prevenir inyección de código
 function escapeHtml(text) {
@@ -1735,440 +1530,106 @@ function escapeHtml(text) {
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
-// Función para copiar al portapapeles
-function copyToClipboard(button) {
-    const codeBlock = button.parentElement.querySelector('code');
-    const text = codeBlock.textContent;
-    
-    navigator.clipboard.writeText(text)
-        .then(() => {
-            // Cambiar texto del botón temporalmente
-            const originalText = button.innerHTML;
-            button.innerHTML = '<i class="fas fa-check"></i> ¡Copiado!';
-            setTimeout(() => {
-                button.innerHTML = originalText;
-            }, 2000);
-        })
-        .catch(err => {
-            console.error('Error al copiar: ', err);
+// Generador de Datos de Prueba
+function initTestDataGenerator() {
+    const testDataForm = document.getElementById('test-data-generator-form');
+    const testDataResult = document.getElementById('test-data-generator-result');
+
+    if (!testDataForm || !testDataResult) return;
+
+    console.log("Formulario del Generador de Datos de Prueba encontrado, añadiendo event listener");
+
+    // Clonar el formulario para eliminar cualquier event listener anterior
+    const newForm = testDataForm.cloneNode(true);
+    testDataForm.parentNode.replaceChild(newForm, testDataForm);
+
+    newForm.addEventListener('submit', function(e) {
+        // Prevenir la recarga de la página
+        e.preventDefault();
+        console.log("Formulario de Generador de Datos de Prueba enviado - evento prevenido");
+
+        const dataTypes = [];
+        document.querySelectorAll('.data-types input[type="checkbox"]:checked').forEach(cb => {
+            dataTypes.push(cb.value);
         });
-}
 
-// Funciones de conversión de código
+        const dataCount = parseInt(document.getElementById('data-count').value, 10);
 
-// Conversión de Selenium (Java) a Cypress
-function convertSeleniumToCypress(seleniumCode) {
-    let cypressCode = seleniumCode;
-    
-    // Reemplazar anotaciones y declaraciones de clase/método Java
-    cypressCode = cypressCode.replace(/@Test|public\s+void\s+\w+\(\)|\{|\}|public\s+class\s+\w+|import.*;|package.*;/g, '');
-    
-    // Reemplazar aserciones Java
-    cypressCode = cypressCode.replace(/Assert\.assertEquals\(([^,]+),\s*([^)]+)\);/g, 'expect($2).to.equal($1);');
-    cypressCode = cypressCode.replace(/Assert\.assertTrue\(([^)]+)\);/g, 'expect($1).to.be.true;');
-    cypressCode = cypressCode.replace(/Assert\.assertFalse\(([^)]+)\);/g, 'expect($1).to.be.false;');
-    cypressCode = cypressCode.replace(/Assert\.assertNull\(([^)]+)\);/g, 'expect($1).to.be.null;');
-    cypressCode = cypressCode.replace(/Assert\.assertNotNull\(([^)]+)\);/g, 'expect($1).to.not.be.null;');
-    
-    // Reemplazar tiempos de espera
-    cypressCode = cypressCode.replace(/Thread\.sleep\((\d+)\);/g, 'cy.wait($1);');
-    
-    // Configuración del WebDriver a configuración de Cypress
-    cypressCode = cypressCode.replace(/WebDriver\s+\w+\s*=\s*new\s+ChromeDriver\(\);/, '// Cypress maneja el navegador automáticamente');
-    cypressCode = cypressCode.replace(/driver\.manage\(\)\.window\(\)\.maximize\(\);/, '// Cypress maneja el tamaño de la ventana automáticamente');
-    
-    // Reemplazar navegación
-    cypressCode = cypressCode.replace(/driver\.get\("([^"]+)"\);/g, "cy.visit('$1');");
-    cypressCode = cypressCode.replace(/driver\.navigate\(\)\.to\("([^"]+)"\);/g, "cy.visit('$1');");
-    cypressCode = cypressCode.replace(/driver\.navigate\(\)\.back\(\);/g, "cy.go('back');");
-    cypressCode = cypressCode.replace(/driver\.navigate\(\)\.forward\(\);/g, "cy.go('forward');");
-    cypressCode = cypressCode.replace(/driver\.navigate\(\)\.refresh\(\);/g, "cy.reload();");
-    
-    // Reemplazar cierre de navegador
-    cypressCode = cypressCode.replace(/driver\.close\(\);|driver\.quit\(\);/, '// Cypress cierra el navegador automáticamente');
-    
-    // Reemplazar selectores y acciones
-    cypressCode = cypressCode.replace(/driver\.findElement\(By\.id\("([^"]+)"\)\)/g, "cy.get('#$1')");
-    cypressCode = cypressCode.replace(/driver\.findElement\(By\.className\("([^"]+)"\)\)/g, "cy.get('.$1')");
-    cypressCode = cypressCode.replace(/driver\.findElement\(By\.name\("([^"]+)"\)\)/g, "cy.get('[name=\"$1\"]')");
-    cypressCode = cypressCode.replace(/driver\.findElement\(By\.tagName\("([^"]+)"\)\)/g, "cy.get('$1')");
-    cypressCode = cypressCode.replace(/driver\.findElement\(By\.linkText\("([^"]+)"\)\)/g, "cy.contains('$1')");
-    cypressCode = cypressCode.replace(/driver\.findElement\(By\.partialLinkText\("([^"]+)"\)\)/g, "cy.contains('$1')");
-    cypressCode = cypressCode.replace(/driver\.findElement\(By\.xpath\("([^"]+)"\)\)/g, "cy.xpath('$1')");
-    cypressCode = cypressCode.replace(/driver\.findElement\(By\.cssSelector\("([^"]+)"\)\)/g, "cy.get('$1')");
-    
-    // Reemplazar findElements para listas
-    cypressCode = cypressCode.replace(/driver\.findElements\(By\.id\("([^"]+)"\)\)/g, "cy.get('#$1')");
-    cypressCode = cypressCode.replace(/driver\.findElements\(By\.className\("([^"]+)"\)\)/g, "cy.get('.$1')");
-    cypressCode = cypressCode.replace(/driver\.findElements\(By\.name\("([^"]+)"\)\)/g, "cy.get('[name=\"$1\"]')");
-    cypressCode = cypressCode.replace(/driver\.findElements\(By\.tagName\("([^"]+)"\)\)/g, "cy.get('$1')");
-    cypressCode = cypressCode.replace(/driver\.findElements\(By\.xpath\("([^"]+)"\)\)/g, "cy.xpath('$1')");
-    cypressCode = cypressCode.replace(/driver\.findElements\(By\.cssSelector\("([^"]+)"\)\)/g, "cy.get('$1')");
-    
-    // Reemplazar acciones
-    cypressCode = cypressCode.replace(/\.click\(\);/g, '.click();');
-    cypressCode = cypressCode.replace(/\.clear\(\);/g, '.clear();');
-    cypressCode = cypressCode.replace(/\.sendKeys\("([^"]+)"\);/g, ".type('$1');");
-    cypressCode = cypressCode.replace(/\.getText\(\)/g, '.invoke("text")');
-    cypressCode = cypressCode.replace(/\.getAttribute\("([^"]+)"\)/g, '.invoke("attr", "$1")');
-    cypressCode = cypressCode.replace(/\.isDisplayed\(\)/g, '.should("be.visible")');
-    cypressCode = cypressCode.replace(/\.isEnabled\(\)/g, '.should("be.enabled")');
-    cypressCode = cypressCode.replace(/\.isSelected\(\)/g, '.should("be.checked")');
-    
-    // Reemplazar Select para dropdown
-    cypressCode = cypressCode.replace(/Select\s+\w+\s*=\s*new\s+Select\(([^)]+)\);/g, '// Cypress maneja los dropdowns directamente');
-    cypressCode = cypressCode.replace(/\w+\.selectByVisibleText\("([^"]+)"\);/g, ".select('$1');");
-    cypressCode = cypressCode.replace(/\w+\.selectByValue\("([^"]+)"\);/g, ".select('$1');");
-    cypressCode = cypressCode.replace(/\w+\.selectByIndex\((\d+)\);/g, (_, index) => `.select(${parseInt(index) + 1});`);
-    
-    // Reemplazar capturas de pantalla
-    cypressCode = cypressCode.replace(
-        /((TakesScreenshot).*\.getScreenshotAs.*|.*\.takeScreenshot\(\).*);/g,
-        "cy.screenshot('screenshot');"
-    );
-    
-    // Limpiar líneas vacías múltiples
-    cypressCode = cypressCode.replace(/\n\s*\n\s*\n/g, '\n\n');
-    
-    // Formatear como test de Cypress
-    cypressCode = `describe('Converted Selenium Test', () => {
-  it('should perform the test steps', () => {
-${cypressCode.split('\n').map(line => line.trim() ? '    ' + line : '').join('\n')}
-  });
-});`;
-    
-    return cypressCode;
-}
+        if (dataTypes.length === 0 || isNaN(dataCount) || dataCount <= 0) {
+            testDataResult.innerHTML = '<p class="text-danger">Por favor selecciona al menos un tipo de dato y una cantidad válida</p>';
+            return;
+        }
 
-// Conversión de Selenium (Java) a Playwright
-function convertSeleniumToPlaywright(seleniumCode) {
-    let playwrightCode = seleniumCode;
-    
-    // Reemplazar importaciones y configuración
-    playwrightCode = playwrightCode.replace(
-        /import.*?;\n|package.*?;\n|public\s+class\s+\w+\s*\{|}/g, 
-        ''
-    );
-    
-    // Reemplazar inicialización de WebDriver
-    playwrightCode = playwrightCode.replace(
-        /WebDriver\s+\w+\s*=\s*new\s+ChromeDriver\(\);/g,
-        `const { chromium } = require('playwright');
-const browser = await chromium.launch();
-const context = await browser.newContext();
-const page = await context.newPage();`
-    );
-    
-    // Reemplazar navegación
-    playwrightCode = playwrightCode.replace(
-        /driver\.get\("([^"]+)"\);/g, 
-        `await page.goto("$1");`
-    );
-    playwrightCode = playwrightCode.replace(
-        /driver\.navigate\(\)\.to\("([^"]+)"\);/g, 
-        `await page.goto("$1");`
-    );
-    
-    // Reemplazar selectores y acciones
-    playwrightCode = playwrightCode.replace(
-        /driver\.findElement\(By\.id\("([^"]+)"\)\)/g, 
-        `page.locator('#$1')`
-    );
-    playwrightCode = playwrightCode.replace(
-        /driver\.findElement\(By\.className\("([^"]+)"\)\)/g, 
-        `page.locator('.$1')`
-    );
-    playwrightCode = playwrightCode.replace(
-        /driver\.findElement\(By\.name\("([^"]+)"\)\)/g, 
-        `page.locator('[name="$1"]')`
-    );
-    playwrightCode = playwrightCode.replace(
-        /driver\.findElement\(By\.xpath\("([^"]+)"\)\)/g, 
-        `page.locator('xpath=$1')`
-    );
-    playwrightCode = playwrightCode.replace(
-        /driver\.findElement\(By\.cssSelector\("([^"]+)"\)\)/g, 
-        `page.locator('$1')`
-    );
-    playwrightCode = playwrightCode.replace(
-        /driver\.findElement\(By\.tagName\("([^"]+)"\)\)/g, 
-        `page.locator('$1')`
-    );
-    playwrightCode = playwrightCode.replace(
-        /driver\.findElement\(By\.linkText\("([^"]+)"\)\)/g, 
-        `page.getByText('$1')`
-    );
-    
-    // Reemplazar acciones
-    playwrightCode = playwrightCode.replace(
-        /\.click\(\);/g, 
-        `.click();`
-    );
-    playwrightCode = playwrightCode.replace(
-        /\.clear\(\);/g, 
-        `.clear();`
-    );
-    playwrightCode = playwrightCode.replace(
-        /\.sendKeys\("([^"]+)"\);/g, 
-        `.fill("$1");`
-    );
-    
-    // Reemplazar esperas
-    playwrightCode = playwrightCode.replace(
-        /Thread\.sleep\((\d+)\);/g, 
-        `await page.waitForTimeout($1);`
-    );
-    
-    // Reemplazar aserciones
-    playwrightCode = playwrightCode.replace(
-        /Assert\.assertEquals\(([^,]+),\s*([^)]+)\);/g, 
-        `expect($2).toBe($1);`
-    );
-    playwrightCode = playwrightCode.replace(
-        /Assert\.assertTrue\(([^)]+)\);/g, 
-        `expect($1).toBeTruthy();`
-    );
-    playwrightCode = playwrightCode.replace(
-        /Assert\.assertFalse\(([^)]+)\);/g, 
-        `expect($1).toBeFalsy();`
-    );
-    
-    // Reemplazar cierre del navegador
-    playwrightCode = playwrightCode.replace(
-        /driver\.close\(\);|driver\.quit\(\);/g, 
-        `await browser.close();`
-    );
-    
-    // Limpiar el código y ajustar formato
-    playwrightCode = playwrightCode
-        .replace(/public\s+void\s+\w+\(\)\s*\{|\}/g, '')
-        .replace(/^\s*[\r\n]/gm, '')
-        .trim();
-    
-    // Agregar estructura básica de Playwright
-    playwrightCode = `// Código convertido de Selenium a Playwright
-const { test, expect } = require('@playwright/test');
+        let resultHTML = '<ul>';
+        for (let i = 0; i < dataCount; i++) {
+            dataTypes.forEach(type => {
+                resultHTML += `<li>${generateTestData(type)}</li>`;
+            });
+        }
+        resultHTML += '</ul>';
 
-test('Converted Selenium Test', async ({ page }) => {
-${playwrightCode.split('\n').map(line => '  ' + line).join('\n')}
-});`;
-    
-    return playwrightCode;
-}
+        testDataResult.innerHTML = resultHTML;
+    });
 
-// Conversión de Playwright a Selenium (Java)
-function convertPlaywrightToSelenium(playwrightCode) {
-    let seleniumCode = `import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.junit.Assert;
-import java.time.Duration;
-
-public class ConvertedPlaywrightTest {
-    public void testMethod() {
-        WebDriver driver = new ChromeDriver();
-        try {
-`;
-    
-    // Eliminar la declaración del test
-    let code = playwrightCode.replace(/const\s*{.*}\s*=\s*require\(['"]\@playwright\/test['"]\);/, '')
-        .replace(/test\(['"].*?['"]\s*,\s*async\s*\(\{.*\}\)\s*=>\s*\{/, '')
-        .replace(/\}\);$/, '');
-    
-    // Reemplazar navegación
-    code = code.replace(/await\s+page\.goto\(['"]([^'"]+)['"]\);/g, 'driver.get("$1");');
-    
-    // Reemplazar selectores y acciones
-    code = code.replace(/page\.locator\(['"]#([^'"]+)['"]\)/g, 'driver.findElement(By.id("$1"))');
-    code = code.replace(/page\.locator\(['"]\\.([^'"]+)['"]\)/g, 'driver.findElement(By.className("$1"))');
-    code = code.replace(/page\.locator\(['"]\[name=['"]([^'"]+)['"]\]['"]\)/g, 'driver.findElement(By.name("$1"))');
-    code = code.replace(/page\.locator\(['"]xpath=([^'"]+)['"]\)/g, 'driver.findElement(By.xpath("$1"))');
-    code = code.replace(/page\.locator\(['"]([^'"]+)['"]\)/g, 'driver.findElement(By.cssSelector("$1"))');
-    code = code.replace(/page\.getByText\(['"]([^'"]+)['"]\)/g, 'driver.findElement(By.xpath("//*[contains(text(),\'$1\')]"))');
-    
-    // Reemplazar acciones
-    code = code.replace(/\.click\(\);/g, '.click();');
-    code = code.replace(/\.clear\(\);/g, '.clear();');
-    code = code.replace(/\.fill\(['"]([^'"]+)['"]\);/g, '.sendKeys("$1");');
-    code = code.replace(/\.type\(['"]([^'"]+)['"]\);/g, '.sendKeys("$1");');
-    
-    // Reemplazar esperas
-    code = code.replace(/await\s+page\.waitForTimeout\((\d+)\);/g, 'Thread.sleep($1);');
-    
-    // Reemplazar aserciones
-    code = code.replace(/expect\(([^)]+)\)\.toBe\(([^)]+)\);/g, 'Assert.assertEquals($2, $1);');
-    code = code.replace(/expect\(([^)]+)\)\.toBeTruthy\(\);/g, 'Assert.assertTrue($1);');
-    code = code.replace(/expect\(([^)]+)\)\.toBeFalsy\(\);/g, 'Assert.assertFalse($1);');
-    
-    // Reemplazar cierre del navegador
-    code = code.replace(/await\s+browser\.close\(\);/g, '// El navegador se cerrará automáticamente en el bloque finally');
-    
-    // Ajustar líneas con await
-    code = code.replace(/await\s+/g, '');
-    
-    // Limpiar el código
-    code = code.trim();
-    
-    // Añadir indentación
-    code = code.split('\n').map(line => '            ' + line).join('\n');
-    
-    // Completar la estructura
-    seleniumCode += code + `
-        } finally {
-            driver.quit();
+    function generateTestData(type) {
+        switch (type) {
+            case 'names': return `Nombre ${Math.random().toString(36).substring(7)}`;
+            case 'emails': return `email${Math.random().toString(36).substring(7)}@example.com`;
+            case 'phones': return `+57 ${Math.floor(Math.random() * 900000000) + 100000000}`;
+            case 'addresses': return `Calle ${Math.floor(Math.random() * 100)}, Ciudad`;
+            case 'dates': return new Date().toISOString().split('T')[0];
+            case 'numbers': return Math.floor(Math.random() * 1000);
+            default: return 'Dato desconocido';
         }
     }
-}`;
-    
-    return seleniumCode;
 }
 
-// Conversión de Playwright a Selenium (Python)
-function convertPlaywrightToSeleniumPython(playwrightCode) {
-    let seleniumPythonCode = `from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import time
-import unittest
+// Generador de Plan de Pruebas
+function initTestPlanGenerator() {
+    const testPlanForm = document.getElementById('test-plan-generator-form');
+    const testPlanResult = document.getElementById('test-plan-generator-result');
 
-class ConvertedPlaywrightTest(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Chrome()
-        
-    def tearDown(self):
-        self.driver.quit()
-        
-    def test_converted_test(self):
-`;
-    
-    // Eliminar la declaración del test
-    let code = playwrightCode.replace(/const\s*{.*}\s*=\s*require\(['"]\@playwright\/test['"]\);/, '')
-        .replace(/test\(['"].*?['"]\s*,\s*async\s*\(\{.*\}\)\s*=>\s*\{/, '')
-        .replace(/\}\);$/, '');
-    
-    // Reemplazar navegación
-    code = code.replace(/await\s+page\.goto\(['"]([^'"]+)['"]\);/g, 'self.driver.get("$1")');
-    
-    // Reemplazar selectores y acciones
-    code = code.replace(/page\.locator\(['"]#([^'"]+)['"]\)/g, 'self.driver.find_element(By.ID, "$1")');
-    code = code.replace(/page\.locator\(['"]\\.([^'"]+)['"]\)/g, 'self.driver.find_element(By.CLASS_NAME, "$1")');
-    code = code.replace(/page\.locator\(['"]\[name=['"]([^'"]+)['"]\]['"]\)/g, 'self.driver.find_element(By.NAME, "$1")');
-    code = code.replace(/page\.locator\(['"]xpath=([^'"]+)['"]\)/g, 'self.driver.find_element(By.XPATH, "$1")');
-    code = code.replace(/page\.locator\(['"]([^'"]+)['"]\)/g, 'self.driver.find_element(By.CSS_SELECTOR, "$1")');
-    code = code.replace(/page\.getByText\(['"]([^'"]+)['"]\)/g, 'self.driver.find_element(By.XPATH, "//*[contains(text(),\'$1\')]")');
-    
-    // Reemplazar acciones
-    code = code.replace(/\.click\(\);/g, '.click()');
-    code = code.replace(/\.clear\(\);/g, '.clear()');
-    code = code.replace(/\.fill\(['"]([^'"]+)['"]\);/g, '.send_keys("$1")');
-    code = code.replace(/\.type\(['"]([^'"]+)['"]\);/g, '.send_keys("$1")');
-    
-    // Reemplazar esperas
-    code = code.replace(/await\s+page\.waitForTimeout\((\d+)\);/g, 'time.sleep($1 / 1000)');
-    
-    // Reemplazar aserciones
-    code = code.replace(/expect\(([^)]+)\)\.toBe\(([^)]+)\);/g, 'self.assertEqual($2, $1)');
-    code = code.replace(/expect\(([^)]+)\)\.toBeTruthy\(\);/g, 'self.assertTrue($1)');
-    code = code.replace(/expect\(([^)]+)\)\.toBeFalsy\(\);/g, 'self.assertFalse($1)');
-    
-    // Reemplazar cierre del navegador
-    code = code.replace(/await\s+browser\.close\(\);/g, '# El navegador se cerrará automáticamente en tearDown');
-    
-    // Ajustar líneas con await
-    code = code.replace(/await\s+/g, '');
-    
-    // Limpiar el código
-    code = code.trim();
-    
-    // Añadir indentación
-    code = code.split('\n').map(line => '        ' + line).join('\n');
-    
-    // Completar la estructura
-    seleniumPythonCode += code + `
+    if (!testPlanForm || !testPlanResult) return;
 
-if __name__ == "__main__":
-    unittest.main()`;
-    
-    return seleniumPythonCode;
+    console.log("Formulario del Generador de Plan de Pruebas encontrado, añadiendo event listener");
+
+    // Clonar el formulario para eliminar cualquier event listener anterior
+    const newForm = testPlanForm.cloneNode(true);
+    testPlanForm.parentNode.replaceChild(newForm, testPlanForm);
+
+    newForm.addEventListener('submit', function(e) {
+        // Prevenir la recarga de la página
+        e.preventDefault();
+        console.log("Formulario de Generador de Plan de Pruebas enviado - evento prevenido");
+
+        const planSections = [];
+        document.querySelectorAll('.plan-sections input[type="checkbox"]:checked').forEach(cb => {
+            planSections.push(cb.value);
+        });
+
+        if (planSections.length === 0) {
+            testPlanResult.innerHTML = '<p class="text-danger">Por favor selecciona al menos una sección del plan</p>';
+            return;
+        }
+
+        let resultHTML = '<h4>Plan de Pruebas Generado:</h4><ul>';
+        planSections.forEach(section => {
+            resultHTML += `<li>${generatePlanSection(section)}</li>`;
+        });
+        resultHTML += '</ul>';
+
+        testPlanResult.innerHTML = resultHTML;
+    });
+
+    function generatePlanSection(section) {
+        switch (section) {
+            case 'scope': return 'Definición del alcance del proyecto.';
+            case 'strategy': return 'Estrategia de pruebas basada en metodologías ágiles.';
+            case 'schedule': return 'Cronograma detallado de actividades.';
+            case 'resources': return 'Lista de recursos necesarios para las pruebas.';
+            case 'risks': return 'Identificación y mitigación de riesgos.';
+            case 'cases': return 'Conjunto de casos de prueba diseñados.';
+            default: return 'Sección desconocida';
+        }
+    }
 }
-
-// Conversión de Cypress a Selenium (Python)
-function convertCypressToSeleniumPython(cypressCode) {
-    let seleniumPythonCode = `from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import time
-import unittest
-
-class ConvertedCypressTest(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Chrome()
-        
-    def tearDown(self):
-        self.driver.quit()
-        
-    def test_converted_test(self):
-`;
-    
-    // Eliminar la estructura de Cypress
-    let code = cypressCode.replace(/describe\(['"][^'"]*['"]\s*,\s*\(\)\s*=>\s*\{/, '')
-        .replace(/it\(['"][^'"]*['"]\s*,\s*\(\)\s*=>\s*\{/, '')
-        .replace(/\}\);/g, '');
-    
-    // Reemplazar navegación
-    code = code.replace(/cy\.visit\(['"]([^'"]+)['"]\);/g, 'self.driver.get("$1")');
-    
-    // Reemplazar selectores y acciones
-    code = code.replace(/cy\.get\(['"]#([^'"]+)['"]\)/g, 'self.driver.find_element(By.ID, "$1")');
-    code = code.replace(/cy\.get\(['"]\\.([^'"]+)['"]\)/g, 'self.driver.find_element(By.CLASS_NAME, "$1")');
-    code = code.replace(/cy\.get\(['"]\[name=['"]([^'"]+)['"]\]['"]\)/g, 'self.driver.find_element(By.NAME, "$1")');
-    code = code.replace(/cy\.xpath\(['"]([^'"]+)['"]\)/g, 'self.driver.find_element(By.XPATH, "$1")');
-    code = code.replace(/cy\.get\(['"]([^#\.['"]+)['"]\)/g, 'self.driver.find_element(By.CSS_SELECTOR, "$1")');
-    code = code.replace(/cy\.contains\(['"]([^'"]+)['"]\)/g, 'self.driver.find_element(By.XPATH, "//*[contains(text(),\'$1\')]")');
-    
-    // Reemplazar acciones
-    code = code.replace(/\.click\(\)/g, '.click()');
-    code = code.replace(/\.clear\(\)/g, '.clear()');
-    code = code.replace(/\.type\(['"]([^'"]+)['"]\)/g, '.send_keys("$1")');
-    
-    // Reemplazar esperas
-    code = code.replace(/cy\.wait\((\d+)\)/g, 'time.sleep($1 / 1000)');
-    
-    // Reemplazar aserciones
-    code = code.replace(/expect\(([^)]+)\)\.to\.equal\(([^)]+)\)/g, 'self.assertEqual($2, $1)');
-    code = code.replace(/expect\(([^)]+)\)\.to\.be\.true/g, 'self.assertTrue($1)');
-    code = code.replace(/expect\(([^)]+)\)\.to\.be\.false/g, 'self.assertFalse($1)');
-    
-    // Reemplazar operaciones de navegación
-    code = code.replace(/cy\.reload\(\)/g, 'self.driver.refresh()');
-    code = code.replace(/cy\.go\(['"]back['"]\)/g, 'self.driver.back()');
-    code = code.replace(/cy\.go\(['"]forward['"]\)/g, 'self.driver.forward()');
-    
-    // Reemplazar afirmaciones de visibilidad
-    code = code.replace(/\.should\(['"]be\.visible['"]\)/g, '\n        element = self.driver.find_element(By.XPATH, "...")\n        self.assertTrue(element.is_displayed())');
-    code = code.replace(/\.should\(['"]be\.enabled['"]\)/g, '\n        element = self.driver.find_element(By.XPATH, "...")\n        self.assertTrue(element.is_enabled())');
-    
-    // Limpiar el código
-    code = code.trim();
-    
-    // Añadir indentación
-    code = code.split('\n').map(line => '        ' + line).join('\n');
-    
-    // Completar la estructura
-    seleniumPythonCode += code + `
-
-if __name__ == "__main__":
-    unittest.main()`;
-    
-    return seleniumPythonCode;
-}
-
-// Hacer que la función copyToClipboard sea accesible globalmente
-window.copyToClipboard = copyToClipboard;
-
-// ...existing code...

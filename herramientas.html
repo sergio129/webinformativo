@@ -324,21 +324,27 @@
                             </div>
                             <div class="tool-body">
                                 <p>Genera datos de prueba personalizados para tus casos de prueba.</p>
-                                <form onsubmit="generarDatosPrueba(event)">
-                                    <label for="tipo-dato">Tipo de Dato:</label>
-                                    <select id="tipo-dato" required>
-                                        <option value="nombre">Nombres</option>
-                                        <option value="email">Correos Electrónicos</option>
-                                        <option value="telefono">Teléfonos</option>
-                                        <option value="direccion">Direcciones</option>
-                                    </select>
-                                    <label for="cantidad-datos">Cantidad de Datos:</label>
-                                    <input type="number" id="cantidad-datos" placeholder="Ejemplo: 10" required>
+                                <form id="test-data-generator-form">
+                                    <div class="form-group">
+                                        <label>Tipo de datos:</label>
+                                        <div class="data-types">
+                                            <label><input type="checkbox" value="names"> Nombres</label>
+                                            <label><input type="checkbox" value="emails"> Emails</label>
+                                            <label><input type="checkbox" value="phones"> Teléfonos</label>
+                                            <label><input type="checkbox" value="addresses"> Direcciones</label>
+                                            <label><input type="checkbox" value="dates"> Fechas</label>
+                                            <label><input type="checkbox" value="numbers"> Números</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="data-count">Cantidad de registros:</label>
+                                        <input type="number" id="data-count" class="form-control" min="1" max="100" value="5">
+                                    </div>
                                     <button type="submit" class="tool-btn">Generar Datos</button>
                                 </form>
-                                <ul id="lista-datos-prueba" class="recomendaciones-list">
-                                    <!-- Los datos generados se mostrarán aquí -->
-                                </ul>
+                                <div id="test-data-generator-result" class="resultado code-result">
+                                    <p>Los datos generados aparecerán aquí...</p>
+                                </div>
                             </div>
                         </div>
                         
@@ -1381,8 +1387,8 @@
                                     <div class="form-group">
                                         <label>Tipo de datos:</label>
                                         <div class="data-types">
-                                            <label><input type="checkbox" value="names" checked> Nombres</label>
-                                            <label><input type="checkbox" value="emails" checked> Emails</label>
+                                            <label><input type="checkbox" value="names"> Nombres</label>
+                                            <label><input type="checkbox" value="emails"> Emails</label>
                                             <label><input type="checkbox" value="phones"> Teléfonos</label>
                                             <label><input type="checkbox" value="addresses"> Direcciones</label>
                                             <label><input type="checkbox" value="dates"> Fechas</label>
